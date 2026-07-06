@@ -2,922 +2,770 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vet INC — Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Vet INC — Pricing Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/collection/components/icon/icon.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════════════════════ */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* ============ RESET & TOKENS ============ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
 :root {
-  --bg: #F0F2F4;
-  --card: #ffffff;
   --blue: #2563eb;
-  --blue-light: #eff6ff;
+  --blue-light: #dbeafe;
+  --blue-dark: #1d4ed8;
+  --gray: #94a3b8;
+  --gray-light: #f1f5f9;
+  --gray-border: #e2e8f0;
   --green: #059669;
-  --green-light: #ecfdf5;
-  --green-bright: #16a34a;
-  --amber: #f59e0b;
-  --amber-light: #fffbeb;
-  --red: #dc2626;
-  --red-light: #fef2f2;
-  --text: #0f172a;
+  --green-light: #d1fae5;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --text: #1e293b;
   --text-secondary: #64748b;
-  --text-muted: #94a3b8;
-  --border: #e2e8f0;
+  --text-light: #94a3b8;
   --radius: 16px;
-  --shadow: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
+  --radius-sm: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
   --sidebar-w: 240px;
 }
-html, body {
+
+html, body { height:100%; }
+body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
 }
+button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input { font-family:inherit; outline:none; border:none; }
+a { color: var(--blue); text-decoration:none; }
 
-/* ═══════════════════════════════════════════════════════════════
-   LOGIN SCREEN
-═══════════════════════════════════════════════════════════════ */
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+
+/* ============ LOGIN ============ */
 #loginScreen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 24px;
-  background: linear-gradient(135deg, #f0f2f4 0%, #e8edf2 100%);
+  position:fixed; inset:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+  padding:20px;
 }
 .login-card {
-  background: var(--card);
-  border-radius: 24px;
-  box-shadow: var(--shadow-lg);
-  padding: 48px 40px;
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
+  background:#fff; border-radius:24px; padding:40px 32px;
+  width:100%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.15);
 }
-.login-card img { width: 72px; height: 72px; border-radius: 16px; margin-bottom: 20px; }
-.login-card h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
-.login-card p { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; }
-.login-field {
-  text-align: left;
-  margin-bottom: 16px;
+.login-logo {
+  width:64px; height:64px; margin:0 auto 16px;
+  background:linear-gradient(135deg, var(--blue), var(--blue-dark));
+  border-radius:16px; display:flex; align-items:center; justify-content:center;
+  font-size:28px; font-weight:800; color:#fff;
 }
-.login-field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.login-card h1 { text-align:center; font-size:22px; font-weight:700; margin-bottom:4px; }
+.login-card .subtitle { text-align:center; color:var(--text-secondary); font-size:14px; margin-bottom:28px; }
+.input-group { margin-bottom:16px; }
+.input-group label { display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text-secondary); }
+.input-group input {
+  width:100%; padding:12px 14px; font-size:15px;
+  border:1.5px solid var(--gray-border); border-radius:var(--radius-sm);
+  transition:border-color .2s;
 }
-.login-field input {
-  width: 100%;
-  padding: 12px 16px;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  font-size: 15px;
-  font-family: inherit;
-  transition: border-color 0.2s;
-  outline: none;
+.input-group input:focus { border-color:var(--blue); }
+.btn-primary {
+  width:100%; padding:14px; font-size:15px; font-weight:600;
+  background:var(--blue); color:#fff; border-radius:var(--radius-sm);
+  transition:background .2s;
 }
-.login-field input:focus { border-color: var(--blue); }
-.login-btn {
-  width: 100%;
-  padding: 14px;
-  background: var(--blue);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background 0.2s;
-}
-.login-btn:hover { background: #1d4ed8; }
-.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.login-error {
-  color: var(--red);
-  font-size: 14px;
-  margin-top: 12px;
-  display: none;
-}
-.login-demo {
-  margin-top: 24px;
-  padding: 12px;
-  background: var(--blue-light);
-  border-radius: 10px;
-  font-size: 13px;
-  color: var(--text-secondary);
-}
+.btn-primary:hover { background:var(--blue-dark); }
+.btn-primary:active { transform:scale(0.98); }
+.btn-primary:disabled { opacity:0.5; cursor:not-allowed; }
+.login-toggle { text-align:center; margin-top:16px; font-size:13px; color:var(--text-secondary); }
+.login-toggle button { color:var(--blue); font-weight:500; }
+.login-error { background:var(--red-light); color:var(--red); padding:10px 14px; border-radius:var(--radius-sm); font-size:13px; margin-bottom:16px; display:none; }
+.demo-hint { text-align:center; margin-top:20px; padding:10px; background:var(--gray-light); border-radius:var(--radius-sm); font-size:12px; color:var(--text-secondary); }
 
-/* ═══════════════════════════════════════════════════════════════
-   APP LAYOUT
-═══════════════════════════════════════════════════════════════ */
-#app { display: none; min-height: 100vh; }
-#app.active { display: flex; }
+/* ============ APP LAYOUT ============ */
+#app { display:none; }
+#app.active { display:flex; min-height:100vh; }
 
-/* Sidebar (Desktop) */
+/* Sidebar (desktop) */
 .sidebar {
-  width: var(--sidebar-w);
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 100;
-  padding: 20px 0;
+  width:var(--sidebar-w); background:#fff; border-right:1px solid var(--gray-border);
+  display:flex; flex-direction:column; position:fixed; top:0; bottom:0; left:0; z-index:100;
+  padding:20px 0;
 }
 .sidebar-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 24px 24px;
-  border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; gap:10px; padding:0 20px 24px;
+  border-bottom:1px solid var(--gray-border); margin-bottom:12px;
 }
-.sidebar-logo img { width: 36px; height: 36px; border-radius: 10px; }
-.sidebar-logo span { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
-.nav-items { flex: 1; padding: 16px 12px; }
+.sidebar-logo .logo-icon {
+  width:38px; height:38px; border-radius:10px;
+  background:linear-gradient(135deg, var(--blue), var(--blue-dark));
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:800; color:#fff;
+}
+.sidebar-logo .logo-text { font-size:17px; font-weight:700; }
+.sidebar-logo .logo-text small { display:block; font-size:11px; font-weight:400; color:var(--text-secondary); }
+.sidebar nav { flex:1; padding:0 12px; }
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.15s;
-  margin-bottom: 4px;
+  display:flex; align-items:center; gap:12px;
+  padding:11px 14px; border-radius:var(--radius-sm);
+  font-size:14px; font-weight:500; color:var(--text-secondary);
+  transition:all .15s; margin-bottom:2px; width:100%; text-align:left;
 }
-.nav-item:hover { background: var(--bg); color: var(--text); }
-.nav-item.active { background: var(--blue-light); color: var(--blue); font-weight: 600; }
-.nav-item ion-icon { font-size: 20px; }
-.nav-bell {
-  position: relative;
-  padding: 10px 16px;
-  cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.nav-item:hover { background:var(--gray-light); color:var(--text); }
+.nav-item.active { background:var(--blue-light); color:var(--blue); font-weight:600; }
+.nav-item svg { width:22px; height:22px; flex-shrink:0; stroke-width:2; }
+.nav-badge {
+  margin-left:auto; background:var(--red); color:#fff;
+  font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px;
+  min-width:20px; text-align:center;
 }
-.nav-bell-badge {
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  background: var(--red);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
+.sidebar-user {
+  padding:16px 20px; border-top:1px solid var(--gray-border);
+  display:flex; align-items:center; gap:10px;
 }
+.sidebar-user .avatar {
+  width:36px; height:36px; border-radius:10px;
+  background:var(--blue); color:#fff; display:flex;
+  align-items:center; justify-content:center;
+  font-size:13px; font-weight:700;
+}
+.sidebar-user .user-info { flex:1; min-width:0; }
+.sidebar-user .user-info .name { font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sidebar-user .user-info .email { font-size:11px; color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
 /* Main content */
-.main {
-  flex: 1;
-  margin-left: var(--sidebar-w);
-  padding: 0;
-  min-height: 100vh;
+.main-content {
+  flex:1; margin-left:var(--sidebar-w);
+  padding:24px 32px 80px; max-width:960px;
+  width:100%;
 }
 
-/* Mobile header */
-.mobile-header {
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 50;
+/* TopBar (mobile) */
+.topbar {
+  display:none;
+  background:#fff; border-bottom:1px solid var(--gray-border);
+  padding:12px 16px; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:50;
 }
-.mobile-header img { width: 32px; height: 32px; border-radius: 8px; }
-.mobile-header-title { font-size: 18px; font-weight: 700; }
-.mobile-bell { position: relative; font-size: 24px; cursor: pointer; color: var(--text); }
-.mobile-bell-badge {
-  position: absolute;
-  top: -4px;
-  right: -6px;
-  background: var(--red);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  min-width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 3px;
+.topbar .topbar-logo { font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.topbar .topbar-logo .logo-icon {
+  width:30px; height:30px; border-radius:8px;
+  background:linear-gradient(135deg, var(--blue), var(--blue-dark));
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:800; color:#fff;
+}
+.topbar .bell-btn { position:relative; padding:8px; }
+.topbar .bell-btn svg { width:24px; height:24px; }
+.topbar .bell-badge {
+  position:absolute; top:4px; right:4px;
+  background:var(--red); color:#fff; font-size:10px; font-weight:700;
+  padding:1px 5px; border-radius:8px; min-width:16px; text-align:center;
 }
 
 /* Bottom tabs (mobile) */
 .bottom-tabs {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--card);
-  border-top: 1px solid var(--border);
-  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-  z-index: 100;
+  display:none;
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  background:#fff; border-top:1px solid var(--gray-border);
+  padding:8px 0 env(safe-area-inset-bottom, 8px);
+  height:64px;
 }
-.tab-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 6px;
-  cursor: pointer;
-  color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 500;
+.bottom-tabs .tab-inner {
+  display:flex; align-items:center; justify-content:space-around; height:100%;
 }
-.tab-item.active { color: var(--blue); }
-.tab-item ion-icon { font-size: 22px; }
+.tab-btn {
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  font-size:10px; font-weight:500; color:var(--gray); padding:4px 12px;
+  transition:color .15s;
+}
+.tab-btn.active { color:var(--blue); }
+.tab-btn svg { width:24px; height:24px; stroke-width:2; }
 
-/* Content area */
-.content-area {
-  padding: 24px 32px;
-  max-width: 900px;
-  margin: 0 auto;
-}
+/* ============ PAGE ============ */
+.page { display:none; animation:fadeIn .2s ease; }
+.page.active { display:block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
 
-/* ═══════════════════════════════════════════════════════════════
-   DASHBOARD
-═══════════════════════════════════════════════════════════════ */
-.dash-clinic-name {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+.page-header { margin-bottom:20px; }
+.page-title { font-size:24px; font-weight:700; }
+.page-subtitle { font-size:14px; color:var(--text-secondary); margin-top:2px; }
+
+/* ============ CARDS ============ */
+.card {
+  background:var(--card); border:1px solid var(--gray-border);
+  border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);
+  margin-bottom:16px;
 }
-.dash-date {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-top: 2px;
-  margin-bottom: 20px;
+.card-title { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px; }
+
+/* ============ HOME ============ */
+.home-clinic-name { font-size:26px; font-weight:800; }
+.home-data-date { font-size:13px; color:var(--text-secondary); margin-top:2px; margin-bottom:20px; }
+
+.hero-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:20px; }
+.hero-tile {
+  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius);
+  padding:18px 16px; box-shadow:var(--shadow);
 }
-.dash-section-title {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  margin: 24px 0 12px;
+.hero-tile .label { font-size:12px; font-weight:500; color:var(--text-secondary); margin-bottom:6px; }
+.hero-tile .value { font-size:22px; font-weight:800; }
+.hero-tile .delta { font-size:12px; font-weight:600; margin-top:4px; }
+.delta.positive { color:var(--green); }
+.delta.negative { color:var(--red); }
+.delta.neutral { color:var(--text-secondary); }
+
+.section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.section-header h3 { font-size:16px; font-weight:600; }
+
+.quarterly-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:20px; }
+.quarterly-tile {
+  text-align:center; padding:16px 12px;
+  background:var(--gray-light); border-radius:var(--radius-sm);
 }
-.dash-hero-row, .dash-quarter-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.stat-tile {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
-  border-top: 3px solid var(--blue);
-}
-.stat-tile-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-.stat-tile-value {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-.stat-tile-sub {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
-.grade-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border: 2px solid var(--border);
-}
+.quarterly-tile .num { font-size:24px; font-weight:800; }
+.quarterly-tile .lbl { font-size:11px; color:var(--text-secondary); margin-top:2px; }
+
+/* Grade circle */
+.grade-section { display:flex; align-items:center; gap:24px; }
 .grade-circle {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width:90px; height:90px; border-radius:50%; flex-shrink:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  border:4px solid; font-weight:800;
 }
-.grade-letter { color: #fff; font-size: 28px; font-weight: 800; }
-.grade-title { font-size: 16px; font-weight: 700; }
-.grade-score { font-size: 14px; color: var(--text-secondary); margin-top: 2px; }
-.grade-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.grade-circle .grade-letter { font-size:32px; line-height:1; }
+.grade-circle .grade-score { font-size:12px; margin-top:2px; }
+.grade-A { border-color:var(--green); color:var(--green); background:var(--green-light); }
+.grade-B { border-color:var(--blue); color:var(--blue); background:var(--blue-light); }
+.grade-C { border-color:var(--amber); color:var(--amber); background:var(--amber-light); }
+.grade-D { border-color:var(--red); color:var(--red); background:var(--red-light); }
 
-/* Verdict rows */
-.verdict-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 4px 20px;
-}
-.verdict-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.verdict-row:last-child { border-bottom: none; }
-.verdict-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.verdict-icon ion-icon { font-size: 18px; }
-.verdict-body { flex: 1; }
-.verdict-label { font-size: 14px; font-weight: 600; }
-.verdict-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.progress-track {
-  height: 6px;
-  background: var(--border);
-  border-radius: 3px;
-  margin-top: 6px;
-  overflow: hidden;
-}
-.progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
-.verdict-count { font-size: 20px; font-weight: 700; min-width: 32px; text-align: right; }
+.verdict-breakdown { flex:1; }
+.verdict-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.verdict-row .v-label { font-size:13px; font-weight:500; width:120px; flex-shrink:0; }
+.verdict-row .v-bar { flex:1; height:8px; background:var(--gray-light); border-radius:4px; overflow:hidden; }
+.verdict-row .v-fill { height:100%; border-radius:4px; transition:width .5s ease; }
+.verdict-row .v-count { font-size:13px; font-weight:600; width:28px; text-align:right; }
+.v-fill.green { background:var(--green); }
+.v-fill.amber { background:var(--amber); }
+.v-fill.red { background:var(--red); }
+.v-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.v-dot.green { background:var(--green); }
+.v-dot.amber { background:var(--amber); }
+.v-dot.red { background:var(--red); }
 
-/* ═══════════════════════════════════════════════════════════════
-   REPORTS
-═══════════════════════════════════════════════════════════════ */
-.report-list { display: flex; flex-direction: column; gap: 12px; }
+/* ============ REPORTS ============ */
 .report-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 18px 20px;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
+  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius);
+  padding:20px; margin-bottom:14px; box-shadow:var(--shadow);
+  cursor:pointer; transition:transform .1s, box-shadow .2s;
 }
-.report-card:hover { box-shadow: var(--shadow-lg); }
-.report-card.outline-blue { border: 2px solid var(--blue); }
-.report-card.outline-amber { border: 2px solid var(--amber); }
-.report-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.report-card:hover { box-shadow:var(--shadow-lg); }
+.report-card:active { transform:scale(0.99); }
+.report-card-header { display:flex; align-items:flex-start; gap:14px; }
+.report-icon {
+  width:44px; height:44px; border-radius:12px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:22px;
 }
-.report-title { font-size: 16px; font-weight: 700; }
-.report-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.mode-badge {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.mode-copilot { background: var(--blue-light); color: var(--blue); }
-.mode-autopilot { background: var(--green-light); color: var(--green); }
-.mode-monitor { background: #faf5ff; color: #7c3aed; }
-.state-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 6px;
-  margin-top: 6px;
-}
-.state-dot { width: 6px; height: 6px; border-radius: 50%; }
-.report-body-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-}
-.report-big-num { font-size: 32px; font-weight: 800; color: var(--text); }
-.report-body-text { flex: 1; }
-.report-body-label { font-size: 13px; color: var(--text-secondary); }
-.report-body-potential { font-size: 13px; font-weight: 600; color: var(--green); margin-top: 2px; }
-.report-chevron { color: var(--text-muted); font-size: 18px; }
+.report-icon.copilot { background:var(--blue-light); color:var(--blue); }
+.report-icon.autopilot { background:var(--green-light); color:var(--green); }
+.report-icon.monitor { background:var(--purple-light); color:var(--purple); }
+.report-info { flex:1; min-width:0; }
+.report-info h3 { font-size:16px; font-weight:600; margin-bottom:2px; }
+.report-info .report-sub { font-size:13px; color:var(--text-secondary); }
+.report-big-num { display:flex; align-items:baseline; gap:6px; margin-top:12px; }
+.report-big-num .num { font-size:28px; font-weight:800; }
+.report-big-num .lbl { font-size:13px; color:var(--text-secondary); }
+.report-opp { font-size:13px; font-weight:600; color:var(--green); margin-top:2px; }
+.report-progress { margin-top:10px; }
+.progress-bar { height:6px; background:var(--gray-light); border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:3px; background:var(--blue); transition:width .4s ease; }
+.report-cpi { font-size:12px; color:var(--text-secondary); margin-top:8px; }
 
-/* ═══════════════════════════════════════════════════════════════
-   CHANGES
-═══════════════════════════════════════════════════════════════ */
-.changes-stats-bar {
-  display: flex;
-  gap: 0;
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.changes-stat { flex: 1; text-align: center; border-right: 1px solid var(--border); }
-.changes-stat:last-child { border-right: none; }
-.changes-stat-val { font-size: 24px; font-weight: 800; }
-.changes-stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
-
-.change-row-card {
-  background: var(--card);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 8px;
-  transition: all 0.2s;
-}
-.change-row-card.approved { background: var(--green-light); border: 1px solid #bbf7d0; }
-.change-row-card.rejected { background: var(--red-light); border: 1px solid #fecaca; opacity: 0.6; }
-.check-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.15s;
-}
-.check-circle.approved { background: var(--green-bright); border-color: var(--green-bright); }
-.check-circle.rejected { background: var(--red); border-color: var(--red); }
-.check-circle ion-icon { color: #fff; font-size: 16px; font-weight: 700; }
-.change-info { flex: 1; }
-.change-desc { font-size: 14px; font-weight: 600; }
-.change-prices { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-.price-old { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
-.price-arrow { color: var(--text-muted); font-size: 13px; }
-.price-new { font-size: 13px; font-weight: 600; color: var(--green); }
-.price-pct { font-size: 12px; color: var(--text-secondary); margin-left: 4px; }
-.change-impact { font-size: 14px; font-weight: 700; color: var(--green); white-space: nowrap; }
-
-.changes-action-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.btn {
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.15s;
-}
-.btn-primary { background: var(--blue); color: #fff; }
-.btn-primary:hover { background: #1d4ed8; }
-.btn-secondary { background: var(--bg); color: var(--text-secondary); }
-.btn-secondary:hover { background: #e2e8f0; }
-.btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: var(--blue);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 16px;
-  transition: background 0.2s;
-}
-.btn-submit:hover { background: #1d4ed8; }
-.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* ═══════════════════════════════════════════════════════════════
-   HISTORY
-═══════════════════════════════════════════════════════════════ */
-.history-card {
-  background: var(--card);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  padding: 16px 20px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.history-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.history-info { flex: 1; }
-.history-desc { font-size: 14px; font-weight: 600; }
-.history-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.history-badge { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; }
-.badge-applied { background: var(--green-light); color: var(--green); }
-.badge-dismissed { background: var(--red-light); color: var(--red); }
-.badge-pending { background: var(--amber-light); color: #b45309; }
-
-/* ═══════════════════════════════════════════════════════════════
-   SETTINGS
-═══════════════════════════════════════════════════════════════ */
-.settings-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  margin-bottom: 16px;
-}
-.settings-card h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-.settings-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-}
-.settings-label { font-size: 14px; font-weight: 500; }
-.settings-value { font-size: 14px; color: var(--text-secondary); }
-.settings-input {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  outline: none;
-}
-.settings-input:focus { border-color: var(--blue); }
-
-/* ═══════════════════════════════════════════════════════════════
-   NOTIFICATIONS PANEL
-═══════════════════════════════════════════════════════════════ */
-.notif-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 400px;
-  max-width: 100vw;
-  background: var(--card);
-  box-shadow: -4px 0 24px rgba(0,0,0,0.1);
-  z-index: 200;
-  flex-direction: column;
-}
-.notif-overlay.active { display: flex; }
-.notif-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid var(--border);
-}
-.notif-header h3 { font-size: 18px; font-weight: 700; }
-.notif-close { font-size: 24px; cursor: pointer; color: var(--text-secondary); background: none; border: none; }
-.notif-list { flex: 1; overflow-y: auto; padding: 12px 16px; }
-.notif-item {
-  display: flex;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 12px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.notif-item:hover { background: var(--bg); }
-.notif-item.unread { background: var(--blue-light); }
-.notif-icon-sm {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.notif-icon-sm ion-icon { font-size: 18px; }
-.notif-title { font-size: 14px; font-weight: 600; }
-.notif-body { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.notif-time { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.notif-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; margin-top: 6px; }
-.notif-mark-all {
-  font-size: 13px;
-  color: var(--blue);
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-weight: 600;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   LOADING & STATES
-═══════════════════════════════════════════════════════════════ */
-.loading-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-}
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--blue);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.error-state {
-  text-align: center;
-  padding: 48px 24px;
-}
-.error-state ion-icon { font-size: 48px; color: var(--text-muted); }
-.error-state p { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-top: 12px; }
-.error-state button { margin-top: 16px; }
-
-/* ═══════════════════════════════════════════════════════════════
-   MODAL
-═══════════════════════════════════════════════════════════════ */
+/* Report Modal */
 .modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 300;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.4); display:none;
+  align-items:flex-end; justify-content:center;
 }
-.modal-overlay.active { display: flex; }
-.modal-content {
-  background: var(--card);
-  border-radius: 20px;
-  max-width: 700px;
-  width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+.modal-overlay.active { display:flex; }
+.modal-sheet {
+  background:#fff; width:100%; max-width:600px;
+  max-height:85vh; border-radius:20px 20px 0 0;
+  display:flex; flex-direction:column; overflow:hidden;
+  animation:slideUp .25s ease;
 }
-.modal-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 24px;
-  border-bottom: 1px solid var(--border);
-}
-.modal-close { font-size: 22px; cursor: pointer; color: var(--text-secondary); background: none; border: none; }
-.modal-title { font-size: 18px; font-weight: 700; flex: 1; }
-.modal-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.modal-body { padding: 24px; }
+@keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+.modal-header { padding:20px; border-bottom:1px solid var(--gray-border); display:flex; align-items:center; justify-content:space-between; }
+.modal-header h3 { font-size:18px; font-weight:600; }
+.modal-close { padding:6px; font-size:20px; color:var(--text-secondary); }
+.modal-body { flex:1; overflow-y:auto; padding:16px 20px; }
 
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════════════ */
+.change-item {
+  background:var(--gray-light); border-radius:var(--radius-sm); padding:14px;
+  margin-bottom:10px; display:flex; align-items:center; gap:12px;
+}
+.change-item .ci-info { flex:1; min-width:0; }
+.change-item .ci-name { font-size:14px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.change-item .ci-code { font-size:12px; color:var(--text-secondary); }
+.change-item .ci-prices { font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px; }
+.change-item .ci-actions { display:flex; gap:6px; }
+.ci-btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:600; }
+.ci-btn.approve { background:var(--green); color:#fff; }
+.ci-btn.reject { background:var(--gray-light); color:var(--text-secondary); border:1px solid var(--gray-border); }
+
+.approve-all-bar { padding:16px 20px; border-top:1px solid var(--gray-border); display:flex; gap:10px; }
+
+/* ============ CHANGES ============ */
+.search-bar { position:relative; margin-bottom:16px; }
+.search-bar input {
+  width:100%; padding:12px 14px 12px 42px; font-size:15px;
+  border:1.5px solid var(--gray-border); border-radius:var(--radius-sm);
+  background:#fff;
+}
+.search-bar svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--gray); }
+.search-bar input:focus { border-color:var(--blue); }
+
+.service-row {
+  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius-sm);
+  padding:14px 16px; margin-bottom:8px; cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:box-shadow .2s;
+}
+.service-row:hover { box-shadow:var(--shadow); }
+.service-row .sr-name { font-size:14px; font-weight:500; }
+.service-row .sr-meta { font-size:12px; color:var(--text-secondary); }
+.service-row .sr-price { font-size:16px; font-weight:700; }
+
+/* Price editor */
+.price-editor { background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius); padding:24px; margin-bottom:16px; }
+.price-editor .pe-service-name { font-size:16px; font-weight:600; margin-bottom:4px; }
+.price-editor .pe-service-code { font-size:13px; color:var(--text-secondary); margin-bottom:20px; }
+.price-input-wrap { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+.price-input-wrap .dollar { font-size:32px; font-weight:700; color:var(--text-secondary); }
+.price-input-wrap input {
+  width:120px; font-size:36px; font-weight:800; border:none;
+  border-bottom:2px solid var(--gray-border); padding:4px 0;
+  text-align:center;
+}
+.price-input-wrap input:focus { border-bottom-color:var(--blue); }
+.delta-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:4px 10px; border-radius:20px; font-size:13px; font-weight:600;
+}
+.delta-badge.positive { background:var(--green-light); color:var(--green); }
+.delta-badge.negative { background:var(--red-light); color:var(--red); }
+.delta-badge.neutral { background:var(--gray-light); color:var(--text-secondary); }
+
+.bump-buttons { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.bump-btn {
+  padding:8px 16px; border-radius:20px; font-size:13px; font-weight:600;
+  background:var(--blue-light); color:var(--blue); transition:all .15s;
+}
+.bump-btn:hover { background:var(--blue); color:#fff; }
+
+.impact-preview {
+  background:var(--green-light); border-radius:var(--radius-sm);
+  padding:14px; display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:16px;
+}
+.impact-preview .ip-label { font-size:13px; color:var(--text-secondary); }
+.impact-preview .ip-value { font-size:18px; font-weight:700; color:var(--green); }
+
+.btn-save {
+  width:100%; padding:14px; font-size:15px; font-weight:600;
+  background:var(--blue); color:#fff; border-radius:var(--radius-sm);
+}
+.btn-save:hover { background:var(--blue-dark); }
+.btn-save:disabled { opacity:0.5; }
+
+/* ============ HISTORY ============ */
+.filter-chips { display:flex; gap:8px; margin-bottom:16px; }
+.chip {
+  padding:6px 16px; border-radius:20px; font-size:13px; font-weight:500;
+  background:#fff; border:1px solid var(--gray-border); color:var(--text-secondary);
+}
+.chip.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+.history-summary { font-size:13px; color:var(--text-secondary); margin-bottom:16px; }
+.date-header { font-size:13px; font-weight:600; color:var(--text-secondary); margin:16px 0 8px; }
+
+.history-card {
+  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius-sm);
+  padding:14px 16px; margin-bottom:8px; cursor:pointer;
+}
+.history-card-header { display:flex; align-items:center; justify-content:space-between; }
+.history-card .hc-name { font-size:14px; font-weight:500; }
+.history-card .hc-prices { font-size:13px; color:var(--text-secondary); margin-top:2px; }
+.history-card .hc-right { display:flex; align-items:center; gap:8px; }
+.status-pill {
+  padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600;
+}
+.status-pill.pending { background:var(--amber-light); color:var(--amber); }
+.status-pill.applied { background:var(--green-light); color:var(--green); }
+.history-card-detail { display:none; padding-top:12px; margin-top:12px; border-top:1px solid var(--gray-border); font-size:13px; color:var(--text-secondary); }
+.history-card.expanded .history-card-detail { display:block; }
+.history-card-detail .detail-row { margin-bottom:4px; }
+
+/* ============ SETTINGS ============ */
+.profile-card { display:flex; align-items:center; gap:16px; }
+.profile-avatar {
+  width:56px; height:56px; border-radius:14px;
+  background:var(--blue); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:700;
+}
+.profile-info .name { font-size:17px; font-weight:600; }
+.profile-info .email { font-size:13px; color:var(--text-secondary); }
+
+.settings-section { margin-bottom:16px; }
+.settings-section h3 { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; padding-left:4px; }
+.settings-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 0; border-bottom:1px solid var(--gray-border);
+}
+.settings-row:last-child { border-bottom:none; }
+.settings-row .sr-label { font-size:14px; }
+.settings-row .sr-value { font-size:14px; color:var(--text-secondary); }
+
+/* Toggle switch */
+.toggle { width:44px; height:24px; border-radius:12px; background:#cbd5e1; position:relative; cursor:pointer; transition:background .2s; }
+.toggle.active { background:var(--blue); }
+.toggle::after { content:''; position:absolute; width:20px; height:20px; border-radius:50%; background:#fff; top:2px; left:2px; transition:left .2s; }
+.toggle.active::after { left:22px; }
+
+/* Select */
+.select-input {
+  padding:6px 28px 6px 10px; font-size:14px; border:1px solid var(--gray-border);
+  border-radius:8px; background:#fff; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-position:right 8px center; background-repeat:no-repeat; background-size:12px;
+}
+
+.btn-danger { width:100%; padding:12px; font-size:14px; font-weight:600; background:var(--red-light); color:var(--red); border-radius:var(--radius-sm); border:1px solid var(--red); }
+.btn-logout { width:100%; padding:12px; font-size:14px; font-weight:600; background:var(--gray-light); color:var(--text); border-radius:var(--radius-sm); }
+
+/* ============ NOTIFICATIONS ============ */
+.notif-panel {
+  position:fixed; top:0; right:0; bottom:0; width:100%; max-width:420px;
+  background:#fff; z-index:300; transform:translateX(100%);
+  transition:transform .25s ease; display:flex; flex-direction:column;
+  box-shadow:-4px 0 24px rgba(0,0,0,0.1);
+}
+.notif-panel.active { transform:translateX(0); }
+.notif-header { padding:20px; border-bottom:1px solid var(--gray-border); display:flex; align-items:center; justify-content:space-between; }
+.notif-header h3 { font-size:18px; font-weight:600; }
+.notif-body { flex:1; overflow-y:auto; }
+.notif-item { padding:16px 20px; border-bottom:1px solid var(--gray-border); cursor:pointer; }
+.notif-item.unread { background:var(--blue-light); }
+.notif-item .ni-title { font-size:14px; font-weight:600; margin-bottom:2px; }
+.notif-item .ni-body { font-size:13px; color:var(--text-secondary); }
+.notif-item .ni-time { font-size:11px; color:var(--text-light); margin-top:4px; }
+.notif-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:250; display:none; }
+.notif-overlay.active { display:block; }
+
+/* ============ LOADING ============ */
+.spinner {
+  width:24px; height:24px; border:3px solid var(--gray-border);
+  border-top-color:var(--blue); border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-center { display:flex; justify-content:center; padding:40px; }
+.empty-state { text-align:center; padding:40px 20px; color:var(--text-secondary); }
+.empty-state svg { width:48px; height:48px; margin-bottom:12px; opacity:0.4; }
+
+/* ============ TOAST ============ */
+.toast {
+  position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(100px);
+  background:var(--text); color:#fff; padding:12px 24px; border-radius:24px;
+  font-size:14px; font-weight:500; z-index:500;
+  transition:transform .3s ease; box-shadow:var(--shadow-lg);
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.success { background:var(--green); }
+.toast.error { background:var(--red); }
+
+/* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
-  .main { margin-left: 0; padding-bottom: 72px; }
-  .mobile-header { display: flex; }
-  .bottom-tabs { display: flex; }
-  .content-area { padding: 16px; }
-  .dash-hero-row, .dash-quarter-row { grid-template-columns: 1fr; }
-  .changes-stats-bar { flex-direction: column; gap: 12px; }
-  .changes-stat { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-  .changes-stat:last-child { border-bottom: none; }
-  .notif-overlay { width: 100vw; }
-  .grade-card { flex-direction: column; text-align: center; }
+  .sidebar { display:none; }
+  .main-content { margin-left:0; padding:16px 16px 80px; }
+  .topbar { display:flex; }
+  .bottom-tabs { display:block; }
+  .hero-row { grid-template-columns:1fr; }
+  .quarterly-row { grid-template-columns:1fr; }
+  .grade-section { flex-direction:column; text-align:center; gap:16px; }
+  .verdict-row .v-label { width:100px; }
+  .modal-overlay { align-items:flex-end; }
 }
 
-/* Tooltip */
-.screen { display: none; }
-.screen.active { display: block; }
-
-/* Scrollbar styling */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+@media (min-width: 769px) {
+  .topbar { display:none !important; }
+  .bottom-tabs { display:none !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN SCREEN ═══ -->
+<!-- ===== LOGIN SCREEN ===== -->
 <div id="loginScreen">
   <div class="login-card">
-    <img src="assets/logo.png" alt="Vet INC">
+    <div class="login-logo">V</div>
     <h1>Vet INC</h1>
-    <p>Sign in to your dashboard</p>
-    <div class="login-field">
-      <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="you@vetinc.ca" autocomplete="email">
-    </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-    </div>
+    <p class="subtitle">Pricing Intelligence Platform</p>
     <div class="login-error" id="loginError"></div>
-    <button class="login-btn" id="loginBtn" onclick="handleLogin()">Sign In</button>
-    <div class="login-demo">
-      <strong>Demo:</strong> demo@vetinc.ca / test1234
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@vetinc.ca" value="">
     </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" value="">
+    </div>
+    <div id="signupFields" style="display:none">
+      <div class="input-group">
+        <label>Clinic Name</label>
+        <input type="text" id="signupClinic" placeholder="Rosslyn Veterinary Hospital">
+      </div>
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" id="signupConfirm" placeholder="••••••••">
+      </div>
+    </div>
+    <button class="btn-primary" id="loginBtn">Sign In</button>
+    <div class="login-toggle">
+      <span id="toggleText">Don't have an account?</span>
+      <button id="toggleBtn" onclick="toggleSignup()">Sign up</button>
+    </div>
+    <div class="demo-hint">Demo: demo@vetinc.ca / test1234</div>
   </div>
 </div>
 
-<!-- ═══ APP ═══ -->
+<!-- ===== APP ===== -->
 <div id="app">
   <!-- Sidebar (desktop) -->
-  <nav class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="assets/logo.png" alt="Vet INC">
-      <span>Vet INC</span>
+      <div class="logo-icon">V</div>
+      <div class="logo-text">Vet INC<small>Pricing Intelligence</small></div>
     </div>
-    <div class="nav-items">
-      <div class="nav-item active" data-screen="home" onclick="switchScreen('home')">
-        <ion-icon name="home-outline"></ion-icon> Home
-      </div>
-      <div class="nav-item" data-screen="reports" onclick="switchScreen('reports')">
-        <ion-icon name="document-text-outline"></ion-icon> Reports
-      </div>
-      <div class="nav-item" data-screen="changes" onclick="switchScreen('changes')">
-        <ion-icon name="swap-horizontal-outline"></ion-icon> Changes
-      </div>
-      <div class="nav-item" data-screen="history" onclick="switchScreen('history')">
-        <ion-icon name="time-outline"></ion-icon> History
-      </div>
-      <div class="nav-item" data-screen="settings" onclick="switchScreen('settings')">
-        <ion-icon name="settings-outline"></ion-icon> Settings
-      </div>
-    </div>
-    <div style="padding: 0 12px;">
-      <div class="nav-item" onclick="logout()" style="color: var(--red);">
-        <ion-icon name="log-out-outline"></ion-icon> Sign Out
-      </div>
-    </div>
-  </nav>
+    <nav id="sidebarNav"></nav>
+    <div class="sidebar-user" id="sidebarUser"></div>
+  </aside>
 
   <!-- Main content -->
-  <div class="main">
-    <!-- Mobile header -->
-    <div class="mobile-header">
-      <img src="assets/logo.png" alt="Vet INC">
-      <span class="mobile-header-title" id="mobileHeaderTitle">Vet INC</span>
-      <div class="mobile-bell" onclick="toggleNotifications()">
-        <ion-icon name="notifications-outline"></ion-icon>
-        <span class="mobile-bell-badge" id="mobileBellBadge" style="display:none;">0</span>
+  <div class="main-content" id="mainContent">
+    <!-- Mobile topbar -->
+    <div class="topbar">
+      <div class="topbar-logo">
+        <div class="logo-icon">V</div>
+        Vet INC
       </div>
+      <button class="bell-btn" onclick="openNotifications()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+        </svg>
+        <span class="bell-badge" id="bellBadge" style="display:none">0</span>
+      </button>
     </div>
 
-    <!-- Desktop bell (float top-right) -->
-    <div style="position: fixed; top: 20px; right: 24px; z-index: 99; cursor: pointer;" onclick="toggleNotifications()">
-      <div style="position: relative; font-size: 22px; color: var(--text-secondary);">
-        <ion-icon name="notifications-outline"></ion-icon>
-        <span class="nav-bell-badge" id="desktopBellBadge" style="display:none;">0</span>
-      </div>
-    </div>
-
-    <!-- Content area -->
-    <div class="content-area">
-      <!-- ═══ HOME SCREEN ═══ -->
-      <div class="screen active" id="screen-home">
-        <div id="dashboardContent">
-          <div class="loading-container"><div class="spinner"></div></div>
-        </div>
-      </div>
-
-      <!-- ═══ REPORTS SCREEN ═══ -->
-      <div class="screen" id="screen-reports">
-        <div id="reportsContent">
-          <div class="loading-container"><div class="spinner"></div></div>
-        </div>
-      </div>
-
-      <!-- ═══ CHANGES SCREEN ═══ -->
-      <div class="screen" id="screen-changes">
-        <div id="changesContent">
-          <div class="loading-container"><div class="spinner"></div></div>
-        </div>
-      </div>
-
-      <!-- ═══ HISTORY SCREEN ═══ -->
-      <div class="screen" id="screen-history">
-        <div id="historyContent">
-          <div class="loading-container"><div class="spinner"></div></div>
-        </div>
-      </div>
-
-      <!-- ═══ SETTINGS SCREEN ═══ -->
-      <div class="screen" id="screen-settings">
-        <div id="settingsContent"></div>
-      </div>
-    </div>
+    <!-- Page: Home -->
+    <div class="page active" id="page-home"></div>
+    <!-- Page: Reports -->
+    <div class="page" id="page-reports"></div>
+    <!-- Page: Changes -->
+    <div class="page" id="page-changes"></div>
+    <!-- Page: History -->
+    <div class="page" id="page-history"></div>
+    <!-- Page: Settings -->
+    <div class="page" id="page-settings"></div>
   </div>
 
   <!-- Bottom tabs (mobile) -->
   <div class="bottom-tabs">
-    <div class="tab-item active" data-screen="home" onclick="switchScreen('home')">
-      <ion-icon name="home-outline"></ion-icon> Home
-    </div>
-    <div class="tab-item" data-screen="reports" onclick="switchScreen('reports')">
-      <ion-icon name="document-text-outline"></ion-icon> Reports
-    </div>
-    <div class="tab-item" data-screen="changes" onclick="switchScreen('changes')">
-      <ion-icon name="swap-horizontal-outline"></ion-icon> Changes
-    </div>
-    <div class="tab-item" data-screen="history" onclick="switchScreen('history')">
-      <ion-icon name="time-outline"></ion-icon> History
-    </div>
-    <div class="tab-item" data-screen="settings" onclick="switchScreen('settings')">
-      <ion-icon name="settings-outline"></ion-icon> Settings
-    </div>
+    <div class="tab-inner" id="bottomTabs"></div>
   </div>
 </div>
 
-<!-- ═══ NOTIFICATIONS PANEL ═══ -->
-<div class="notif-overlay" id="notifPanel">
+<!-- Notification panel -->
+<div class="notif-overlay" id="notifOverlay" onclick="closeNotifications()"></div>
+<div class="notif-panel" id="notifPanel">
   <div class="notif-header">
     <h3>Notifications</h3>
-    <div style="display:flex; gap:16px; align-items:center;">
-      <button class="notif-mark-all" onclick="markAllNotifsRead()">Mark all read</button>
-      <button class="notif-close" onclick="toggleNotifications()">&times;</button>
+    <div style="display:flex; gap:8px;">
+      <button style="font-size:13px; color:var(--blue); font-weight:500;" id="markAllReadBtn" onclick="markAllRead()">Mark all read</button>
+      <button class="modal-close" onclick="closeNotifications()">✕</button>
     </div>
   </div>
-  <div class="notif-list" id="notifList"></div>
+  <div class="notif-body" id="notifBody"></div>
 </div>
 
-<!-- ═══ MODAL ═══ -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal-content" id="modalContent"></div>
+<!-- Report modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-sheet">
+    <div class="modal-header">
+      <h3 id="modalTitle">Report</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="approve-all-bar" id="approveAllBar" style="display:none">
+      <button class="btn-primary" style="flex:1" onclick="approveAll()">Approve All</button>
+    </div>
+  </div>
 </div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
+// ============================================================
 // CONFIG
-// ═══════════════════════════════════════════════════════════════
+// ============================================================
 const SB_URL = 'https://rnqhhzatlxmyvccdvqkr.supabase.co/rest/v1';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJucWhoemF0bHhteXZjY2R2cWtyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTAxNDk4NSwiZXhwIjoyMDkwNTkwOTg1fQ.Js6sEzcCbIkIx5QDtk4TDtSliUeD52e2H2D-Sxatg2w';
-const SB_HEADERS = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` };
+const CURRENT_CLINIC = 'rosslyn';
 const SALT = '_vetinc_salt_2026';
 
-let CURRENT_CLINIC = localStorage.getItem('vetinc_clinic') || 'rosslyn';
-let CURRENT_USER = JSON.parse(localStorage.getItem('vetinc_user') || 'null');
-let NOTIFS = [];
-let DASH_DATA = null;
+// ============================================================
+// SUPABASE HELPERS
+// ============================================================
+const sbHeaders = {
+  'apikey': SB_KEY,
+  'Authorization': `Bearer ${SB_KEY}`,
+  'Content-Type': 'application/json'
+};
 
-// ═══════════════════════════════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════════════════════════════
+async function sbFetch(path) {
+  const res = await fetch(`${SB_URL}/${path}`, { headers: sbHeaders });
+  if (!res.ok) throw new Error(`SB ${res.status}: ${await res.text()}`);
+  return res.json();
+}
+
+async function sbPost(path, body) {
+  const res = await fetch(`${SB_URL}/${path}`, {
+    method: 'POST',
+    headers: { ...sbHeaders, 'Prefer': 'return=representation' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) throw new Error(`SB POST ${res.status}: ${await res.text()}`);
+  return res.json();
+}
+
+async function sbPatch(path, body) {
+  const res = await fetch(`${SB_URL}/${path}`, {
+    method: 'PATCH',
+    headers: { ...sbHeaders, 'Prefer': 'return=representation' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) throw new Error(`SB PATCH ${res.status}: ${await res.text()}`);
+  return res.json();
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function fmtMoney(n) {
+  if (n == null || isNaN(n)) return '$0';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function fmtMoneyDecimal(n) {
+  if (n == null || isNaN(n)) return '$0.00';
+  return '$' + Number(n).toFixed(2);
+}
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+}
+
+function fmtDateShort(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
+}
+
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const hrs = Math.floor(diff / 3600000);
+  if (hrs < 1) return 'Just now';
+  if (hrs < 24) return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return days + 'd ago';
+  return fmtDate(iso);
+}
+
+function computeGrade(confident, uncertain, reverted) {
+  const total = confident + uncertain + reverted;
+  if (total === 0) return { grade: 'B', score: 75 };
+  const score = Math.round((confident * 100 + uncertain * 50) / total);
+  let grade = 'D';
+  if (score >= 85) grade = 'A';
+  else if (score >= 70) grade = 'B';
+  else if (score >= 50) grade = 'C';
+  return { grade, score };
+}
+
 async function sha256(text) {
-  const buf = new TextEncoder().encode(text);
-  const hash = await crypto.subtle.digest('SHA-256', buf);
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function handleLogin() {
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let currentUser = null;
+let currentPage = 'home';
+let clinicSettings = null;
+let notificationsData = [];
+let reportsData = [];
+let historyData = [];
+let servicesData = [];
+let selectedService = null;
+let currentReport = null;
+
+// ============================================================
+// AUTH
+// ============================================================
+let isSignup = false;
+
+function toggleSignup() {
+  isSignup = !isSignup;
+  document.getElementById('signupFields').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('loginBtn').textContent = isSignup ? 'Create Account' : 'Sign In';
+  document.getElementById('toggleText').textContent = isSignup ? 'Already have an account?' : "Don't have an account?";
+  document.getElementById('toggleBtn').textContent = isSignup ? 'Sign in' : 'Sign up';
+  document.getElementById('loginError').style.display = 'none';
+}
+
+document.getElementById('loginBtn').addEventListener('click', doLogin);
+document.getElementById('loginPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim().toLowerCase();
   const password = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
@@ -927,1097 +775,974 @@ async function handleLogin() {
 
   btn.disabled = true;
   btn.textContent = 'Signing in...';
-  errEl.style.display = 'none';
 
   try {
     const hash = await sha256(password + SALT);
-    const res = await fetch(`${SB_URL}/vet_auth?select=id,email,clinic_id,name,role&email=eq.${encodeURIComponent(email)}&password_hash=eq.${hash}`, {
-      headers: SB_HEADERS
-    });
-    const rows = await res.json();
 
-    if (rows && rows.length > 0) {
-      const user = rows[0];
-      CURRENT_CLINIC = user.clinic_id || 'rosslyn';
-      CURRENT_USER = user;
-      localStorage.setItem('vetinc_clinic', CURRENT_CLINIC);
-      localStorage.setItem('vetinc_user', JSON.stringify(user));
-      showApp();
+    if (isSignup) {
+      const clinicName = document.getElementById('signupClinic').value.trim();
+      const confirm = document.getElementById('signupConfirm').value;
+      if (!clinicName) throw new Error('Clinic name is required');
+      if (password !== confirm) throw new Error('Passwords do not match');
+
+      const existing = await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`);
+      if (existing.length > 0) throw new Error('Email already registered');
+
+      await sbPost('vet_auth', {
+        username: email,
+        password_hash: hash,
+        clinic: clinicName,
+        role: 'admin',
+        active: true,
+        clinic_id: CURRENT_CLINIC
+      });
+
+      const user = (await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`))[0];
+      currentUser = user;
     } else {
-      errEl.textContent = 'Invalid email or password';
-      errEl.style.display = 'block';
+      // Try vet_auth first
+      let users = await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&active=eq.true&limit=1`);
+      if (users.length > 0 && users[0].password_hash === hash) {
+        currentUser = users[0];
+      } else {
+        // Fallback to user_accounts
+        users = await sbFetch(`user_accounts?email=eq.${encodeURIComponent(email)}&limit=1`);
+        if (users.length > 0) {
+          // For user_accounts, accept any password with the right hash pattern
+          // or compare against vet_auth hash
+          const vetAuth = await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`);
+          if (vetAuth.length > 0 && vetAuth[0].password_hash === hash) {
+            currentUser = vetAuth[0];
+          } else {
+            throw new Error('Invalid email or password');
+          }
+        } else {
+          throw new Error('Invalid email or password');
+        }
+      }
     }
-  } catch (e) {
-    errEl.textContent = 'Connection error. Please try again.';
-    errEl.style.display = 'block';
-  }
 
-  btn.disabled = false;
-  btn.textContent = 'Sign In';
+    // Store session
+    sessionStorage.setItem('vetinc_user', JSON.stringify(currentUser));
+
+    // Load app
+    enterApp();
+  } catch (err) {
+    errEl.textContent = err.message || 'Login failed';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = isSignup ? 'Create Account' : 'Sign In';
+  }
+}
+
+function enterApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('active');
+  buildNav();
+  buildBottomTabs();
+  buildSidebarUser();
+  loadAllData();
 }
 
 function logout() {
-  localStorage.removeItem('vetinc_user');
-  localStorage.removeItem('vetinc_clinic');
-  CURRENT_USER = null;
+  sessionStorage.removeItem('vetinc_user');
+  currentUser = null;
   document.getElementById('app').classList.remove('active');
   document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
 }
 
-function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').classList.add('active');
-  loadDashboard();
+// Auto-login from session
+const savedUser = sessionStorage.getItem('vetinc_user');
+if (savedUser) {
+  try {
+    currentUser = JSON.parse(savedUser);
+    enterApp();
+  } catch (e) {
+    sessionStorage.removeItem('vetinc_user');
+  }
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+const NAV_ITEMS = [
+  { id: 'home', label: 'Home', icon: getIcon('home') },
+  { id: 'reports', label: 'Reports', icon: getIcon('reports') },
+  { id: 'changes', label: 'Changes', icon: getIcon('changes') },
+  { id: 'history', label: 'History', icon: getIcon('history') },
+  { id: 'settings', label: 'Settings', icon: getIcon('settings') },
+];
+
+function buildNav() {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = NAV_ITEMS.map(item => `
+    <button class="nav-item ${item.id === currentPage ? 'active' : ''}" onclick="switchPage('${item.id}')">
+      ${item.icon}
+      <span>${item.label}</span>
+      ${item.id === 'reports' ? '<span class="nav-badge" id="navReportBadge" style="display:none"></span>' : ''}
+    </button>
+  `).join('');
+}
+
+function buildBottomTabs() {
+  const tabs = document.getElementById('bottomTabs');
+  tabs.innerHTML = NAV_ITEMS.map(item => `
+    <button class="tab-btn ${item.id === currentPage ? 'active' : ''}" onclick="switchPage('${item.id}')">
+      ${item.icon}
+      <span>${item.label}</span>
+    </button>
+  `).join('');
+}
+
+function buildSidebarUser() {
+  const el = document.getElementById('sidebarUser');
+  if (!currentUser) return;
+  const initials = (currentUser.clinic || 'VI').substring(0, 2).toUpperCase();
+  el.innerHTML = `
+    <div class="avatar">${initials}</div>
+    <div class="user-info">
+      <div class="name">${currentUser.clinic || 'Vet INC'}</div>
+      <div class="email">${currentUser.username}</div>
+    </div>
+  `;
+}
+
+function switchPage(pageId) {
+  currentPage = pageId;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(n => n.classList.remove('active'));
+  // Update active states
+  const navItems = document.querySelectorAll('#sidebarNav .nav-item');
+  const tabItems = document.querySelectorAll('#bottomTabs .tab-btn');
+  navItems.forEach((n, i) => { if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active'); });
+  tabItems.forEach((n, i) => { if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active'); });
+}
+
+// ============================================================
+// ICONS
+// ============================================================
+function getIcon(name) {
+  const icons = {
+    home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
+    reports: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+    changes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
+    history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.1.39.42.7.81.81H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  };
+  return icons[name] || '';
+}
+
+// ============================================================
+// DATA LOADING
+// ============================================================
+async function loadAllData() {
+  loadHome();
+  loadReports();
+  loadChanges();
+  loadHistory();
+  loadSettings();
   loadNotifications();
 }
 
-// Auto-login check
-if (CURRENT_USER) {
-  showApp();
-}
-
-// Enter key login
-document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-document.getElementById('loginEmail').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); });
-
-// ═══════════════════════════════════════════════════════════════
-// API HELPERS
-// ═══════════════════════════════════════════════════════════════
-async function sbFetch(path) {
-  const res = await fetch(`${SB_URL}${path}`, { headers: SB_HEADERS });
-  return res.json();
-}
-
-async function sbCount(path) {
-  const res = await fetch(`${SB_URL}${path}`, { headers: SB_HEADERS, Prefer: 'count=exact', Range: '0-0' });
-  const cr = res.headers.get('content-range');
-  return cr ? parseInt(cr.split('/')[1]) : 0;
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FORMATTERS
-// ═══════════════════════════════════════════════════════════════
-function fmtMoney(n) {
-  n = Number(n) || 0;
-  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
-function fmtPrice(n) { return '$' + (Number(n) || 0).toFixed(2); }
-function fmtK(n) { n = Number(n) || 0; return n >= 1000 ? '$' + (n / 1000).toFixed(1) + 'K' : '$' + n.toLocaleString(); }
-function fmtDateShort(mdy) {
-  if (!mdy) return '';
-  const parts = mdy.split('-');
-  if (parts.length !== 3) return mdy;
-  const [m, d, y] = parts;
-  const dt = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
-  return dt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
-}
-function fmtTimeAgo(iso) {
-  if (!iso) return '';
-  const diff = Date.now() - new Date(iso).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'Just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days}d ago`;
-  return new Date(iso).toLocaleDateString();
-}
-
-function computeGrade(confident, uncertain, reverted) {
-  const total = confident + uncertain + reverted;
-  if (total === 0) return { grade: '—', score: 0 };
-  const score = Math.round((confident + uncertain * 0.5) / total * 100);
-  let grade;
-  if (score >= 95) grade = 'A';
-  else if (score >= 90) grade = 'A-';
-  else if (score >= 85) grade = 'B+';
-  else if (score >= 80) grade = 'B';
-  else if (score >= 75) grade = 'B-';
-  else if (score >= 70) grade = 'C+';
-  else if (score >= 65) grade = 'C';
-  else if (score >= 60) grade = 'C-';
-  else if (score >= 50) grade = 'D';
-  else grade = 'F';
-  return { grade, score };
-}
-
-const gradeColors = {
-  'A': '#059669', 'A-': '#059669', 'B+': '#84cc16', 'B': '#84cc16',
-  'B-': '#eab308', 'C+': '#eab308', 'C': '#f59e0b',
-  'C-': '#f97316', 'D': '#dc2626', 'F': '#dc2626', '—': '#64748b',
-};
-
-// ═══════════════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════════════
-function switchScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(`screen-${name}`).classList.add('active');
-
-  document.querySelectorAll('.nav-item[data-screen]').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll(`.nav-item[data-screen="${name}"]`).forEach(n => n.classList.add('active'));
-  document.querySelectorAll('.tab-item[data-screen]').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll(`.tab-item[data-screen="${name}"]`).forEach(n => n.classList.add('active'));
-
-  if (name === 'reports') loadReports();
-  if (name === 'changes') loadChanges();
-  if (name === 'history') loadHistory();
-  if (name === 'settings') loadSettings();
-}
-
-// ═══════════════════════════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════════════════════════
-async function loadDashboard() {
-  const el = document.getElementById('dashboardContent');
-  try {
-    // Clinic name
-    const clinicData = await sbFetch(`/clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&select=clinic_name&limit=1`);
-    const clinicName = clinicData?.[0]?.clinic_name || 'Rosslyn Veterinary Hospital';
-
-    // Revenue
-    const totals = await sbFetch('/csi_pf_totals?select=mdy,daily_total,ros,tg,rvv&ros=not.is.null&order=day.desc&limit=2');
-    const latestRow = totals?.[0] || null;
-    const prevRow = totals?.[1] || null;
-    const latestDate = latestRow?.mdy || null;
-
-    let visitCount = 0;
-    let avgInv = 0;
-
-    if (latestDate) {
-      const [month, day, year] = latestDate.split('-');
-      const dateStr = `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`;
-      const nextDay = new Date(dateStr); nextDay.setDate(nextDay.getDate() + 1);
-      const nextStr = nextDay.toISOString().split('T')[0];
-
-      visitCount = await sbCount(`/visits?select=record_num&visit_date=gte.${dateStr}&visit_date=lt.${nextStr}`);
-
-      if (visitCount === 0) {
-        const latestVisit = await sbFetch('/visits?select=visit_date&order=visit_date.desc&limit=1');
-        if (latestVisit?.[0]?.visit_date) {
-          const vDate = latestVisit[0].visit_date.split('T')[0];
-          const vNext = new Date(vDate); vNext.setDate(vNext.getDate() + 1);
-          const vNextStr = vNext.toISOString().split('T')[0];
-          visitCount = await sbCount(`/visits?select=record_num&visit_date=gte.${vDate}&visit_date=lt.${vNextStr}`);
-        }
-      }
-
-      const svcData = await sbFetch(`/services?select=amount&service_date=gte.${dateStr} 00:00:00&service_date=lt.${nextStr} 00:00:00`);
-      const svcArr = Array.isArray(svcData) ? svcData : [];
-      const nonZero = svcArr.filter(s => s.amount > 0);
-      avgInv = nonZero.length > 0 ? nonZero.reduce((s, x) => s + x.amount, 0) / nonZero.length : 0;
-    }
-
-    // Recommendations
-    const recs = await sbFetch(`/price_recommendations?select=service_code,price_old,price_new,est_uplift,status&clinic_id=eq.${CURRENT_CLINIC}&status=eq.pending&limit=500`);
-    const recArr = Array.isArray(recs) ? recs : [];
-
-    // Service count
-    const serviceCount = await sbCount('/prices?select=code');
-
-    // Avg adjustment
-    const adjPct = recArr.length > 0
-      ? recArr.reduce((s, r) => {
-          const oldP = parseFloat(r.price_old) || 1;
-          const newP = parseFloat(r.price_new) || oldP;
-          return s + ((newP - oldP) / oldP * 100);
-        }, 0) / recArr.length
-      : 0;
-
-    // Outcomes
-    const outcomes = await sbFetch(`/change_outcomes?select=verdict,service_code&clinic_id=eq.${CURRENT_CLINIC}`);
-    const outcomeArr = Array.isArray(outcomes) ? outcomes : [];
-    const confident = outcomeArr.filter(o => o.verdict === 'confident').length;
-    const uncertain = outcomeArr.filter(o => o.verdict === 'uncertain').length;
-    const reverted = outcomeArr.filter(o => o.verdict === 'reverted').length;
-    const totalChanges = outcomeArr.length;
-    const { grade, score } = computeGrade(confident, uncertain, reverted);
-
-    const curRev = latestRow ? (latestRow.ros || latestRow.daily_total || 0) : 0;
-    const prevRev = prevRow ? (prevRow.ros || prevRow.daily_total || 0) : 0;
-    const revDelta = prevRev > 0 ? ((curRev - prevRev) / prevRev * 100) : 0;
-
-    DASH_DATA = { clinicName, revenue: curRev, revenueDate: latestDate, revenueDelta: revDelta, avgInvoice: avgInv, visits: visitCount, totalChanges, avgAdjustment: adjPct, servicesMonitored: serviceCount || recArr.length, confident, uncertain, reverted, grade, score };
-
-    const gradeColor = gradeColors[grade] || '#64748b';
-    const total = totalChanges || 1;
-
-    el.innerHTML = `
-      <div class="dash-clinic-name">${clinicName}</div>
-      <div class="dash-date">Data through ${latestDate ? fmtDateShort(latestDate) : 'latest'}</div>
-
-      <div class="dash-hero-row">
-        <div class="stat-tile" style="border-top-color: #0ea5e9;">
-          <div class="stat-tile-label">${latestDate ? fmtDateShort(latestDate) : 'Latest'} Revenue</div>
-          <div class="stat-tile-value" style="color: #0f172a;">${fmtMoney(curRev)}</div>
-          ${isFinite(revDelta) ? `<div class="stat-tile-sub" style="color: ${revDelta >= 0 ? 'var(--green)' : 'var(--red)'};">${revDelta >= 0 ? '↑' : '↓'} ${Math.abs(revDelta).toFixed(1)}% vs prior</div>` : ''}
-        </div>
-        <div class="stat-tile" style="border-top-color: #0ea5e9;">
-          <div class="stat-tile-label">Avg Invoice</div>
-          <div class="stat-tile-value" style="color: #0f172a;">${avgInv > 0 ? '$' + avgInv.toFixed(0) : '—'}</div>
-        </div>
-        <div class="stat-tile" style="border-top-color: var(--green);">
-          <div class="stat-tile-label">Total Visits</div>
-          <div class="stat-tile-value" style="color: #0f172a;">${visitCount ? visitCount.toLocaleString() : '—'}</div>
-        </div>
-      </div>
-
-      <div class="dash-section-title">This Quarter</div>
-      <div class="dash-quarter-row">
-        <div class="stat-tile" style="border-top-color: #0ea5e9;">
-          <div class="stat-tile-label">Price Changes</div>
-          <div class="stat-tile-value">${totalChanges}</div>
-        </div>
-        <div class="stat-tile" style="border-top-color: ${adjPct >= 0 ? 'var(--green)' : 'var(--red)'};">
-          <div class="stat-tile-label">Avg Adjustment</div>
-          <div class="stat-tile-value" style="color: ${adjPct >= 0 ? 'var(--green)' : 'var(--red)'};">${adjPct >= 0 ? '+' : ''}${adjPct.toFixed(1)}%</div>
-        </div>
-        <div class="stat-tile" style="border-top-color: #0ea5e9;">
-          <div class="stat-tile-label">Services Monitored</div>
-          <div class="stat-tile-value">${serviceCount || recArr.length}</div>
-        </div>
-      </div>
-
-      <div class="dash-section-title">System Performance</div>
-      <div class="grade-card" style="border-color: ${gradeColor};">
-        <div class="grade-circle" style="background: ${gradeColor};">
-          <span class="grade-letter">${grade}</span>
-        </div>
-        <div>
-          <div class="grade-title">System Performance</div>
-          <div class="grade-score">${score}% confidence score</div>
-          <div class="grade-sub">Based on ${totalChanges} monitored changes this quarter</div>
-        </div>
-      </div>
-
-      <div class="verdict-card" style="margin-top: 12px;">
-        <div class="verdict-row">
-          <div class="verdict-icon" style="background: var(--green-light);">
-            <ion-icon name="checkmark-circle" style="color: var(--green);"></ion-icon>
-          </div>
-          <div class="verdict-body">
-            <div class="verdict-label">Confirmed Wins</div>
-            <div class="verdict-subtitle">Changes that improved revenue as expected</div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: ${Math.round(confident/total*100)}%; background: var(--green);"></div>
-            </div>
-          </div>
-          <div class="verdict-count">${confident}</div>
-        </div>
-        <div class="verdict-row">
-          <div class="verdict-icon" style="background: var(--amber-light);">
-            <ion-icon name="help-circle" style="color: var(--amber);"></ion-icon>
-          </div>
-          <div class="verdict-body">
-            <div class="verdict-label">Still Evaluating</div>
-            <div class="verdict-subtitle">Results aren't clear yet — under review</div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: ${Math.round(uncertain/total*100)}%; background: var(--amber);"></div>
-            </div>
-          </div>
-          <div class="verdict-count">${uncertain}</div>
-        </div>
-        <div class="verdict-row">
-          <div class="verdict-icon" style="background: var(--red-light);">
-            <ion-icon name="arrow-undo" style="color: var(--red);"></ion-icon>
-          </div>
-          <div class="verdict-body">
-            <div class="verdict-label">Reverted</div>
-            <div class="verdict-subtitle">Changes that hurt performance and were rolled back</div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: ${Math.round(reverted/total*100)}%; background: var(--red);"></div>
-            </div>
-          </div>
-          <div class="verdict-count">${reverted}</div>
-        </div>
-      </div>
-    `;
-  } catch (e) {
-    el.innerHTML = `<div class="error-state">
-      <ion-icon name="cloud-offline-outline"></ion-icon>
-      <p>Couldn't load dashboard data</p>
-      <button class="btn btn-primary" onclick="loadDashboard()">Try Again</button>
-    </div>`;
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// REPORTS
-// ═══════════════════════════════════════════════════════════════
-async function loadReports() {
-  const el = document.getElementById('reportsContent');
-  el.innerHTML = '<div class="loading-container"><div class="spinner"></div></div>';
+// ============================================================
+// HOME
+// ============================================================
+async function loadHome() {
+  const el = document.getElementById('page-home');
+  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
 
   try {
-    const recs = await sbFetch(`/price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=200`);
-    const allRecs = Array.isArray(recs) ? recs : [];
-    const pending = allRecs.filter(r => r.status === 'pending');
-    const applied = allRecs.filter(r => r.status === 'applied');
-    const dismissed = allRecs.filter(r => r.status === 'dismissed');
-
-    const totalOpp = pending.reduce((s, r) => s + (r.est_uplift || 0), 0);
-    const appliedOpp = applied.reduce((s, r) => s + (r.est_uplift || 0), 0);
-    const avgPct = applied.length > 0
-      ? applied.reduce((s, r) => {
-          const o = parseFloat(r.price_old) || 1;
-          const n = parseFloat(r.price_new) || o;
-          return s + ((n - o) / o * 100);
-        }, 0) / applied.length
-      : 0;
-
-    // Monitoring items
-    let monitorItems = [];
-    try {
-      const monRes = await sbFetch(`/monitoring_items?clinic_id=eq.${CURRENT_CLINIC}&order=days_post.desc&limit=10`);
-      monitorItems = Array.isArray(monRes) ? monRes : [];
-    } catch(e) {}
-
-    let cards = '';
-
-    // Copilot card
-    if (pending.length > 0) {
-      cards += `
-        <div class="report-card outline-blue" onclick="openCopilotModal()">
-          <div class="report-header-row">
-            <div>
-              <div class="report-title">Price Review</div>
-              <div class="report-subtitle">${pending.length} services need your decision</div>
-            </div>
-            <div class="mode-badge mode-copilot">Copilot</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:4px; margin-top:6px;">
-            <span class="state-dot" style="background: var(--blue);"></span>
-            <span style="font-size:12px; font-weight:600; color: var(--blue);">Action needed</span>
-          </div>
-          <div class="report-body-row">
-            <span class="report-big-num">${pending.length}</span>
-            <div class="report-body-text">
-              <div class="report-body-label">flagged for review</div>
-              <div class="report-body-potential">${fmtMoney(totalOpp)} potential</div>
-            </div>
-            <ion-icon name="chevron-forward" class="report-chevron"></ion-icon>
-          </div>
-        </div>
-      `;
-    }
-
-    // Autopilot card
-    if (applied.length > 0) {
-      cards += `
-        <div class="report-card" onclick="openAutopilotModal()">
-          <div class="report-header-row">
-            <div>
-              <div class="report-title">Quarterly Price Update</div>
-              <div class="report-subtitle">Auto-applied ${applied.length} price changes</div>
-            </div>
-            <div class="mode-badge mode-autopilot">Autopilot</div>
-          </div>
-          <div class="report-body-row">
-            <span class="report-big-num">${applied.length}</span>
-            <div class="report-body-text">
-              <div class="report-body-label">prices updated</div>
-              <div class="report-body-potential">${fmtMoney(appliedOpp)} potential</div>
-            </div>
-            <ion-icon name="chevron-forward" class="report-chevron"></ion-icon>
-          </div>
-        </div>
-      `;
-    }
-
-    // Monitoring cards
-    for (const m of monitorItems.slice(0, 3)) {
-      cards += `
-        <div class="report-card outline-blue" onclick="openMonitorModal(${m.id})">
-          <div class="report-header-row">
-            <div>
-              <div class="report-title">${m.service_name || m.service_code}</div>
-              <div class="report-subtitle">${m.days_post || 0} days post-change</div>
-            </div>
-            <div class="mode-badge mode-monitor">Monitoring</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:4px; margin-top:6px;">
-            <span class="state-dot" style="background: var(--blue);"></span>
-            <span style="font-size:12px; font-weight:600; color: var(--blue);">Action needed</span>
-          </div>
-          <div class="report-body-row">
-            <div class="report-body-text">
-              <div class="report-body-label">${m.service_name || m.service_code}</div>
-              <div class="report-body-potential">${fmtPrice(m.old_price)} → ${fmtPrice(m.new_price)}</div>
-            </div>
-            <ion-icon name="analytics-outline" style="color: #0ea5e9; font-size:22px;"></ion-icon>
-          </div>
-        </div>
-      `;
-    }
-
-    if (!cards) {
-      cards = `<div class="error-state"><ion-icon name="document-text-outline"></ion-icon><p>No reports available yet</p></div>`;
-    }
-
-    el.innerHTML = `<h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">Reports</h2><div class="report-list">${cards}</div>`;
-  } catch (e) {
-    el.innerHTML = `<div class="error-state"><ion-icon name="cloud-offline-outline"></ion-icon><p>Couldn't load reports</p><button class="btn btn-primary" onclick="loadReports()">Try Again</button></div>`;
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// REPORT MODALS
-// ═══════════════════════════════════════════════════════════════
-function openCopilotModal() {
-  const overlay = document.getElementById('modalOverlay');
-  const content = document.getElementById('modalContent');
-  content.innerHTML = `
-    <div class="modal-header">
-      <button class="modal-close" onclick="closeModalDirect()">&times;</button>
-      <div style="flex:1;">
-        <div class="modal-title">Price Review</div>
-        <div class="modal-sub">Copilot • ${CURRENT_CLINIC}</div>
-      </div>
-      <div class="mode-badge mode-copilot">Copilot</div>
-    </div>
-    <div class="modal-body">
-      <div class="loading-container"><div class="spinner"></div></div>
-    </div>
-  `;
-  overlay.classList.add('active');
-  loadCopilotBody();
-}
-
-async function loadCopilotBody() {
-  try {
-    const rows = await sbFetch(`/price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&status=eq.pending&order=est_uplift.desc&limit=200`);
-    const changes = (Array.isArray(rows) ? rows : []).map(r => ({
-      id: r.id, code: r.service_code, desc: r.service_name,
-      current: parseFloat(r.price_old), suggested: parseFloat(r.price_new),
-      pct: ((parseFloat(r.price_new) - parseFloat(r.price_old)) / parseFloat(r.price_old) * 100),
-      annualImpact: r.est_uplift || 0,
-    }));
-
-    const body = document.querySelector('.modal-body');
-    if (!changes.length) {
-      body.innerHTML = `<div style="text-align:center; padding:40px;"><ion-icon name="checkmark-circle" style="font-size:48px; color:var(--green);"></ion-icon><p style="margin-top:12px; font-weight:600;">All caught up — no pending reviews</p></div>`;
-      return;
-    }
-
-    body.innerHTML = `
-      <div class="changes-stats-bar">
-        <div class="changes-stat"><div class="changes-stat-val">${changes.length}</div><div class="changes-stat-label">Total</div></div>
-        <div class="changes-stat"><div class="changes-stat-val" id="modApproved" style="color:var(--green);">0</div><div class="changes-stat-label">Approved</div></div>
-        <div class="changes-stat"><div class="changes-stat-val" id="modRejected" style="color:var(--red);">0</div><div class="changes-stat-label">Rejected</div></div>
-        <div class="changes-stat"><div class="changes-stat-val" id="modImpact">$0</div><div class="changes-stat-label">Impact</div></div>
-      </div>
-      <div class="changes-action-bar">
-        <button class="btn btn-primary" onclick="selectAllChanges()">Select All</button>
-        <span style="font-size:13px; color:var(--text-muted);">Tap to cycle: Approve → Reject → None</span>
-      </div>
-      <div id="changesList">${changes.map(c => renderChangeRow(c)).join('')}</div>
-      <button class="btn-submit" id="submitDecisions" style="display:none;" onclick="submitDecisions()">Submit Decisions</button>
-    `;
-    window._changes = changes;
-    window._selected = {};
-  } catch (e) {
-    document.querySelector('.modal-body').innerHTML = `<div class="error-state"><p>Couldn't load recommendations</p></div>`;
-  }
-}
-
-function renderChangeRow(c) {
-  return `
-    <div class="change-row-card" data-id="${c.id}" onclick="cycleChange(${c.id})">
-      <div class="check-circle" id="check-${c.id}">
-      </div>
-      <div class="change-info">
-        <div class="change-desc">${c.desc || c.code}</div>
-        <div class="change-prices">
-          <span class="price-old">${fmtPrice(c.current)}</span>
-          <span class="price-arrow">→</span>
-          <span class="price-new">${fmtPrice(c.suggested)}</span>
-          <span class="price-pct">+${c.pct.toFixed(1)}%</span>
-        </div>
-      </div>
-      <div class="change-impact">+${fmtK(c.annualImpact)}</div>
-    </div>
-  `;
-}
-
-function cycleChange(id) {
-  const cur = window._selected[id];
-  const next = cur === 'approve' ? 'reject' : cur === 'reject' ? undefined : 'approve';
-  if (next) window._selected[id] = next; else delete window._selected[id];
-
-  const check = document.getElementById(`check-${id}`);
-  const row = document.querySelector(`[data-id="${id}"]`);
-  check.className = 'check-circle';
-  row.className = 'change-row-card';
-
-  if (next === 'approve') {
-    check.classList.add('approved');
-    row.classList.add('approved');
-    check.innerHTML = '<ion-icon name="checkmark"></ion-icon>';
-  } else if (next === 'reject') {
-    check.classList.add('rejected');
-    row.classList.add('rejected');
-    check.innerHTML = '<ion-icon name="close"></ion-icon>';
-  } else {
-    check.innerHTML = '';
-  }
-  updateChangesStats();
-}
-
-function selectAllChanges() {
-  for (const c of window._changes) {
-    window._selected[c.id] = 'approve';
-    const check = document.getElementById(`check-${c.id}`);
-    const row = document.querySelector(`[data-id="${c.id}"]`);
-    check.className = 'check-circle approved';
-    row.className = 'change-row-card approved';
-    check.innerHTML = '<ion-icon name="checkmark"></ion-icon>';
-  }
-  updateChangesStats();
-}
-
-function updateChangesStats() {
-  const sel = window._selected || {};
-  const approved = Object.values(sel).filter(v => v === 'approve').length;
-  const rejected = Object.values(sel).filter(v => v === 'reject').length;
-  const impact = window._changes.filter(c => sel[c.id] === 'approve').reduce((s, c) => s + c.annualImpact, 0);
-  document.getElementById('modApproved').textContent = approved;
-  document.getElementById('modRejected').textContent = rejected;
-  document.getElementById('modImpact').textContent = fmtK(impact);
-  const btn = document.getElementById('submitDecisions');
-  btn.style.display = Object.keys(sel).length > 0 ? 'block' : 'none';
-  btn.textContent = `Submit ${Object.keys(sel).length} Decision${Object.keys(sel).length !== 1 ? 's' : ''}`;
-}
-
-async function submitDecisions() {
-  const btn = document.getElementById('submitDecisions');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
-  const sel = window._selected;
-  const promises = Object.entries(sel).map(([id, verdict]) => {
-    const status = verdict === 'approve' ? 'applied' : 'dismissed';
-    return fetch(`${SB_URL}/price_recommendations?id=eq.${id}`, {
-      method: 'PATCH',
-      headers: { ...SB_HEADERS, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ status }),
-    }).catch(() => {});
-  });
-  await Promise.all(promises);
-  const approvedCount = Object.values(sel).filter(v => v === 'approve').length;
-  const rejectedCount = Object.values(sel).filter(v => v === 'reject').length;
-  document.querySelector('.modal-body').innerHTML = `
-    <div style="text-align:center; padding:48px 24px;">
-      <ion-icon name="checkmark-circle" style="font-size:48px; color: #22c55e;"></ion-icon>
-      <p style="font-size:18px; font-weight:700; margin-top:12px;">Decisions Saved</p>
-      <p style="font-size:14px; color: var(--text-secondary); margin-top:4px;">${approvedCount} approved · ${rejectedCount} rejected</p>
-    </div>
-  `;
-}
-
-function openAutopilotModal() {
-  const overlay = document.getElementById('modalOverlay');
-  const content = document.getElementById('modalContent');
-  content.innerHTML = `
-    <div class="modal-header">
-      <button class="modal-close" onclick="closeModalDirect()">&times;</button>
-      <div style="flex:1;">
-        <div class="modal-title">Quarterly Price Update</div>
-        <div class="modal-sub">Autopilot • ${CURRENT_CLINIC}</div>
-      </div>
-      <div class="mode-badge mode-autopilot">Autopilot</div>
-    </div>
-    <div class="modal-body">
-      <div class="loading-container"><div class="spinner"></div></div>
-    </div>
-  `;
-  overlay.classList.add('active');
-  loadAutopilotBody();
-}
-
-async function loadAutopilotBody() {
-  try {
-    const rows = await sbFetch(`/price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=200`);
-    const changes = (Array.isArray(rows) ? rows : []).filter(r => r.service_code !== '_summary' && r.status === 'applied').map(r => ({
-      id: r.id, code: r.service_code, desc: r.service_name,
-      current: parseFloat(r.price_old), suggested: parseFloat(r.price_new),
-      pct: ((parseFloat(r.price_new) - parseFloat(r.price_old)) / parseFloat(r.price_old) * 100),
-      annualImpact: r.est_uplift || 0,
-    }));
-
-    const body = document.querySelector('.modal-body');
-    if (!changes.length) {
-      body.innerHTML = `<div style="text-align:center; padding:40px;"><ion-icon name="flash-outline" style="font-size:48px; color:var(--text-muted);"></ion-icon><p style="margin-top:12px; color:var(--text-secondary);">No autopilot data yet</p></div>`;
-      return;
-    }
-
-    const totalImpact = changes.reduce((s, c) => s + c.annualImpact, 0);
-    const avgPct = changes.reduce((s, c) => s + c.pct, 0) / changes.length;
-    const maxImpact = Math.max(...changes.map(c => c.annualImpact));
-    const top5 = changes.slice(0, 5);
-    const summary = `${changes.length} prices were updated with an average increase of ${avgPct.toFixed(1)}%, projecting +${fmtK(totalImpact)}/yr in additional revenue. The largest single impact comes from ${(top5[0]?.desc || '').toLowerCase()} at +${fmtK(top5[0]?.annualImpact || 0)}/yr.`;
-
-    body.innerHTML = `
-      <div style="background: var(--green-light); border-radius: var(--radius); padding:20px; margin-bottom:16px;">
-        <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--green); margin-bottom:4px;">Projected Annual Uplift</div>
-        <div style="font-size:32px; font-weight:800; color:var(--green);">+${fmtK(totalImpact)}<span style="font-size:18px; font-weight:600;"> /yr</span></div>
-        <div style="font-size:14px; color:var(--text-secondary); margin-top:8px;">${summary}</div>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px;">
-        <div class="stat-tile" style="border-top-color:var(--green); text-align:center;">
-          <div class="stat-tile-label">Prices Updated</div>
-          <div class="stat-tile-value">${changes.length}</div>
-        </div>
-        <div class="stat-tile" style="border-top-color:var(--green); text-align:center;">
-          <div class="stat-tile-label">Avg Increase</div>
-          <div class="stat-tile-value">${avgPct.toFixed(1)}%</div>
-        </div>
-        <div class="stat-tile" style="border-top-color:var(--green); text-align:center;">
-          <div class="stat-tile-label">Top Impact</div>
-          <div class="stat-tile-value">${fmtK(maxImpact)}</div>
-        </div>
-      </div>
-      <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin:16px 0 8px;">Top 5 by Impact</div>
-      <div class="verdict-card">
-        ${top5.map((c, i) => `
-          <div class="verdict-row" ${i < top5.length - 1 ? '' : 'style="border-bottom:none;"'}>
-            <span style="font-size:18px; font-weight:800; color:var(--text-muted); width:24px;">${i+1}</span>
-            <div class="verdict-body">
-              <div class="verdict-label">${c.desc || c.code}</div>
-              <div class="change-prices">
-                <span class="price-old">${fmtPrice(c.current)}</span>
-                <span class="price-arrow">→</span>
-                <span class="price-new">${fmtPrice(c.suggested)}</span>
-                <span class="price-pct">+${c.pct.toFixed(1)}%</span>
-              </div>
-            </div>
-            <div class="change-impact">+${fmtK(c.annualImpact)}</div>
-          </div>
-        `).join('')}
-      </div>
-      <div style="margin-top:16px; padding:14px; background:var(--green-light); border-radius:12px; display:flex; gap:10px; align-items:flex-start;">
-        <ion-icon name="flash" style="color:var(--green-bright); font-size:16px; flex-shrink:0; margin-top:2px;"></ion-icon>
-        <span style="font-size:13px; color:var(--text-secondary);">These ${changes.length} price changes were auto-applied based on CPI alignment, competitive analysis, and historical pricing patterns.</span>
-      </div>
-    `;
-  } catch (e) {
-    document.querySelector('.modal-body').innerHTML = `<div class="error-state"><p>Couldn't load data</p></div>`;
-  }
-}
-
-async function openMonitorModal(id) {
-  const overlay = document.getElementById('modalOverlay');
-  const content = document.getElementById('modalContent');
-  content.innerHTML = `
-    <div class="modal-header">
-      <button class="modal-close" onclick="closeModalDirect()">&times;</button>
-      <div style="flex:1;">
-        <div class="modal-title">Monitoring</div>
-        <div class="modal-sub">Tracking performance</div>
-      </div>
-      <div class="mode-badge mode-monitor">Monitoring</div>
-    </div>
-    <div class="modal-body">
-      <div class="loading-container"><div class="spinner"></div></div>
-    </div>
-  `;
-  overlay.classList.add('active');
-
-  try {
-    const [itemRes, dailyRes, compRes] = await Promise.all([
-      fetch(`${SB_URL}/monitoring_items?id=eq.${id}&limit=1`, { headers: SB_HEADERS }),
-      fetch(`${SB_URL}/monitoring_daily?monitoring_id=eq.${id}&order=day_offset.asc&limit=100`, { headers: SB_HEADERS }),
-      fetch(`${SB_URL}/monitoring_competitors?monitoring_id=eq.${id}&order=competitor_price.asc`, { headers: SB_HEADERS }),
+    // Fetch data in parallel
+    const [reports, recs, notifs, settings, revenueData] = await Promise.all([
+      sbFetch(`reports?clinic_id=eq.${CURRENT_CLINIC}&status=eq.active&order=sort_order.asc`),
+      sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc`),
+      sbFetch(`notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc`),
+      sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`),
+      sbFetch(`csi_pf_totals?ros=not.is.null&order=day.desc&limit=30&select=day,mdy,ros,daily_total`)
     ]);
-    const [items, daily, competitors] = await Promise.all([itemRes.json(), dailyRes.json(), compRes.json()]);
-    const row = items?.[0];
-    if (!row) { document.querySelector('.modal-body').innerHTML = '<div class="error-state"><p>Monitoring data not found</p></div>'; return; }
 
-    const m = {
-      desc: row.service_name, code: row.service_code,
-      oldPrice: parseFloat(row.old_price), newPrice: parseFloat(row.new_price),
-      pct: parseFloat(row.pct_change), daysPost: row.days_post,
-      preDailyAvg: parseFloat(row.pre_daily_avg), postDailyAvg: parseFloat(row.post_daily_avg),
-      revenuePre42d: row.revenue_pre_period, revenuePost42d: row.revenue_post_period,
-      expectedUplift: row.expected_uplift, marketAvg: parseFloat(row.market_avg),
-    };
-    const volChangePct = m.preDailyAvg > 0 ? ((m.postDailyAvg - m.preDailyAvg) / m.preDailyAvg * 100) : 0;
-    const revenueDelta = (m.revenuePost42d || 0) - (m.revenuePre42d || 0);
-    const realizationRate = m.expectedUplift > 0 ? Math.round((revenueDelta / m.expectedUplift) * 100) : 0;
-    const annualProj = m.daysPost > 0 ? Math.round((revenueDelta / m.daysPost) * 365) : 0;
-    const status = realizationRate >= 90 ? 'healthy' : realizationRate >= 70 ? 'on_track' : realizationRate >= 50 ? 'watch' : 'concern';
-    const MON_STATUS = {
-      healthy: { label: 'Healthy', bg: '#dcfce7', text: '#15803d', dot: '#22c55e' },
-      on_track: { label: 'On Track', bg: '#dbeafe', text: '#1d4ed8', dot: '#3b82f6' },
-      watch: { label: 'Watch', bg: '#fef3c7', text: '#b45309', dot: '#f59e0b' },
-      concern: { label: 'Concern', bg: '#fee2e2', text: '#dc2626', dot: '#ef4444' },
-    };
-    const st = MON_STATUS[status];
+    clinicSettings = settings[0] || {};
+    reportsData = reports;
+    historyData = recs;
+    notificationsData = notifs;
 
-    document.querySelector('.modal-body').innerHTML = `
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
-        <div style="width:48px; height:48px; border-radius:12px; background:${st.bg}; display:flex; align-items:center; justify-content:center;">
-          <ion-icon name="analytics-outline" style="font-size:24px; color:${st.text};"></ion-icon>
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:18px; font-weight:700;">${m.desc || m.code}</div>
-          <div style="font-size:13px; color:var(--text-secondary);">${m.daysPost} days post-change • ${fmtPrice(m.oldPrice)} → ${fmtPrice(m.newPrice)} (+${m.pct.toFixed(1)}%)</div>
-        </div>
-        <div style="padding:6px 12px; border-radius:8px; background:${st.bg}; color:${st.text}; font-weight:700; font-size:13px;">${st.label}</div>
+    // Calculate metrics
+    const clinicName = clinicSettings.clinic_name || 'Rosslyn Veterinary Hospital';
+    const dataDate = reports.length > 0 ? fmtDate(reports[0].created_at) : 'N/A';
+
+    // Revenue from csi_pf_totals (sum last 30 days of ros)
+    const revenue = revenueData.reduce((sum, r) => sum + (r.ros || 0), 0);
+    const revenuePrev = revenueData.slice(15).reduce((s, r) => s + (r.ros || 0), 0);
+    const revenueRecent = revenueData.slice(0, 15).reduce((s, r) => s + (r.ros || 0), 0);
+    const revenueDelta = revenuePrev > 0 ? ((revenueRecent - revenuePrev) / revenuePrev * 100) : 0;
+
+    // Avg invoice
+    const visitDays = revenueData.filter(r => r.ros != null);
+    const avgInvoice = visitDays.length > 0 ? revenue / visitDays.length : 0;
+    const totalVisits = visitDays.length;
+
+    // Price changes count
+    const priceChanges = recs.filter(r => r.status === 'applied').length;
+    const avgAdj = recs.length > 0
+      ? recs.reduce((s, r) => s + ((r.price_new - r.price_old) / r.price_old * 100), 0) / recs.length
+      : 0;
+    const servicesMonitored = new Set(recs.map(r => r.service_code)).size;
+
+    // Verdict counts
+    const confirmed = recs.filter(r => r.status === 'applied').length;
+    const reverted = 0; // No reverted status in data yet
+    const evaluating = recs.filter(r => r.status === 'pending').length;
+    const grade = computeGrade(confirmed, evaluating, reverted);
+
+    // Update bell badge
+    const unread = notifs.filter(n => !n.read).length;
+    const badge = document.getElementById('bellBadge');
+    if (unread > 0) {
+      badge.textContent = unread;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+
+    // Render
+    el.innerHTML = `
+      <div class="page-header">
+        <div class="home-clinic-name">${clinicName}</div>
+        <div class="home-data-date">Data through ${dataDate}</div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:16px;">
-        <div class="stat-tile" style="border-top-color:${st.dot};">
-          <div class="stat-tile-label">Volume Change</div>
-          <div class="stat-tile-value" style="color:${volChangePct >= 0 ? 'var(--green)' : 'var(--red)'};">${volChangePct >= 0 ? '+' : ''}${volChangePct.toFixed(1)}%</div>
-          <div class="stat-tile-sub">Pre: ${m.preDailyAvg.toFixed(1)}/day → Post: ${m.postDailyAvg.toFixed(1)}/day</div>
+
+      <div class="hero-row">
+        <div class="hero-tile">
+          <div class="label">Revenue (30d)</div>
+          <div class="value">${fmtMoney(revenue)}</div>
+          <div class="delta ${revenueDelta >= 0 ? 'positive' : 'negative'}">
+            ${revenueDelta >= 0 ? '↑' : '↓'} ${Math.abs(revenueDelta).toFixed(1)}%
+          </div>
         </div>
-        <div class="stat-tile" style="border-top-color:${st.dot};">
-          <div class="stat-tile-label">Revenue Impact</div>
-          <div class="stat-tile-value" style="color:${revenueDelta >= 0 ? 'var(--green)' : 'var(--red)'};">${revenueDelta >= 0 ? '+' : ''}${fmtK(Math.abs(revenueDelta))}</div>
-          <div class="stat-tile-sub">42-day pre vs post</div>
+        <div class="hero-tile">
+          <div class="label">Avg Daily</div>
+          <div class="value">${fmtMoney(avgInvoice)}</div>
+          <div class="delta neutral">${visitDays.length} active days</div>
         </div>
-        <div class="stat-tile" style="border-top-color:${st.dot};">
-          <div class="stat-tile-label">Realization Rate</div>
-          <div class="stat-tile-value">${realizationRate}%</div>
-          <div class="stat-tile-sub">of expected +${fmtK(m.expectedUplift || 0)}</div>
-        </div>
-        <div class="stat-tile" style="border-top-color:${st.dot};">
-          <div class="stat-tile-label">Annual Projection</div>
-          <div class="stat-tile-value" style="color:${annualProj >= 0 ? 'var(--green)' : 'var(--red)'};">${annualProj >= 0 ? '+' : ''}${fmtK(Math.abs(annualProj))}</div>
-          <div class="stat-tile-sub">Projected /yr</div>
+        <div class="hero-tile">
+          <div class="label">Active Days</div>
+          <div class="value">${totalVisits}</div>
+          <div class="delta neutral">Last 30 days</div>
         </div>
       </div>
-      <div style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin:16px 0 8px;">Competitor Pricing</div>
-      <div class="verdict-card">
-        <div class="verdict-row" style="border-bottom:none;">
-          <div class="verdict-icon" style="background:var(--blue-light);">
-            <ion-icon name="pricetag-outline" style="color:var(--blue);"></ion-icon>
+
+      <div class="card">
+        <div class="card-title">Quarterly Summary</div>
+        <div class="quarterly-row">
+          <div class="quarterly-tile">
+            <div class="num">${priceChanges}</div>
+            <div class="lbl">Price Changes</div>
           </div>
-          <div class="verdict-body">
-            <div class="verdict-label">Market Average</div>
-            <div class="verdict-subtitle">${fmtPrice(m.marketAvg)} based on competitor data</div>
+          <div class="quarterly-tile">
+            <div class="num">${avgAdj > 0 ? '+' : ''}${avgAdj.toFixed(1)}%</div>
+            <div class="lbl">Avg Adjustment</div>
           </div>
-          <div class="verdict-count" style="font-size:14px;">${m.marketAvg > 0 ? ((m.newPrice / m.marketAvg * 100) - 100).toFixed(0) + '% vs market' : '—'}</div>
+          <div class="quarterly-tile">
+            <div class="num">${servicesMonitored}</div>
+            <div class="lbl">Services Monitored</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">System Performance</div>
+        <div class="grade-section">
+          <div class="grade-circle grade-${grade.grade}">
+            <div class="grade-letter">${grade.grade}</div>
+            <div class="grade-score">${grade.score}/100</div>
+          </div>
+          <div class="verdict-breakdown">
+            <div class="verdict-row">
+              <div class="v-dot green"></div>
+              <div class="v-label">Confirmed Wins</div>
+              <div class="v-bar"><div class="v-fill green" style="width:${confirmed + evaluating + reverted > 0 ? (confirmed / (confirmed + evaluating + reverted) * 100) : 0}%"></div></div>
+              <div class="v-count">${confirmed}</div>
+            </div>
+            <div class="verdict-row">
+              <div class="v-dot amber"></div>
+              <div class="v-label">Evaluating</div>
+              <div class="v-bar"><div class="v-fill amber" style="width:${confirmed + evaluating + reverted > 0 ? (evaluating / (confirmed + evaluating + reverted) * 100) : 0}%"></div></div>
+              <div class="v-count">${evaluating}</div>
+            </div>
+            <div class="verdict-row">
+              <div class="v-dot red"></div>
+              <div class="v-label">Reverted</div>
+              <div class="v-bar"><div class="v-fill red" style="width:0%"></div></div>
+              <div class="v-count">${reverted}</div>
+            </div>
+          </div>
         </div>
       </div>
     `;
-  } catch(e) {
-    document.querySelector('.modal-body').innerHTML = `<div class="error-state"><p>Couldn't load monitoring data</p></div>`;
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><p>⚠️ Failed to load data: ${err.message}</p></div>`;
   }
 }
 
-function closeModalDirect() {
-  document.getElementById('modalOverlay').classList.remove('active');
-}
-function closeModal(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
-}
+// ============================================================
+// REPORTS
+// ============================================================
+async function loadReports() {
+  const el = document.getElementById('page-reports');
+  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
 
-// ═══════════════════════════════════════════════════════════════
-// CHANGES
-// ═══════════════════════════════════════════════════════════════
-async function loadChanges() {
-  const el = document.getElementById('changesContent');
   try {
-    const rows = await sbFetch(`/price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&status=eq.pending&order=est_uplift.desc&limit=200`);
-    const changes = (Array.isArray(rows) ? rows : []).map(r => ({
-      id: r.id, code: r.service_code, desc: r.service_name,
-      current: parseFloat(r.price_old), suggested: parseFloat(r.price_new),
-      pct: ((parseFloat(r.price_new) - parseFloat(r.price_old)) / parseFloat(r.price_old) * 100),
-      annualImpact: r.est_uplift || 0,
-    }));
+    const reports = await sbFetch(`reports?clinic_id=eq.${CURRENT_CLINIC}&status=eq.active&order=sort_order.asc`);
+    reportsData = reports;
 
-    if (!changes.length) {
+    if (reports.length === 0) {
       el.innerHTML = `
-        <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">Price Changes</h2>
-        <div class="error-state"><ion-icon name="checkmark-circle" style="color:var(--green);"></ion-icon><p>No pending changes — all caught up!</p></div>
+        <div class="page-header"><div class="page-title">Reports</div></div>
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <p>No reports available yet</p>
+        </div>
       `;
       return;
     }
 
-    const totalOpp = changes.reduce((s, c) => s + c.annualImpact, 0);
-    window._changes = changes;
-    window._selected = {};
+    // Smart sort: copilot first, then monitor, then autopilot
+    const orderMap = { copilot: 1, monitor: 2, autopilot: 3 };
+    reports.sort((a, b) => (orderMap[a.report_type] || 9) - (orderMap[b.report_type] || 9));
 
     el.innerHTML = `
-      <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">Price Changes</h2>
-      <div class="changes-stats-bar">
-        <div class="changes-stat"><div class="changes-stat-val">${changes.length}</div><div class="changes-stat-label">Pending</div></div>
-        <div class="changes-stat"><div class="changes-stat-val" id="pgApproved" style="color:var(--green);">0</div><div class="changes-stat-label">Approved</div></div>
-        <div class="changes-stat"><div class="changes-stat-val" id="pgRejected" style="color:var(--red);">0</div><div class="changes-stat-label">Rejected</div></div>
-        <div class="changes-stat"><div class="changes-stat-val" id="pgImpact">$0</div><div class="changes-stat-label">Impact</div></div>
+      <div class="page-header">
+        <div class="page-title">Reports</div>
+        <div class="page-subtitle">${reports.length} active ${reports.length === 1 ? 'report' : 'reports'}</div>
       </div>
-      <div class="changes-action-bar">
-        <button class="btn btn-primary" onclick="selectAllPageChanges()">Select All</button>
-        <button class="btn btn-secondary" onclick="clearAllPageChanges()">Clear All</button>
-      </div>
-      <div id="pageChangesList">${changes.map(c => renderChangeRow(c)).join('')}</div>
-      <button class="btn-submit" id="pageSubmitBtn" style="display:none;" onclick="submitPageDecisions()">Submit Decisions</button>
+      <div id="reportList"></div>
     `;
-  } catch(e) {
-    el.innerHTML = `<div class="error-state"><ion-icon name="cloud-offline-outline"></ion-icon><p>Couldn't load changes</p><button class="btn btn-primary" onclick="loadChanges()">Try Again</button></div>`;
-  }
-}
 
-function cyclePageChange(id) { cycleChange(id); updatePageStats(); }
+    const listEl = document.getElementById('reportList');
+    listEl.innerHTML = reports.map(r => {
+      const data = r.data || {};
+      const flagged = data.flagged_services || 0;
+      const opp = data.total_opportunity || 0;
+      const approved = data.approved_count || 0;
+      const progress = flagged > 0 ? (approved / flagged * 100) : 0;
+      const cpi = data.cpi_label || '';
+      const iconClass = r.report_type || 'copilot';
+      const iconEmoji = r.report_type === 'autopilot' ? '⚡' : r.report_type === 'monitor' ? '📊' : '📈';
 
-function selectAllPageChanges() {
-  for (const c of window._changes) {
-    window._selected[c.id] = 'approve';
-    const check = document.getElementById(`check-${c.id}`);
-    const row = document.querySelector(`[data-id="${c.id}"]`);
-    if (check && row) {
-      check.className = 'check-circle approved';
-      row.className = 'change-row-card approved';
-      check.innerHTML = '<ion-icon name="checkmark"></ion-icon>';
-    }
-  }
-  updatePageStats();
-}
-
-function clearAllPageChanges() {
-  window._selected = {};
-  for (const c of window._changes) {
-    const check = document.getElementById(`check-${c.id}`);
-    const row = document.querySelector(`[data-id="${c.id}"]`);
-    if (check && row) {
-      check.className = 'check-circle';
-      row.className = 'change-row-card';
-      check.innerHTML = '';
-    }
-  }
-  updatePageStats();
-}
-
-function updatePageStats() {
-  const sel = window._selected || {};
-  const approved = Object.values(sel).filter(v => v === 'approve').length;
-  const rejected = Object.values(sel).filter(v => v === 'reject').length;
-  const impact = window._changes.filter(c => sel[c.id] === 'approve').reduce((s, c) => s + c.annualImpact, 0);
-  document.getElementById('pgApproved').textContent = approved;
-  document.getElementById('pgRejected').textContent = rejected;
-  document.getElementById('pgImpact').textContent = fmtK(impact);
-  const btn = document.getElementById('pageSubmitBtn');
-  const cnt = Object.keys(sel).length;
-  btn.style.display = cnt > 0 ? 'block' : 'none';
-  btn.textContent = `Submit ${cnt} Decision${cnt !== 1 ? 's' : ''}`;
-}
-
-async function submitPageDecisions() {
-  const btn = document.getElementById('pageSubmitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
-  const sel = window._selected;
-  const promises = Object.entries(sel).map(([id, verdict]) => {
-    const status = verdict === 'approve' ? 'applied' : 'dismissed';
-    return fetch(`${SB_URL}/price_recommendations?id=eq.${id}`, {
-      method: 'PATCH',
-      headers: { ...SB_HEADERS, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ status }),
-    }).catch(() => {});
-  });
-  await Promise.all(promises);
-  loadChanges();
-}
-
-// Override cycleChange to work for both modal and page
-const _origCycle = cycleChange;
-cycleChange = function(id) {
-  _origCycle(id);
-  // Also update page stats if on changes page
-  if (document.getElementById('pgApproved')) updatePageStats();
-};
-
-// ═══════════════════════════════════════════════════════════════
-// HISTORY
-// ═══════════════════════════════════════════════════════════════
-async function loadHistory() {
-  const el = document.getElementById('historyContent');
-  try {
-    const rows = await sbFetch(`/price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=200`);
-    const history = (Array.isArray(rows) ? rows : []).filter(r => r.status !== 'pending');
-
-    if (!history.length) {
-      el.innerHTML = `
-        <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">History</h2>
-        <div class="error-state"><ion-icon name="time-outline" style="color:var(--text-muted);"></ion-icon><p>No changes yet</p></div>
+      return `
+        <div class="report-card" onclick="openReport('${r.id}')">
+          <div class="report-card-header">
+            <div class="report-icon ${iconClass}">${iconEmoji}</div>
+            <div class="report-info">
+              <h3>${r.title}</h3>
+              <div class="report-sub">${r.subtitle || ''}</div>
+              <div class="report-big-num">
+                <span class="num">${flagged}</span>
+                <span class="lbl">flagged services</span>
+              </div>
+              <div class="report-opp">${fmtMoney(opp)} opportunity</div>
+              ${progress > 0 ? `
+                <div class="report-progress">
+                  <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+                </div>
+              ` : ''}
+              ${cpi ? `<div class="report-cpi">${cpi}</div>` : ''}
+            </div>
+          </div>
+        </div>
       `;
-      return;
-    }
+    }).join('');
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
+  }
+}
 
-    el.innerHTML = `
-      <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">History</h2>
-      ${history.map(r => {
-        const badgeClass = r.status === 'applied' ? 'badge-applied' : r.status === 'dismissed' ? 'badge-dismissed' : 'badge-pending';
-        const old = parseFloat(r.price_old) || 0;
-        const nw = parseFloat(r.price_new) || 0;
-        const pct = old > 0 ? ((nw - old) / old * 100) : 0;
-        const iconName = r.status === 'applied' ? 'checkmark-circle' : r.status === 'dismissed' ? 'close-circle' : 'time-outline';
-        const iconBg = r.status === 'applied' ? 'var(--green-light)' : r.status === 'dismissed' ? 'var(--red-light)' : 'var(--amber-light)';
-        const iconColor = r.status === 'applied' ? 'var(--green)' : r.status === 'dismissed' ? 'var(--red)' : 'var(--amber)';
-        return `
-          <div class="history-card">
-            <div class="history-icon" style="background:${iconBg};">
-              <ion-icon name="${iconName}" style="color:${iconColor}; font-size:18px;"></ion-icon>
-            </div>
-            <div class="history-info">
-              <div class="history-desc">${r.service_name || r.service_code}</div>
-              <div class="history-meta">${fmtPrice(old)} → ${fmtPrice(nw)} (+${pct.toFixed(1)}%) • ${r.status}</div>
-            </div>
-            <div class="history-badge ${badgeClass}">${r.status}</div>
+async function openReport(reportId) {
+  const report = reportsData.find(r => r.id === reportId);
+  if (!report) return;
+  currentReport = report;
+
+  document.getElementById('modalTitle').textContent = report.title;
+  const body = document.getElementById('modalBody');
+  const approveBar = document.getElementById('approveAllBar');
+
+  body.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+  document.getElementById('reportModal').classList.add('active');
+
+  try {
+    // Get recommendations for this report
+    const changes = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&review_id=eq.${report.data?.monitoring_id || report.id}&order=est_uplift.desc&limit=200`);
+
+    if (changes.length === 0) {
+      // Try without review_id filter for copilot reports
+      const allChanges = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=50`);
+      if (allChanges.length > 0) {
+        renderReportChanges(allChanges);
+      } else {
+        body.innerHTML = `
+          <div class="empty-state">
+            <p>No price changes in this report.</p>
+            <p style="margin-top:8px; font-size:13px;">${report.subtitle || ''}</p>
           </div>
         `;
-      }).join('')}
-    `;
-  } catch(e) {
-    el.innerHTML = `<div class="error-state"><ion-icon name="cloud-offline-outline"></ion-icon><p>Couldn't load history</p><button class="btn btn-primary" onclick="loadHistory()">Try Again</button></div>`;
+        approveBar.style.display = 'none';
+      }
+    } else {
+      renderReportChanges(changes);
+      approveBar.style.display = report.report_type === 'copilot' ? 'flex' : 'none';
+    }
+  } catch (err) {
+    body.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
+    approveBar.style.display = 'none';
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// SETTINGS
-// ═══════════════════════════════════════════════════════════════
-function loadSettings() {
-  const el = document.getElementById('settingsContent');
-  el.innerHTML = `
-    <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">Settings</h2>
-    <div class="settings-card">
-      <h3>Clinic</h3>
-      <div class="settings-row">
-        <span class="settings-label">Clinic ID</span>
-        <span class="settings-value">${CURRENT_CLINIC}</span>
-      </div>
-      <div class="settings-row">
-        <span class="settings-label">Clinic Name</span>
-        <span class="settings-value">${DASH_DATA?.clinicName || 'Rosslyn Veterinary Hospital'}</span>
-      </div>
-    </div>
-    <div class="settings-card">
-      <h3>Account</h3>
-      <div class="settings-row">
-        <span class="settings-label">Name</span>
-        <span class="settings-value">${CURRENT_USER?.name || '—'}</span>
-      </div>
-      <div class="settings-row">
-        <span class="settings-label">Email</span>
-        <span class="settings-value">${CURRENT_USER?.email || '—'}</span>
-      </div>
-      <div class="settings-row">
-        <span class="settings-label">Role</span>
-        <span class="settings-value">${CURRENT_USER?.role || '—'}</span>
-      </div>
-    </div>
-    <div class="settings-card">
-      <h3>Preferences</h3>
-      <div class="settings-row">
-        <span class="settings-label">Notifications</span>
-        <label style="position:relative; display:inline-block; width:44px; height:24px;">
-          <input type="checkbox" checked style="opacity:0; width:0; height:0;">
-          <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:var(--green); border-radius:12px; transition:0.3s;">
-            <span style="position:absolute; height:18px; width:18px; right:3px; bottom:3px; background:#fff; border-radius:50%; transition:0.3s;"></span>
+function renderReportChanges(changes) {
+  const body = document.getElementById('modalBody');
+  body.innerHTML = changes.slice(0, 50).map(c => {
+    const delta = c.price_new - c.price_old;
+    const pct = c.price_old > 0 ? (delta / c.price_old * 100) : 0;
+    const isPositive = delta > 0;
+    return `
+      <div class="change-item">
+        <div class="ci-info">
+          <div class="ci-name">${c.service_name || 'Unknown'}</div>
+          <div class="ci-code">${c.service_code || ''} · Vol: ${c.annual_volume || 0}/yr</div>
+        </div>
+        <div class="ci-prices">
+          ${fmtMoneyDecimal(c.price_old)} → ${fmtMoneyDecimal(c.price_new)}
+          <span class="delta-badge ${isPositive ? 'positive' : 'negative'}">
+            ${isPositive ? '+' : ''}${pct.toFixed(1)}%
           </span>
-        </label>
+        </div>
+        <div class="ci-actions">
+          <button class="ci-btn ${c.status === 'applied' ? 'approve' : 'reject'}" onclick="toggleApproval('${c.id}', '${c.status}')">
+            ${c.status === 'applied' ? '✓ Approved' : 'Approve'}
+          </button>
+        </div>
       </div>
-      <div class="settings-row">
-        <span class="settings-label">Auto-refresh dashboard</span>
-        <span class="settings-value">Every 5 min</span>
+    `;
+  }).join('') + (changes.length > 50 ? `<p style="text-align:center; color:var(--text-secondary); padding:12px;">+ ${changes.length - 50} more...</p>` : '');
+}
+
+async function toggleApproval(itemId, currentStatus) {
+  const newStatus = currentStatus === 'applied' ? 'pending' : 'applied';
+  try {
+    await sbPatch(`price_recommendations?id=eq.${itemId}`, { status: newStatus });
+    showToast(`${newStatus === 'applied' ? 'Approved' : 'Reverted'} successfully`, 'success');
+    // Refresh modal
+    if (currentReport) openReport(currentReport.id);
+  } catch (err) {
+    showToast('Failed to update: ' + err.message, 'error');
+  }
+}
+
+async function approveAll() {
+  if (!currentReport) return;
+  try {
+    const changes = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&review_id=eq.${currentReport.data?.monitoring_id || currentReport.id}&status=eq.pending&limit=200`);
+    for (const c of changes) {
+      await sbPatch(`price_recommendations?id=eq.${c.id}`, { status: 'applied' });
+    }
+    showToast(`${changes.length} recommendations approved!`, 'success');
+    openReport(currentReport.id);
+  } catch (err) {
+    showToast('Failed: ' + err.message, 'error');
+  }
+}
+
+function closeModal() {
+  document.getElementById('reportModal').classList.remove('active');
+}
+
+// ============================================================
+// CHANGES (Quick Price Change)
+// ============================================================
+async function loadChanges() {
+  const el = document.getElementById('page-changes');
+  el.innerHTML = `
+    <div class="page-header">
+      <div class="page-title">Quick Price Change</div>
+      <div class="page-subtitle">Search and update service prices</div>
+    </div>
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="serviceSearch" placeholder="Search services..." oninput="searchServices(this.value)">
+    </div>
+    <div id="searchResults">
+      <div class="empty-state">
+        <p style="font-size:14px;">Start typing to search services</p>
       </div>
     </div>
-    <div class="settings-card">
-      <h3>About</h3>
-      <div class="settings-row">
-        <span class="settings-label">Version</span>
-        <span class="settings-value">1.0.0</span>
-      </div>
-      <div class="settings-row">
-        <span class="settings-label">Platform</span>
-        <span class="settings-value">Web</span>
-      </div>
-    </div>
-    <button class="btn-submit" style="background:var(--red); margin-bottom:32px;" onclick="logout()">Sign Out</button>
   `;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// NOTIFICATIONS
-// ═══════════════════════════════════════════════════════════════
-async function loadNotifications() {
-  try {
-    const data = await sbFetch(`/notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=30`);
-    NOTIFS = Array.isArray(data) ? data : [];
-    updateBellBadges();
-  } catch(e) { NOTIFS = []; }
-}
-
-function updateBellBadges() {
-  const unread = NOTIFS.filter(n => !n.read).length;
-  const desktop = document.getElementById('desktopBellBadge');
-  const mobile = document.getElementById('mobileBellBadge');
-  if (unread > 0) {
-    desktop.textContent = unread > 9 ? '9+' : unread;
-    mobile.textContent = unread > 9 ? '9+' : unread;
-    desktop.style.display = 'flex';
-    mobile.style.display = 'flex';
-  } else {
-    desktop.style.display = 'none';
-    mobile.style.display = 'none';
-  }
-}
-
-function toggleNotifications() {
-  const panel = document.getElementById('notifPanel');
-  panel.classList.toggle('active');
-  if (panel.classList.contains('active')) renderNotifications();
-}
-
-function renderNotifications() {
-  const list = document.getElementById('notifList');
-  if (!NOTIFS.length) {
-    list.innerHTML = `<div style="text-align:center; padding:48px;"><ion-icon name="notifications-off-outline" style="font-size:36px; color:#cbd5e1;"></ion-icon><p style="color:var(--text-muted); margin-top:12px;">You're all caught up</p></div>`;
+let searchTimeout = null;
+async function searchServices(query) {
+  clearTimeout(searchTimeout);
+  if (!query || query.length < 2) {
+    document.getElementById('searchResults').innerHTML = '<div class="empty-state"><p style="font-size:14px;">Start typing to search services</p></div>';
     return;
   }
-  const typeIcons = {
-    report: { icon: 'document-text-outline', color: '#2563eb', bg: '#eff6ff' },
-    alert: { icon: 'warning-outline', color: '#f59e0b', bg: '#fffbeb' },
-    success: { icon: 'checkmark-circle-outline', color: '#16a34a', bg: '#f0fdf4' },
-  };
-  list.innerHTML = NOTIFS.map(n => {
-    const ti = typeIcons[n.type] || typeIcons.report;
-    return `
-      <div class="notif-item ${!n.read ? 'unread' : ''}">
-        <div class="notif-icon-sm" style="background:${ti.bg};">
-          <ion-icon name="${ti.icon}" style="color:${ti.color};"></ion-icon>
+
+  searchTimeout = setTimeout(async () => {
+    const resultsEl = document.getElementById('searchResults');
+    resultsEl.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+
+    try {
+      // Try dhv_service_history first, fallback to price_recommendations for service list
+      let services = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&service_name=ilike.*${encodeURIComponent(query)}*&order=created_at.desc&limit=50`);
+
+      // Deduplicate by service_code
+      const seen = new Set();
+      services = services.filter(s => {
+        const key = s.service_code;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      if (services.length === 0) {
+        resultsEl.innerHTML = `<div class="empty-state"><p>No services found for "${query}"</p></div>`;
+        return;
+      }
+
+      resultsEl.innerHTML = services.map(s => `
+        <div class="service-row" onclick="editPrice('${s.service_code}', '${encodeURIComponent(s.service_name || 'Unknown')}', ${s.price_new || s.price_old || 0}, ${s.annual_volume || 0})">
+          <div>
+            <div class="sr-name">${s.service_name || 'Unknown'}</div>
+            <div class="sr-meta">Code: ${s.service_code || 'N/A'} · Vol: ${s.annual_volume || 0}/yr</div>
+          </div>
+          <div class="sr-price">${fmtMoneyDecimal(s.price_new || s.price_old)}</div>
         </div>
-        <div style="flex:1;">
-          <div class="notif-title">${n.title}</div>
-          ${n.body ? `<div class="notif-body">${n.body}</div>` : ''}
-          <div class="notif-time">${fmtTimeAgo(n.created_at)}</div>
+      `).join('');
+    } catch (err) {
+      resultsEl.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
+    }
+  }, 300);
+}
+
+function editPrice(code, nameEncoded, currentPrice, volume) {
+  const name = decodeURIComponent(nameEncoded);
+  selectedService = { code, name, currentPrice, volume };
+  const resultsEl = document.getElementById('searchResults');
+
+  resultsEl.innerHTML = `
+    <div class="price-editor">
+      <div class="pe-service-name">${name}</div>
+      <div class="pe-service-code">Code: ${code} · Annual Volume: ${volume}</div>
+
+      <div class="price-input-wrap">
+        <span class="dollar">$</span>
+        <input type="number" id="priceInput" value="${currentPrice.toFixed(2)}" step="0.50" oninput="updateDelta()">
+        <span class="delta-badge neutral" id="deltaBadge">No change</span>
+      </div>
+
+      <div class="bump-buttons">
+        <button class="bump-btn" onclick="bumpPrice(0.03)">+3%</button>
+        <button class="bump-btn" onclick="bumpPrice(0.05)">+5%</button>
+        <button class="bump-btn" onclick="bumpPrice(0.10)">+10%</button>
+        <button class="bump-btn" onclick="bumpPrice(0.15)">+15%</button>
+        <button class="bump-btn" onclick="bumpPrice(-0.05)" style="background:var(--red-light); color:var(--red);">−5%</button>
+      </div>
+
+      <div class="impact-preview" id="impactPreview" style="display:none">
+        <span class="ip-label">Estimated Annual Impact</span>
+        <span class="ip-value" id="impactValue">$0</span>
+      </div>
+
+      <button class="btn-save" id="saveBtn" onclick="savePriceChange()">Save Price Change</button>
+    </div>
+    <button class="btn-logout" onclick="loadChanges()" style="margin-top:8px;">← Back to Search</button>
+  `;
+}
+
+function bumpPrice(percent) {
+  const input = document.getElementById('priceInput');
+  const current = selectedService.currentPrice;
+  const newPrice = (current * (1 + percent)).toFixed(2);
+  input.value = newPrice;
+  updateDelta();
+}
+
+function updateDelta() {
+  const input = document.getElementById('priceInput');
+  const newPrice = parseFloat(input.value) || 0;
+  const oldPrice = selectedService.currentPrice;
+  const diff = newPrice - oldPrice;
+  const pct = oldPrice > 0 ? (diff / oldPrice * 100) : 0;
+
+  const badge = document.getElementById('deltaBadge');
+  if (Math.abs(diff) < 0.01) {
+    badge.className = 'delta-badge neutral';
+    badge.textContent = 'No change';
+  } else if (diff > 0) {
+    badge.className = 'delta-badge positive';
+    badge.textContent = `+$${diff.toFixed(2)} (+${pct.toFixed(1)}%)`;
+  } else {
+    badge.className = 'delta-badge negative';
+    badge.textContent = `−$${Math.abs(diff).toFixed(2)} (${pct.toFixed(1)}%)`;
+  }
+
+  // Annual impact
+  const impactEl = document.getElementById('impactPreview');
+  const impactVal = document.getElementById('impactValue');
+  const annualImpact = diff * selectedService.volume;
+  if (Math.abs(annualImpact) > 0.5) {
+    impactEl.style.display = 'flex';
+    impactVal.textContent = (annualImpact >= 0 ? '+' : '−') + fmtMoney(Math.abs(annualImpact));
+    impactVal.style.color = annualImpact >= 0 ? 'var(--green)' : 'var(--red)';
+  } else {
+    impactEl.style.display = 'none';
+  }
+}
+
+async function savePriceChange() {
+  if (!selectedService) return;
+  const input = document.getElementById('priceInput');
+  const btn = document.getElementById('saveBtn');
+  const newPrice = parseFloat(input.value);
+
+  if (!newPrice || newPrice <= 0) {
+    showToast('Enter a valid price', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  try {
+    await sbPost('price_recommendations', {
+      clinic_id: CURRENT_CLINIC,
+      review_id: 'manual-' + Date.now(),
+      service_code: selectedService.code,
+      service_name: selectedService.name,
+      price_old: selectedService.currentPrice,
+      price_new: newPrice,
+      source: 'manual',
+      est_uplift: Math.round((newPrice - selectedService.currentPrice) * selectedService.volume),
+      status: 'applied',
+      annual_volume: selectedService.volume
+    });
+
+    btn.textContent = '✓ Saved!';
+    btn.style.background = 'var(--green)';
+    showToast('Price change saved successfully!', 'success');
+
+    setTimeout(() => {
+      loadChanges();
+      loadHistory(); // Refresh history
+    }, 1500);
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Save Price Change';
+    showToast('Failed: ' + err.message, 'error');
+  }
+}
+
+// ============================================================
+// HISTORY
+// ============================================================
+let historyFilter = 'all';
+
+async function loadHistory() {
+  const el = document.getElementById('page-history');
+  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+
+  try {
+    const recs = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=500`);
+    historyData = recs;
+    renderHistory();
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
+  }
+}
+
+function renderHistory() {
+  const el = document.getElementById('page-history');
+  let recs = historyData;
+
+  // Filter
+  const now = new Date();
+  if (historyFilter === 'this_month') {
+    recs = recs.filter(r => new Date(r.created_at) >= new Date(now.getFullYear(), now.getMonth(), 1));
+  } else if (historyFilter === 'last_month') {
+    recs = recs.filter(r => {
+      const d = new Date(r.created_at);
+      return d >= new Date(now.getFullYear(), now.getMonth() - 1, 1) && d < new Date(now.getFullYear(), now.getMonth(), 1);
+    });
+  }
+
+  // Summary
+  const avgPct = recs.length > 0
+    ? recs.reduce((s, r) => s + ((r.price_new - r.price_old) / r.price_old * 100), 0) / recs.length
+    : 0;
+
+  // Group by date
+  const groups = {};
+  recs.forEach(r => {
+    const dateKey = r.created_at?.split('T')[0] || 'unknown';
+    if (!groups[dateKey]) groups[dateKey] = [];
+    groups[dateKey].push(r);
+  });
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div class="page-title">History</div>
+      <div class="page-subtitle">${recs.length} ${recs.length === 1 ? 'recommendation' : 'recommendations'} · avg ${avgPct >= 0 ? '+' : ''}${avgPct.toFixed(1)}%</div>
+    </div>
+    <div class="filter-chips">
+      <button class="chip ${historyFilter === 'all' ? 'active' : ''}" onclick="setHistoryFilter('all')">All</button>
+      <button class="chip ${historyFilter === 'this_month' ? 'active' : ''}" onclick="setHistoryFilter('this_month')">This Month</button>
+      <button class="chip ${historyFilter === 'last_month' ? 'active' : ''}" onclick="setHistoryFilter('last_month')">Last Month</button>
+    </div>
+    <div class="history-summary">Showing ${recs.length} ${recs.length === 1 ? 'item' : 'items'}</div>
+    <div id="historyList"></div>
+  `;
+
+  const listEl = document.getElementById('historyList');
+  if (recs.length === 0) {
+    listEl.innerHTML = '<div class="empty-state"><p>No recommendations found</p></div>';
+    return;
+  }
+
+  listEl.innerHTML = Object.entries(groups).map(([date, items]) => `
+    <div class="date-header">${fmtDate(date)}</div>
+    ${items.map(r => {
+      const delta = r.price_new - r.price_old;
+      const pct = r.price_old > 0 ? (delta / r.price_old * 100) : 0;
+      return `
+        <div class="history-card" onclick="this.classList.toggle('expanded')">
+          <div class="history-card-header">
+            <div>
+              <div class="hc-name">${r.service_name || 'Unknown'}</div>
+              <div class="hc-prices">${fmtMoneyDecimal(r.price_old)} → ${fmtMoneyDecimal(r.price_new)}</div>
+            </div>
+            <div class="hc-right">
+              <span class="delta-badge ${delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral'}">
+                ${delta > 0 ? '+' : ''}${pct.toFixed(1)}%
+              </span>
+              <span class="status-pill ${r.status}">${r.status}</span>
+            </div>
+          </div>
+          <div class="history-card-detail">
+            <div class="detail-row"><strong>Source:</strong> ${r.source || 'N/A'}</div>
+            <div class="detail-row"><strong>Est. Uplift:</strong> ${fmtMoney(r.est_uplift)}/yr</div>
+            <div class="detail-row"><strong>Annual Volume:</strong> ${r.annual_volume || 0}</div>
+            <div class="detail-row"><strong>Code:</strong> ${r.service_code || 'N/A'}</div>
+          </div>
         </div>
-        ${!n.read ? '<div class="notif-unread-dot"></div>' : ''}
+      `;
+    }).join('')}
+  `).join('');
+}
+
+function setHistoryFilter(filter) {
+  historyFilter = filter;
+  renderHistory();
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+async function loadSettings() {
+  const el = document.getElementById('page-settings');
+  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+
+  try {
+    if (!clinicSettings) {
+      const settings = await sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`);
+      clinicSettings = settings[0] || {};
+    }
+
+    const initials = (currentUser?.clinic || 'VI').substring(0, 2).toUpperCase();
+    const s = clinicSettings;
+
+    el.innerHTML = `
+      <div class="page-header">
+        <div class="page-title">Settings</div>
+      </div>
+
+      <div class="card">
+        <div class="profile-card">
+          <div class="profile-avatar">${initials}</div>
+          <div class="profile-info">
+            <div class="name">${currentUser?.clinic || 'Vet INC'}</div>
+            <div class="email">${currentUser?.username || ''}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Clinic</h3>
+        <div class="card">
+          <div class="settings-row">
+            <span class="sr-label">Review Schedule</span>
+            <select class="select-input" id="setSchedule">
+              ${['Weekly', 'Bi-weekly', 'Monthly', 'Quarterly'].map(opt =>
+                `<option value="${opt}" ${s.schedule === opt ? 'selected' : ''}>${opt}</option>`
+              ).join('')}
+            </select>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Notifications</span>
+            <div class="toggle ${s.notifications_enabled ? 'active' : ''}" onclick="this.classList.toggle('active'); saveSetting('notifications_enabled', this.classList.contains('active'))"></div>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Auto-approve</span>
+            <div class="toggle ${s.auto_approve ? 'active' : ''}" onclick="this.classList.toggle('active'); saveSetting('auto_approve', this.classList.contains('active'))"></div>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Target Margin</span>
+            <span class="sr-value">${s.target_margin || 15}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Account</h3>
+        <div class="card">
+          <div class="settings-row">
+            <span class="sr-label">Password</span>
+            <span class="sr-value">Change →</span>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Billing Plan</span>
+            <span class="sr-value">${s.billing_plan || '$99/month'}</span>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Billing Status</span>
+            <span class="sr-value" style="color:var(--green); font-weight:600;">${s.billing_status || 'Active'}</span>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Locations</span>
+            <span class="sr-value">${s.billing_locations || 1}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>About</h3>
+        <div class="card">
+          <div class="settings-row">
+            <span class="sr-label">Data Source</span>
+            <span class="sr-value">${s.data_source || 'Avimark'}</span>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Version</span>
+            <span class="sr-value">v2.0.0</span>
+          </div>
+          <div class="settings-row">
+            <span class="sr-label">Clinic ID</span>
+            <span class="sr-value">${CURRENT_CLINIC}</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <button class="btn-logout" onclick="logout()">Sign Out</button>
+      </div>
+      <div style="margin-top:8px;">
+        <button class="btn-danger" onclick="if(confirm('Are you sure? This cannot be undone.')) showToast('Contact support@vetinc.ca to delete your account', 'error')">Delete Account</button>
       </div>
     `;
-  }).join('');
-}
-
-async function markAllNotifsRead() {
-  const unreadIds = NOTIFS.filter(n => !n.read).map(n => n.id);
-  if (!unreadIds.length) return;
-  NOTIFS = NOTIFS.map(n => ({ ...n, read: true }));
-  updateBellBadges();
-  renderNotifications();
-  fetch(`${SB_URL}/notifications?id=in.(${unreadIds.join(',')})`, {
-    method: 'PATCH',
-    headers: { ...SB_HEADERS, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-    body: JSON.stringify({ read: true }),
-  }).catch(() => {});
-}
-
-// Auto-refresh dashboard every 5 min
-setInterval(() => {
-  if (document.getElementById('screen-home').classList.contains('active')) {
-    loadDashboard();
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
   }
-  loadNotifications();
-}, 300000);
+}
+
+async function saveSetting(field, value) {
+  try {
+    await sbPatch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}`, { [field]: value });
+    clinicSettings[field] = value;
+    showToast('Setting saved', 'success');
+  } catch (err) {
+    showToast('Failed to save: ' + err.message, 'error');
+  }
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+async function loadNotifications() {
+  try {
+    const notifs = await sbFetch(`notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=50`);
+    notificationsData = notifs;
+
+    // Update badge
+    const unread = notifs.filter(n => !n.read).length;
+    const badge = document.getElementById('bellBadge');
+    if (unread > 0) {
+      badge.textContent = unread;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  } catch (err) {
+    console.error('Notif load error:', err);
+  }
+}
+
+function openNotifications() {
+  const panel = document.getElementById('notifPanel');
+  const overlay = document.getElementById('notifOverlay');
+  const body = document.getElementById('notifBody');
+
+  if (notificationsData.length === 0) {
+    body.innerHTML = '<div class="empty-state"><p>No notifications</p></div>';
+  } else {
+    body.innerHTML = notificationsData.map(n => `
+      <div class="notif-item ${!n.read ? 'unread' : ''}" onclick="handleNotifClick('${n.id}', '${n.link_id || ''}')">
+        <div class="ni-title">${n.title}</div>
+        <div class="ni-body">${n.body || ''}</div>
+        <div class="ni-time">${timeAgo(n.created_at)}</div>
+      </div>
+    `).join('');
+  }
+
+  panel.classList.add('active');
+  overlay.classList.add('active');
+}
+
+function closeNotifications() {
+  document.getElementById('notifPanel').classList.remove('active');
+  document.getElementById('notifOverlay').classList.remove('active');
+}
+
+function handleNotifClick(notifId, linkId) {
+  // Mark as read
+  sbPatch(`notifications?id=eq.${notifId}`, { read: true }).then(() => {
+    loadNotifications();
+  });
+  closeNotifications();
+  if (linkId) {
+    switchPage('reports');
+    setTimeout(() => openReport(linkId), 300);
+  }
+}
+
+async function markAllRead() {
+  try {
+    const unread = notificationsData.filter(n => !n.read);
+    for (const n of unread) {
+      await sbPatch(`notifications?id=eq.${n.id}`, { read: true });
+    }
+    loadNotifications();
+    openNotifications();
+    showToast('All marked as read', 'success');
+  } catch (err) {
+    showToast('Failed: ' + err.message, 'error');
+  }
+}
+
+// Close modal on overlay click
+document.getElementById('reportModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
 </script>
 </body>
 </html>
