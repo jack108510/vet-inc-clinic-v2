@@ -60,32 +60,32 @@ a { color: var(--blue); text-decoration:none; }
 #loginScreen {
   position:fixed; inset:0; z-index:9999;
   display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+  background:#f0f6ff;
   padding:20px;
 }
 .login-card {
-  background:#fff; border-radius:24px; padding:40px 32px;
-  width:100%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.15);
+  background:#fff; border-radius:20px; padding:28px;
+  width:100%; max-width:380px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
 }
 .login-logo {
-  width:64px; height:64px; margin:0 auto 16px;
-  background:linear-gradient(135deg, var(--blue), var(--blue-dark));
-  border-radius:16px; display:flex; align-items:center; justify-content:center;
-  font-size:28px; font-weight:800; color:#fff;
+  width:56px; height:56px; margin:0 auto 20px;
+  background:var(--blue); border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; font-weight:800; color:#fff;
 }
-.login-card h1 { text-align:center; font-size:22px; font-weight:700; margin-bottom:4px; }
-.login-card .subtitle { text-align:center; color:var(--text-secondary); font-size:14px; margin-bottom:28px; }
+.login-card h1 { text-align:center; font-size:20px; font-weight:700; margin-bottom:2px; }
+.login-card .subtitle { text-align:center; color:var(--gray); font-size:13px; margin-bottom:24px; }
 .input-group { margin-bottom:16px; }
 .input-group label { display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text-secondary); }
 .input-group input {
-  width:100%; padding:12px 14px; font-size:15px;
-  border:1.5px solid var(--gray-border); border-radius:var(--radius-sm);
-  transition:border-color .2s;
+  width:100%; padding:14px 16px; font-size:15px;
+  background:var(--gray-light); border:1.5px solid transparent;
+  border-radius:12px; transition:border-color .2s;
 }
 .input-group input:focus { border-color:var(--blue); }
 .btn-primary {
-  width:100%; padding:14px; font-size:15px; font-weight:600;
-  background:var(--blue); color:#fff; border-radius:var(--radius-sm);
+  width:100%; padding:15px; font-size:16px; font-weight:700;
+  background:var(--blue); color:#fff; border-radius:14px;
   transition:background .2s;
 }
 .btn-primary:hover { background:var(--blue-dark); }
@@ -100,11 +100,9 @@ a { color: var(--blue); text-decoration:none; }
 #app { display:none; }
 #app.active { display:flex; min-height:100vh; }
 
-/* Sidebar (desktop) */
+/* Sidebar (hidden — mobile app style uses topbar + bottom tabs) */
 .sidebar {
-  width:var(--sidebar-w); background:#fff; border-right:1px solid var(--gray-border);
-  display:flex; flex-direction:column; position:fixed; top:0; bottom:0; left:0; z-index:100;
-  padding:20px 0;
+  display:none !important;
 }
 .sidebar-logo {
   display:flex; align-items:center; gap:10px; padding:0 20px 24px;
@@ -149,22 +147,24 @@ a { color: var(--blue); text-decoration:none; }
 
 /* Main content */
 .main-content {
-  flex:1; margin-left:var(--sidebar-w);
-  padding:24px 32px 80px; max-width:960px;
+  flex:1; margin:0 auto;
+  padding:0 0 80px; max-width:480px;
   width:100%;
+  min-height:100vh;
 }
 
-/* TopBar (mobile) */
+/* TopBar (always visible — mobile app style) */
 .topbar {
-  display:none;
+  display:flex;
   background:#fff; border-bottom:1px solid var(--gray-border);
-  padding:12px 16px; align-items:center; justify-content:space-between;
+  padding:6px 4px 6px 16px; align-items:center; justify-content:space-between;
   position:sticky; top:0; z-index:50;
+  max-width:480px; margin:0 auto; width:100%;
 }
-.topbar .topbar-logo { font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.topbar .topbar-logo { font-size:17px; font-weight:700; display:flex; align-items:center; gap:8px; }
 .topbar .topbar-logo .logo-icon {
-  width:30px; height:30px; border-radius:8px;
-  background:linear-gradient(135deg, var(--blue), var(--blue-dark));
+  width:36px; height:36px; border-radius:6px;
+  background:var(--blue);
   display:flex; align-items:center; justify-content:center;
   font-size:14px; font-weight:800; color:#fff;
 }
@@ -176,13 +176,14 @@ a { color: var(--blue); text-decoration:none; }
   padding:1px 5px; border-radius:8px; min-width:16px; text-align:center;
 }
 
-/* Bottom tabs (mobile) */
+/* Bottom tabs (always visible) */
 .bottom-tabs {
-  display:none;
-  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  display:block;
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%); right:auto; z-index:100;
   background:#fff; border-top:1px solid var(--gray-border);
   padding:8px 0 env(safe-area-inset-bottom, 8px);
   height:64px;
+  width:100%; max-width:480px;
 }
 .bottom-tabs .tab-inner {
   display:flex; align-items:center; justify-content:space-around; height:100%;
@@ -196,7 +197,7 @@ a { color: var(--blue); text-decoration:none; }
 .tab-btn svg { width:24px; height:24px; stroke-width:2; }
 
 /* ============ PAGE ============ */
-.page { display:none; animation:fadeIn .2s ease; }
+.page { display:none; animation:fadeIn .2s ease; padding:16px; }
 .page.active { display:block; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
 
@@ -207,23 +208,23 @@ a { color: var(--blue); text-decoration:none; }
 /* ============ CARDS ============ */
 .card {
   background:var(--card); border:1px solid var(--gray-border);
-  border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);
+  border-radius:14px; padding:16px; box-shadow:0 1px 3px rgba(15,23,42,0.03);
   margin-bottom:16px;
 }
-.card-title { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; color:#334155; margin-bottom:10px; }
 
 /* ============ HOME ============ */
-.home-clinic-name { font-size:26px; font-weight:800; }
-.home-data-date { font-size:13px; color:var(--text-secondary); margin-top:2px; margin-bottom:20px; }
+.home-clinic-name { font-size:20px; font-weight:700; margin-top:16px; margin-bottom:2px; }
+.home-data-date { font-size:12px; color:var(--gray); margin-bottom:14px; }
 
-.hero-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:20px; }
+.hero-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:18px; }
 .hero-tile {
-  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius);
-  padding:18px 16px; box-shadow:var(--shadow);
+  background:var(--card); border:0.5px solid #f1f5f9; border-top:3px solid var(--blue); border-radius:14px;
+  padding:12px; box-shadow:0 1px 3px rgba(15,23,42,0.03);
 }
-.hero-tile .label { font-size:12px; font-weight:500; color:var(--text-secondary); margin-bottom:6px; }
-.hero-tile .value { font-size:22px; font-weight:800; }
-.hero-tile .delta { font-size:12px; font-weight:600; margin-top:4px; }
+.hero-tile .label { font-size:10px; font-weight:700; color:var(--gray); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px; }
+.hero-tile .value { font-size:20px; font-weight:800; letter-spacing:-0.3px; }
+.hero-tile .delta { font-size:10px; font-weight:500; margin-top:2px; }
 .delta.positive { color:var(--green); }
 .delta.negative { color:var(--red); }
 .delta.neutral { color:var(--text-secondary); }
@@ -231,7 +232,7 @@ a { color: var(--blue); text-decoration:none; }
 .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
 .section-header h3 { font-size:16px; font-weight:600; }
 
-.quarterly-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:20px; }
+.quarterly-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:22px; }
 .quarterly-tile {
   text-align:center; padding:16px 12px;
   background:var(--gray-light); border-radius:var(--radius-sm);
@@ -242,12 +243,11 @@ a { color: var(--blue); text-decoration:none; }
 /* Grade circle */
 .grade-section { display:flex; align-items:center; gap:24px; }
 .grade-circle {
-  width:90px; height:90px; border-radius:50%; flex-shrink:0;
+  width:56px; height:56px; border-radius:28px; flex-shrink:0;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   border:4px solid; font-weight:800;
 }
-.grade-circle .grade-letter { font-size:32px; line-height:1; }
-.grade-circle .grade-score { font-size:12px; margin-top:2px; }
+.grade-circle .grade-letter { font-size:28px; line-height:1; }
 .grade-A { border-color:var(--green); color:var(--green); background:var(--green-light); }
 .grade-B { border-color:var(--blue); color:var(--blue); background:var(--blue-light); }
 .grade-C { border-color:var(--amber); color:var(--amber); background:var(--amber-light); }
@@ -501,10 +501,6 @@ a { color: var(--blue); text-decoration:none; }
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
-  .sidebar { display:none; }
-  .main-content { margin-left:0; padding:16px 16px 80px; }
-  .topbar { display:flex; }
-  .bottom-tabs { display:block; }
   .hero-row { grid-template-columns:1fr; }
   .quarterly-row { grid-template-columns:1fr; }
   .grade-section { flex-direction:column; text-align:center; gap:16px; }
@@ -512,9 +508,15 @@ a { color: var(--blue); text-decoration:none; }
   .modal-overlay { align-items:flex-end; }
 }
 
+/* Desktop: center phone-width container with subtle bg */
 @media (min-width: 769px) {
-  .topbar { display:none !important; }
-  .bottom-tabs { display:none !important; }
+  body { background:#e8ecf1; }
+  #app { justify-content:center; }
+  .main-content { 
+    background:var(--bg);
+    box-shadow:0 0 0 1px var(--gray-border);
+    min-height:100vh;
+  }
 }
 </style>
 </head>
@@ -523,7 +525,7 @@ a { color: var(--blue); text-decoration:none; }
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="loginScreen">
   <div class="login-card">
-    <div class="login-logo">V</div>
+    <div class="login-logo">Vet</div>
     <h1>Vet INC</h1>
     <p class="subtitle">Pricing Intelligence Platform</p>
     <div class="login-error" id="loginError"></div>
@@ -556,8 +558,8 @@ a { color: var(--blue); text-decoration:none; }
 
 <!-- ===== APP ===== -->
 <div id="app">
-  <!-- Sidebar (desktop) -->
-  <aside class="sidebar">
+  <!-- Sidebar hidden (mobile app style) -->
+  <aside class="sidebar" style="display:none"></aside>
     <div class="sidebar-logo">
       <div class="logo-icon">V</div>
       <div class="logo-text">Vet INC<small>Pricing Intelligence</small></div>
@@ -571,7 +573,7 @@ a { color: var(--blue); text-decoration:none; }
     <!-- Mobile topbar -->
     <div class="topbar">
       <div class="topbar-logo">
-        <div class="logo-icon">V</div>
+        <div class="logo-icon">Vet</div>
         Vet INC
       </div>
       <button class="bell-btn" onclick="openNotifications()">
