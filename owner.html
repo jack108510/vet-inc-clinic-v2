@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vet INC — Clinic Owner Portal</title>
+<link rel="icon" href="data:," />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f0f6ff;
+  --surface: #ffffff;
+  --surface2: #eff6ff;
+  --border: #dbeafe;
+  --primary: #2563eb;
+  --primary-light: #60a5fa;
+  --text: #1e3a5f;
+  --muted: #64748b;
+  --green: #16a34a;
+  --success: #16a34a;
+  --warning: #d97706;
+  --red: #dc2626;
+  --purple: #7c3aed;
+  --emerald: #059669;
+  --orange: #ea580c;
+  --yellow: #ca8a04;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* HEADER */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 1px 12px rgba(37,99,235,.07);
+}
+.header-left { display: flex; align-items: center; gap: 1rem; }
+.logo-wrap { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(37,99,235,.25);
+}
+.logo-text { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+.logo-text span { color: var(--primary); }
+.header-divider { width: 1px; height: 24px; background: var(--border); }
+.clinic-name { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+.header-right { display: flex; align-items: center; gap: 0.75rem; }
+.owner-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--primary); font-size: 0.78rem; font-weight: 600;
+  padding: 6px 14px; border-radius: 8px;
+}
+
+/* TAB NAV */
+.tab-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 4px;
+  height: 52px;
+}
+.tab-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: none; border: none;
+  color: var(--muted); cursor: pointer;
+  font-size: 0.85rem; font-weight: 600;
+  padding: 7px 16px; border-radius: 8px;
+  transition: all 0.15s; letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: var(--surface2); color: var(--text); }
+.tab-btn.active { background: var(--primary); color: #fff; }
+.tab-badge {
+  background: var(--green);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 999px;
+  line-height: 1.2;
+}
+
+/* SECTIONS */
+.section { display: none; padding: 2rem; animation: fadeIn 0.2s ease; max-width: 1200px; margin: 0 auto; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* KPI CARDS */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem; margin-bottom: 2rem;
+}
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.4rem 1.5rem;
+  position: relative; overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.kpi-card:hover { box-shadow: 0 8px 28px rgba(37,99,235,.11); transform: translateY(-2px); }
+.kpi-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+.kpi-card.green::before { background: linear-gradient(90deg, #16a34a, #4ade80); }
+.kpi-card.orange::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.kpi-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+.kpi-value { font-size: 1.75rem; font-weight: 900; color: var(--text); line-height: 1.1; }
+.kpi-sub { font-size: 0.76rem; color: var(--muted); margin-top: 0.35rem; }
+.kpi-delta { font-size: 0.8rem; font-weight: 700; margin-top: 0.35rem; }
+.kpi-delta.up { color: var(--green); }
+.kpi-delta.down { color: var(--red); }
+
+/* SECTION HEADERS */
+.section-header { margin-bottom: 1.5rem; }
+.section-title { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+.section-sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.25rem; }
+
+/* CARDS */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(37,99,235,.04);
+  margin-bottom: 1.5rem;
+}
+.card-title {
+  font-size: 0.7rem; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;
+}
+
+/* ─── APPROVAL SECTION ─── */
+.review-hero {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb, #3b82f6);
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.review-hero-text h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem; }
+.review-hero-text p { font-size: 0.9rem; opacity: 0.85; }
+.review-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+.review-stat { text-align: center; }
+.review-stat-val { font-size: 1.8rem; font-weight: 900; }
+.review-stat-label { font-size: 0.72rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.approval-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: box-shadow 0.15s;
+  flex-wrap: wrap;
+}
+.approval-item:hover { box-shadow: 0 4px 20px rgba(37,99,235,.09); }
+.approval-item.approved { border-left: 4px solid var(--green); background: #f0fdf4; }
+.approval-item.skipped { border-left: 4px solid var(--border); opacity: 0.55; }
+
+.ai-chip {
+  font-size: 0.65rem; font-weight: 700;
+  padding: 3px 8px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.ai-chip.ai { background: #ede9fe; color: var(--purple); }
+.ai-chip.consultant { background: #dbeafe; color: var(--primary); }
+
+.item-info { flex: 1; min-width: 180px; }
+.item-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.item-code { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+.item-reason { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+.price-change { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.price-old { font-size: 0.9rem; color: var(--muted); text-decoration: line-through; }
+.price-arrow { color: var(--muted); font-size: 0.8rem; }
+.price-new { font-size: 1rem; font-weight: 800; color: var(--primary); }
+.price-delta { font-size: 0.78rem; font-weight: 700; color: var(--green); }
+.price-uplift { font-size: 0.75rem; color: var(--muted); }
+
+.item-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.btn-approve {
+  background: var(--green); color: #fff;
+  border: none; border-radius: 8px;
+  padding: 7px 16px; font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-approve:hover { background: #15803d; }
+.btn-approve.active { background: #dcfce7; color: var(--green); border: 1.5px solid var(--green); }
+.btn-skip {
+  background: none; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 14px; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-skip:hover { background: var(--surface2); }
+
+.filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+.filter-btn {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 20px;
+  color: var(--muted); font-size: 0.78rem; font-weight: 600; padding: 5px 14px;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.filter-btn.shoppable.active { background: #d97706; border-color: #d97706; color: #fff; }
+.shoppable-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.62rem; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  background: #fef3c7; color: #92400e; flex-shrink: 0;
+}
+
+.approve-all-bar {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.approve-all-bar p { font-size: 0.85rem; color: var(--muted); }
+.approve-all-bar strong { color: var(--text); }
+
+.btn-approve-all {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff; border: none; border-radius: 10px;
+  padding: 10px 24px; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: all 0.15s;
+  box-shadow: 0 4px 14px rgba(37,99,235,.3);
+  white-space: nowrap;
+}
+.btn-approve-all:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,.35); }
+
+.confirm-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 -4px 20px rgba(37,99,235,.08);
+  flex-wrap: wrap;
+  margin: 0 -2rem;
+}
+.confirm-summary { font-size: 0.9rem; color: var(--text); }
+.confirm-summary span { font-weight: 800; color: var(--primary); }
+.btn-confirm {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff; border: none; border-radius: 10px;
+  padding: 12px 32px; font-size: 1rem; font-weight: 800;
+  cursor: pointer; transition: all 0.15s;
+  box-shadow: 0 4px 14px rgba(22,163,74,.3);
+}
+.btn-confirm:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,.35); }
+.btn-confirm:disabled { background: #94a3b8; box-shadow: none; cursor: not-allowed; transform: none; }
+
+/* ─── DASHBOARD SECTION ─── */
+.health-banner {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.health-score-circle {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.3);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.health-score-val { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+.health-score-label { font-size: 0.6rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; }
+.health-text h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.3rem; }
+.health-text p { font-size: 0.85rem; opacity: 0.85; }
+
+/* ─── HISTORY SECTION ─── */
+.timeline { }
+.timeline-item {
+  display: flex; gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--primary); flex-shrink: 0; margin-top: 5px;
+}
+.timeline-dot.green { background: var(--green); }
+.timeline-dot.orange { background: var(--orange); }
+.timeline-date { font-size: 0.75rem; color: var(--muted); width: 90px; flex-shrink: 0; padding-top: 2px; }
+.timeline-content { flex: 1; }
+.timeline-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.timeline-detail { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.timeline-tag {
+  display: inline-block;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-right: 4px; margin-top: 4px;
+}
+.timeline-tag.blue { background: #dbeafe; color: var(--primary); }
+.timeline-tag.green { background: #dcfce7; color: var(--green); }
+.timeline-tag.orange { background: #dbeafe; color: var(--primary); }
+
+/* ─── MAKE A CHANGE SECTION ─── */
+.form-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.form-group { flex: 1; min-width: 180px; }
+.form-group label { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 9px 12px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 0.85rem; color: var(--text);
+  background: var(--surface);
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+.form-group textarea { resize: vertical; min-height: 70px; }
+.btn-submit {
+  background: var(--primary); color: #fff;
+  border: none; border-radius: 8px;
+  padding: 9px 20px; font-size: 0.85rem; font-weight: 700;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-submit:hover { background: #1d4ed8; }
+.btn-submit:disabled { opacity: 0.45; cursor: default; }
+
+.svc-result-card {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border); border-radius: 10px;
+  margin-bottom: 0.5rem; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.svc-result-card:hover { background: var(--surface2); border-color: var(--primary-light); }
+.svc-change-tag {
+  font-size: 0.7rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* ─── APPROVED MODAL ─── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+  max-width: 440px;
+  width: 90%;
+  animation: fadeIn 0.25s ease;
+}
+.modal-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.modal h2 { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+.modal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+.modal-detail { background: var(--surface2); border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text); }
+.btn-close-modal {
+  background: var(--primary); color: #fff;
+  border: none; border-radius: 10px;
+  padding: 12px 32px; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .header { padding: 0 1rem; }
+  .section { padding: 1rem; }
+  .review-hero { padding: 1.25rem; }
+  .tab-nav { padding: 0 0.5rem; overflow-x: auto; }
+  .confirm-bar { margin: 0 -1rem; padding: 1rem; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .kpi-value { font-size: 1.35rem; }
+  .kpi-label { font-size: 0.62rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo-wrap">
+      <img src="https://raw.githubusercontent.com/jack108510/vet-inc-clinic/main/logo.png" alt="Vet INC" height="72" style="display:block;height:72px;width:auto;" />
+    </div>
+    <div class="header-divider"></div>
+    <div class="clinic-name">Rosslyn Veterinary Clinic</div>
+  </div>
+  <div class="header-right">
+    <div class="owner-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Owner Portal
+    </div>
+  </div>
+</header>
+
+<!-- TAB NAV -->
+<nav class="tab-nav">
+  <button class="tab-btn" onclick="showTab('dashboard', this)" id="tab-btn-dashboard">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
+    My Dashboard
+  </button>
+  <button class="tab-btn" onclick="showTab('reports', this)" id="tab-btn-reports">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    Reports
+  </button>
+  <!-- Suggestions tab removed — suggestions now live inside each report -->
+  <button class="tab-btn" onclick="showTab('history', this)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Price History
+  </button>
+  <button class="tab-btn" onclick="showTab('suggest', this)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Make a Change
+  </button>
+</nav>
+
+<!-- ─────────────────────── REPORTS TAB ─────────────────────── -->
+<section id="tab-reports" class="section">
+  <!-- List view -->
+  <div id="reports-list-view">
+    <div class="section-header">
+      <div class="section-title">Pricing Reports</div>
+      <div class="section-sub">Every analysis stored here — click any report to view the full breakdown</div>
+    </div>
+    <div id="reports-list">
+      <p style="color:var(--muted);text-align:center;padding:2rem;font-size:0.9rem;">Loading reports…</p>
+    </div>
+  </div>
+
+  <!-- Detail view (hidden until a report is clicked) -->
+  <div id="reports-detail-view" style="display:none">
+    <div style="margin-bottom:1.5rem">
+      <button onclick="showReportList()" style="background:none;border:none;color:var(--primary);font-size:0.85rem;font-weight:600;cursor:pointer;padding:0;display:flex;align-items:center;gap:0.4rem">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All Reports
+      </button>
+    </div>
+
+    <!-- Report header -->
+    <div class="card" style="margin-bottom:1.25rem;background:linear-gradient(135deg,#1e40af 0%,#1d4ed8 100%);color:#fff;border:none">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;opacity:0.75;margin-bottom:0.35rem" id="rpt-type-label">Quarterly Report</div>
+          <div style="font-size:1.4rem;font-weight:900;margin-bottom:0.25rem" id="rpt-title">Q2 2026 Report</div>
+          <div style="font-size:0.82rem;opacity:0.8" id="rpt-meta">Rosslyn Veterinary Clinic · June 18, 2026</div>
+        </div>
+        <div style="display:flex;gap:2rem;align-items:center;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-size:2.5rem;font-weight:900;line-height:1" id="rpt-score">—</div>
+            <div style="font-size:0.65rem;opacity:0.75;text-transform:uppercase;letter-spacing:0.05em">Health Score</div>
+            <div style="font-size:0.75rem;margin-top:2px" id="rpt-score-delta"></div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:1.4rem;font-weight:800" id="rpt-opportunity">—</div>
+            <div style="font-size:0.65rem;opacity:0.75;text-transform:uppercase;letter-spacing:0.05em">Annual Opportunity</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:1.4rem;font-weight:800" id="rpt-flagged">—</div>
+            <div style="font-size:0.65rem;opacity:0.75;text-transform:uppercase;letter-spacing:0.05em">Services Flagged</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:1.4rem;font-weight:800" id="rpt-analyzed">—</div>
+            <div style="font-size:0.65rem;opacity:0.75;text-transform:uppercase;letter-spacing:0.05em">Analyzed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score context -->
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="card-title">What This Score Means</div>
+      <p id="rpt-score-context" style="font-size:0.875rem;color:var(--text);line-height:1.6;margin:0"></p>
+    </div>
+
+    <!-- Price change distribution -->
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="card-title">Price Change Distribution</div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem">How your active services moved year-over-year, compared to CPI</p>
+      <div id="rpt-distribution" style="display:flex;flex-direction:column;gap:0.6rem"></div>
+    </div>
+
+    <!-- Top opportunities -->
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="card-title">Top Revenue Opportunities</div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem">Services with the highest annual impact if prices are updated</p>
+      <div id="rpt-top-items"></div>
+    </div>
+
+    <!-- Suggested changes (from AI analysis) -->
+    <div class="card" id="rpt-suggestions-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem">
+        <div>
+          <div class="card-title" style="margin-bottom:0.2rem">Suggested Price Changes</div>
+          <p style="font-size:0.78rem;color:var(--muted);margin:0">Based on CPI analysis of your transaction data. Accept what makes sense — skip the rest.</p>
+        </div>
+        <button class="btn-approve-all" onclick="approveAll()" style="font-size:0.8rem;padding:8px 16px">✓ Accept All <span id="btn-approve-all-count">…</span></button>
+      </div>
+
+      <!-- Confirm bar inline -->
+      <div id="rpt-confirm-bar" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:0.85rem;color:var(--text)"><strong id="approved-count">0</strong> of <strong id="total-items">…</strong> accepted · Est. uplift: <strong id="approved-uplift" style="color:var(--success)">$0</strong>/yr</span>
+        <button class="btn-confirm" id="confirm-btn" onclick="confirmApproval()" disabled>Apply Accepted Changes</button>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar" id="suggestion-filter-bar" style="display:none">
+        <span style="font-size:0.75rem;color:var(--muted);font-weight:600">Show:</span>
+        <button class="filter-btn active" onclick="setFilter('all')" id="filter-all">All <span id="filter-count-all"></span></button>
+        <button class="filter-btn" onclick="setFilter('safe')" id="filter-safe">✓ Safe to raise <span id="filter-count-safe"></span></button>
+        <button class="filter-btn shoppable" onclick="setFilter('shoppable')" id="filter-shoppable">⚠ Price-sensitive <span id="filter-count-shoppable"></span></button>
+      </div>
+
+      <div id="approval-list">
+        <p style="color:var(--muted);text-align:center;padding:2rem;font-size:0.9rem;">Loading suggestions…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── DASHBOARD TAB ─────────────────────── -->
+<section id="tab-dashboard" class="section active">
+  <div class="section-header">
+    <div class="section-title">My Dashboard</div>
+    <div class="section-sub" id="dash-sub">Rosslyn Veterinary Clinic · Loading…</div>
+  </div>
+
+  <!-- Health banner -->
+  <div class="health-banner" id="health-banner">
+    <div class="health-text">
+      <h3 id="health-title">Pricing Health</h3>
+      <p id="health-desc">Loading…</p>
+    </div>
+    <div id="health-action" style="margin-left:auto;flex-shrink:0"></div>
+  </div>
+
+  <!-- KPI grid — 4 cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Annual Revenue</div>
+      <div class="kpi-value" id="kpi-annual-revenue">…</div>
+      <div class="kpi-sub">Last 365 days · Rosslyn</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Daily Revenue</div>
+      <div class="kpi-value" id="kpi-daily-avg">…</div>
+      <div class="kpi-sub" id="kpi-daily-sub">vs daily target</div>
+    </div>
+    <div class="kpi-card green" id="kpi-recovered-card">
+      <div class="kpi-label" id="kpi-recovered-label">Revenue Recovered</div>
+      <div class="kpi-value" id="kpi-recovered">…</div>
+      <div class="kpi-sub" id="kpi-recovered-sub">Est. uplift from approved changes</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Pending Approval</div>
+      <div class="kpi-value" id="kpi-pending-uplift">…</div>
+      <div class="kpi-sub" id="kpi-pending-count">… items awaiting sign-off</div>
+    </div>
+  </div>
+
+  <!-- Revenue chart -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div class="card-title" style="margin:0">Daily Revenue — Last 30 Days</div>
+      <div style="display:flex;gap:1rem;font-size:0.75rem;color:var(--muted)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--primary)"></span>Revenue</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:18px;height:2px;background:#16a34a"></span>Target</span>
+      </div>
+    </div>
+    <div id="revenue-chart-wrap" style="width:100%;min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem">Loading chart…</div>
+  </div>
+
+  <!-- Performance alert (shown if any confirmed price change is underperforming) -->
+  <div id="flag-alert" style="display:none;background:#fff5f5;border:1px solid #fecaca;border-left:4px solid #dc2626;border-radius:12px;padding:1rem 1.25rem;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap">
+    <div>
+      <div style="font-size:0.9rem;font-weight:700;color:#dc2626" id="flag-alert-title">Price changes underperforming</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px" id="flag-alert-sub">Revenue or visit volume dropped since the last increase — review and adjust now</div>
+    </div>
+    <button onclick="openFlagReview()" style="background:#dc2626;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:0.82rem;font-weight:700;cursor:pointer;white-space:nowrap">Review Now →</button>
+  </div>
+
+  <!-- Pending action callout (shown if items pending) -->
+  <div id="pending-callout" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid var(--primary);border-radius:12px;padding:1rem 1.25rem;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem">
+    <div>
+      <div style="font-size:0.88rem;font-weight:700;color:var(--text)" id="callout-title">You have pricing items to review</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px" id="callout-sub">Takes about 2 minutes</div>
+    </div>
+    <button onclick="document.getElementById('tab-btn-reports').click()" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:0.82rem;font-weight:700;cursor:pointer;white-space:nowrap">Review Now →</button>
+  </div>
+
+</section>
+
+<!-- ─────────────────────── HISTORY TAB ─────────────────────── -->
+<section id="tab-history" class="section">
+  <div class="section-header">
+    <div class="section-title">Price History</div>
+    <div class="section-sub">Every change made through Vet INC — what changed, when, and why</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Approval History</div>
+    <div class="timeline" id="history-timeline">
+      <p style="color:var(--muted);padding:1rem;font-size:0.88rem;">Loading…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── SUGGEST TAB ─────────────────────── -->
+<section id="tab-suggest" class="section">
+  <div class="section-header">
+    <div class="section-title">Make a Change</div>
+    <div class="section-sub">Search any service, see real pricing data, and submit a change for approval</div>
+  </div>
+
+  <!-- Search card -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <div style="position:relative">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="service-search" placeholder="Search by service name or code…" oninput="searchServices(this.value)"
+        style="width:100%;padding:12px 16px 12px 40px;border:1.5px solid var(--border);border-radius:10px;font-size:0.9rem;outline:none;font-family:inherit;color:var(--text);transition:border 0.15s" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'" />
+    </div>
+    <div id="search-results" style="margin-top:0.75rem"></div>
+  </div>
+
+  <!-- Service detail panel (hidden until service selected) -->
+  <div id="service-detail" style="display:none">
+
+    <!-- 3 KPI cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem">
+      <div class="kpi-card">
+        <div class="kpi-label">Current Price</div>
+        <div class="kpi-value" id="svc-price">…</div>
+        <div class="kpi-sub">from most recent transactions</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Annual Visits</div>
+        <div class="kpi-value" id="svc-volume">…</div>
+        <div class="kpi-sub">last 12 months</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Annual Revenue</div>
+        <div class="kpi-value" id="svc-revenue">…</div>
+        <div class="kpi-sub">at current price</div>
+      </div>
+    </div>
+
+    <!-- Change history for this service -->
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="card-title">Price History for This Service</div>
+      <div id="svc-history"><p style="color:var(--muted);font-size:0.85rem">Loading…</p></div>
+    </div>
+
+    <!-- Propose change form -->
+    <div class="card">
+      <div class="card-title">Change Price</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Current Price</label>
+          <input type="text" id="change-current" readonly style="background:var(--surface2);color:var(--muted)" />
+        </div>
+        <div class="form-group">
+          <label>New Price</label>
+          <input type="number" id="change-new" placeholder="0.00" step="0.01" min="0" oninput="calcImpact()" />
+        </div>
+      </div>
+      <div id="impact-preview" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;margin-bottom:0.75rem;font-size:0.85rem;color:var(--text);line-height:1.5"></div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Reason (optional)</label>
+        <textarea id="change-reason" placeholder="Market rate, cost increase, competitor pricing, gut feel — all valid"></textarea>
+      </div>
+      <button class="btn-submit" id="submit-change-btn" onclick="submitPriceChange()" disabled>Apply Price Change</button>
+      <p style="margin-top:0.6rem;font-size:0.75rem;color:var(--muted)">Changes take effect immediately and are recorded in your price history.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FLAG REVIEW MODAL -->
+<div id="flag-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem 1rem 6rem">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:900px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2)">
+    <div style="background:linear-gradient(135deg,#b91c1c,#dc2626,#ef4444);color:#fff;padding:1.25rem 1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <div>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:2px">Performance Alert</div>
+        <div id="flag-modal-sub" style="font-size:0.78rem;opacity:0.85">services need your attention</div>
+      </div>
+      <button onclick="closeFlagModal()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center">&times;</button>
+    </div>
+    <div style="padding:1rem 1.5rem;background:#fef2f2;border-bottom:1px solid #fecaca;font-size:0.83rem;color:#7f1d1d;line-height:1.5">
+      Revenue or visit volume has dropped since these prices were raised. For each service, you can <strong>adjust the price</strong> (lower it to find the right level) or <strong>keep & monitor</strong> (dismiss for 30 days).
+    </div>
+    <div id="flag-items-wrap" style="padding:0 1.5rem 1rem"></div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #e2e8f0;display:flex;align-items:center;justify-content:flex-end;gap:0.75rem;background:#f8fafc">
+      <button onclick="closeFlagModal()" style="background:none;border:1px solid #e2e8f0;border-radius:8px;padding:9px 20px;font-size:0.85rem;cursor:pointer;color:#64748b;font-family:inherit">Cancel</button>
+      <button id="flag-submit-btn" onclick="submitFlagReview()" style="background:#dc2626;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:inherit">Submit Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- APPROVAL SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h2>Changes Approved!</h2>
+    <p>Your price changes have been submitted. Vet INC will update AVImark within 24 hours.</p>
+    <div class="modal-detail" id="modal-detail">
+      Loading summary...
+    </div>
+    <button class="btn-close-modal" onclick="document.getElementById('success-modal').classList.remove('active')">Done</button>
+  </div>
+</div>
+
+<script>
+const SB_URL = 'https://rnqhhzatlxmyvccdvqkr.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJucWhoemF0bHhteXZjY2R2cWtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwMTQ5ODUsImV4cCI6MjA5MDU5MDk4NX0.zokle21pVEPG5bIOFiyZIWYkYIwhkolWNOhJ7Cbub30';
+
+const CLINIC_ID = new URLSearchParams(window.location.search).get('clinic') || 'rosslyn';
+const REVIEW_ID = new URLSearchParams(window.location.search).get('review') || 'q2-2026';
+
+let ITEMS = [];
+const approved = new Set();
+const skipped = new Set();
+let currentFilter = 'all';
+
+const SHOPPABLE_KEYWORDS = [
+  'vaccine','vaccin','vacc','neuter','spay','dental','rabies','heartworm',
+  'dewormer','flea','tick','wellness','exam','nail trim','groom','boarding','bath','microchip'
+];
+
+function isShoppable(item) {
+  const name = (item.service_name || '').toLowerCase();
+  return SHOPPABLE_KEYWORDS.some(k => name.includes(k));
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-' + filter).classList.add('active');
+  renderFilteredList();
+}
+
+function renderFilteredList() {
+  const filtered = currentFilter === 'all' ? ITEMS
+    : currentFilter === 'safe' ? ITEMS.filter(i => !isShoppable(i))
+    : ITEMS.filter(i => isShoppable(i));
+  document.getElementById('approval-list').innerHTML = filtered.length
+    ? filtered.map(renderItem).join('')
+    : '<p style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem">No items in this category.</p>';
+}
+
+const sbFetch = (path, opts = {}) => fetch(SB_URL + path, {
+  ...opts,
+  headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal', ...(opts.headers || {}) }
+});
+
+function fmt$(n) {
+  return '$' + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function realUplift(item) {
+  return Math.round(Number(item.annual_volume) * (Number(item.price_new) - Number(item.price_old)));
+}
+
+function updateConfirmBar() {
+  const count = approved.size;
+  const uplift = ITEMS.filter(i => approved.has(i.service_code)).reduce((s, i) => s + realUplift(i), 0);
+  const setEl = (id, fn) => { const e = document.getElementById(id); if (e) fn(e); };
+  setEl('approved-count', e => e.textContent = count);
+  setEl('approved-uplift', e => e.textContent = '$' + uplift.toLocaleString());
+  setEl('confirm-btn', e => e.disabled = count === 0);
+  const remaining = ITEMS.length - skipped.size;
+  setEl('pending-badge', e => { e.textContent = remaining; e.style.display = remaining === 0 ? 'none' : ''; });
+  // Show/hide the inline confirm bar in report detail
+  const bar = document.getElementById('rpt-confirm-bar');
+  if (bar) bar.style.display = ITEMS.length > 0 ? 'flex' : 'none';
+}
+
+function toggleApprove(code) {
+  const btn = document.getElementById('approve-' + code);
+  const item = document.getElementById('item-' + code);
+  if (approved.has(code)) {
+    approved.delete(code);
+    btn.textContent = '✓ Approve';
+    btn.classList.remove('active');
+    item.classList.remove('approved');
+  } else {
+    approved.add(code);
+    skipped.delete(code);
+    btn.textContent = '✓ Approved';
+    btn.classList.add('active');
+    item.classList.remove('skipped');
+    item.classList.add('approved');
+  }
+  updateConfirmBar();
+}
+
+function skipItem(code) {
+  const item = document.getElementById('item-' + code);
+  const btn = document.getElementById('approve-' + code);
+  approved.delete(code);
+  skipped.add(code);
+  btn.textContent = '✓ Approve';
+  btn.classList.remove('active');
+  item.classList.remove('approved');
+  item.classList.add('skipped');
+  updateConfirmBar();
+}
+
+function approveAll() {
+  ITEMS.forEach(i => {
+    if (!skipped.has(i.service_code)) {
+      approved.add(i.service_code);
+      const btn = document.getElementById('approve-' + i.service_code);
+      const el  = document.getElementById('item-' + i.service_code);
+      if (btn) { btn.textContent = '✓ Approved'; btn.classList.add('active'); }
+      if (el)  { el.classList.remove('skipped'); el.classList.add('approved'); }
+    }
+  });
+  updateConfirmBar();
+}
+
+async function confirmApproval() {
+  const btn = document.getElementById('confirm-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  const rows = ITEMS.filter(i => approved.has(i.service_code)).map(i => ({
+    clinic_id: CLINIC_ID, review_id: REVIEW_ID,
+    service_code: i.service_code, service_name: i.service_name,
+    price_old: i.price_old, price_new: i.price_new,
+    source: i.source, annual_volume: i.annual_volume,
+    est_uplift: realUplift(i), status: 'approved',
+    approved_at: new Date().toISOString()
+  }));
+
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/price_approvals', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify(rows)
+    });
+    if (!res.ok) throw new Error(await res.text());
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Confirm & Apply Changes';
+    alert('Error: ' + e.message);
+    return;
+  }
+
+  const count = approved.size;
+  const uplift = ITEMS.filter(i => approved.has(i.service_code)).reduce((s, i) => s + realUplift(i), 0);
+  document.getElementById('modal-detail').innerHTML =
+    '<strong>' + count + ' price changes</strong> saved to your account<br>' +
+    'Estimated annual uplift: <strong style="color:var(--green)">+$' + uplift.toLocaleString() + '</strong><br>' +
+    '<span style="font-size:0.78rem;color:var(--muted)">AVImark update scheduled for tonight</span>';
+  document.getElementById('success-modal').classList.add('active');
+  btn.textContent = 'Confirmed ✓';
+}
+
+function renderItem(item) {
+  const code = item.service_code;
+  const chipClass = item.source === 'consultant' ? 'consultant' : 'ai';
+  const chipLabel = item.source === 'consultant' ? 'Consultant' : 'AI';
+  const delta = (Number(item.price_new) - Number(item.price_old)).toFixed(2);
+  const deltaStr = (delta > 0 ? '+' : '') + '$' + Math.abs(delta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const shoppable = isShoppable(item);
+  const shoppableBadge = shoppable ? '<span class="shoppable-badge">⚠ Price-Sensitive</span>' : '';
+  return '<div class="approval-item" id="item-' + code + '">' +
+    '<span class="ai-chip ' + chipClass + '">' + chipLabel + '</span>' +
+    '<div class="item-info">' +
+      '<div class="item-name" style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">' + item.service_name + shoppableBadge + '</div>' +
+      '<div class="item-code">Code: ' + code + '</div>' +
+    '</div>' +
+    '<div class="price-change">' +
+      '<span class="price-old">' + fmt$(item.price_old) + '</span>' +
+      '<span class="price-arrow">→</span>' +
+      '<span class="price-new">' + fmt$(item.price_new) + '</span>' +
+      '<span class="price-delta">' + deltaStr + '</span>' +
+    '</div>' +
+    '<div class="price-uplift">$' + realUplift(item).toLocaleString() + '/yr<div style="font-size:0.7rem;color:var(--muted);font-weight:400">' + Number(item.annual_volume).toLocaleString() + ' visits/yr</div></div>' +
+    '<div class="item-actions">' +
+      '<button class="btn-approve" id="approve-' + code + '" onclick="toggleApprove(\'' + code + '\')">✓ Approve</button>' +
+      '<button class="btn-skip" onclick="skipItem(\'' + code + '\')">Skip</button>' +
+    '</div></div>';
+}
+
+function renderHistory(approvals) {
+  if (!approvals.length) return '<p style="color:var(--muted);padding:1rem;font-size:0.88rem;">No approved changes yet for this clinic.</p>';
+  const groups = {};
+  approvals.forEach(a => { if (!groups[a.review_id]) groups[a.review_id] = []; groups[a.review_id].push(a); });
+  return Object.entries(groups).map(([rid, items]) => {
+    const date = new Date(items[0].approved_at).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+    const uplift = items.reduce((s, i) => s + Number(i.est_uplift), 0);
+    const names = items.map(i => i.service_name).join(' · ');
+    return '<div class="timeline-item">' +
+      '<div class="timeline-dot green"></div>' +
+      '<div class="timeline-date">' + date + '</div>' +
+      '<div class="timeline-content">' +
+        '<div class="timeline-title">' + rid + ' — ' + items.length + ' item' + (items.length !== 1 ? 's' : '') + ' approved</div>' +
+        '<div class="timeline-detail">' + names + ' · $' + uplift.toLocaleString() + '/yr recovered</div>' +
+        '<span class="timeline-tag green">Applied</span>' +
+      '</div></div>';
+  }).join('');
+}
+
+function formatReportDate(d) {
+  return new Date(d + 'T00:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatReportTitle(r) {
+  if (r.type === 'onboarding') return 'Onboarding Report';
+  if (r.type === 'quarterly') {
+    const m = new Date(r.report_date + 'T00:00:00').getMonth();
+    const y = new Date(r.report_date + 'T00:00:00').getFullYear();
+    const q = Math.ceil((m + 1) / 3);
+    return 'Q' + q + ' ' + y + ' Report';
+  }
+  return r.id;
+}
+
+let ALL_REPORTS = [];
+
+function renderReports(reports) {
+  if (!reports.length) return '<p style="color:var(--muted);text-align:center;padding:3rem;font-size:0.9rem;">No reports yet. Run the pricing analysis to generate your first report.</p>';
+  return reports.map((r, i) => {
+    const isLatest   = i === 0;
+    const typeLabel  = r.type === 'onboarding' ? 'Onboarding' : r.type === 'quarterly' ? 'Quarterly' : 'Ad Hoc';
+    return `
+    <div class="card" style="margin-bottom:0.85rem;cursor:pointer;border-left:3px solid ${isLatest ? 'var(--primary)' : 'var(--border)'};transition:box-shadow 0.15s" onmouseenter="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.1)'" onmouseleave="this.style.boxShadow=''" onclick="openReport('${r.id}')">
+      <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;flex-wrap:wrap">
+            <span style="font-weight:700;font-size:0.95rem;color:var(--text)">${formatReportTitle(r)}</span>
+            ${isLatest ? '<span style="background:var(--primary);color:#fff;font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:20px">CURRENT</span>' : ''}
+            <span style="background:var(--surface2);color:var(--muted);font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:20px">${typeLabel.toUpperCase()}</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--muted)">${formatReportDate(r.report_date)} · ${Number(r.total_services || 0).toLocaleString()} services · CPI ${r.cpi_rate ? (r.cpi_rate * 100).toFixed(1) + '%' : '—'}</div>
+        </div>
+        <div style="display:flex;gap:1.75rem;align-items:center;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-size:1.1rem;font-weight:700;color:var(--text)">${r.flagged_services ?? '—'}</div>
+            <div style="font-size:0.62rem;color:var(--muted);text-transform:uppercase">Flagged</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:1rem;font-weight:700;color:var(--success)">${r.total_opportunity ? '+$' + Number(r.total_opportunity).toLocaleString() : '—'}</div>
+            <div style="font-size:0.62rem;color:var(--muted);text-transform:uppercase">Opportunity</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:0.9rem;font-weight:600;color:${r.approved_count ? 'var(--success)' : 'var(--muted)'}">${r.approved_count || 0}</div>
+            <div style="font-size:0.62rem;color:var(--muted);text-transform:uppercase">Accepted</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showReportList() {
+  document.getElementById('reports-list-view').style.display = '';
+  document.getElementById('reports-detail-view').style.display = 'none';
+}
+
+async function openReport(reportId) {
+  const report = ALL_REPORTS.find(r => r.id === reportId);
+  if (!report) return;
+
+  // Show loading state in modal immediately, don't navigate to detail view
+  const modal = document.getElementById('rv-modal');
+  document.getElementById('rv-title').textContent = formatReportTitle(report) + ' Price Review';
+  document.getElementById('rv-sub').textContent = 'Loading…';
+  document.getElementById('rv-list').innerHTML = '<p style="text-align:center;padding:3rem;color:var(--muted);font-size:0.85rem">Loading services…</p>';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  const [recRes, outcomeRes] = await Promise.all([
+    sbFetch('/rest/v1/price_recommendations?clinic_id=eq.' + CLINIC_ID + '&review_id=eq.' + reportId + '&status=eq.pending&select=*&order=est_uplift.desc'),
+    sbFetch('/rest/v1/price_outcomes?clinic_id=eq.' + CLINIC_ID + '&select=*&order=revenue_delta_pct.asc')
+  ]);
+  const items    = recRes.ok    ? await recRes.json()    : [];
+  const outcomes = outcomeRes.ok ? await outcomeRes.json() : [];
+  openReviewModal(items, report, outcomes);
+  return;
+
+  // (legacy detail view — kept for reference, no longer shown on card click)
+  document.getElementById('reports-list-view').style.display = 'none';
+  const detail = document.getElementById('reports-detail-view');
+  detail.style.display = '';
+
+  // Header
+  const typeLabel = report.type === 'onboarding' ? 'Initial Pricing Report' : report.type === 'quarterly' ? 'Quarterly Pricing Report' : 'Ad Hoc Report';
+  document.getElementById('rpt-type-label').textContent = typeLabel;
+  document.getElementById('rpt-title').textContent = formatReportTitle(report);
+  document.getElementById('rpt-meta').textContent = 'Rosslyn Veterinary Clinic · ' + formatReportDate(report.report_date) + ' · CPI ' + (report.cpi_rate ? (report.cpi_rate * 100).toFixed(2) + '%' : '—');
+  document.getElementById('rpt-score').textContent = report.health_score ?? '—';
+  document.getElementById('rpt-opportunity').textContent = report.total_opportunity ? '+$' + Number(report.total_opportunity).toLocaleString() + '/yr' : '—';
+  document.getElementById('rpt-flagged').textContent = report.flagged_services ?? '—';
+  document.getElementById('rpt-analyzed').textContent = report.total_services ?? '—';
+
+  // Score delta vs previous report
+  const idx = ALL_REPORTS.findIndex(r => r.id === reportId);
+  const prev = ALL_REPORTS[idx + 1];
+  const deltaEl = document.getElementById('rpt-score-delta');
+  if (prev && prev.health_score != null && report.health_score != null) {
+    const d = report.health_score - prev.health_score;
+    deltaEl.innerHTML = d >= 0
+      ? `<span style="color:rgba(255,255,255,0.9)">▲ +${d} vs ${formatReportTitle(prev)}</span>`
+      : `<span style="color:rgba(255,220,100,0.95)">▼ ${d} vs ${formatReportTitle(prev)}</span>`;
+  } else { deltaEl.textContent = ''; }
+
+  // Score context paragraph
+  const flaggedPct = report.total_services > 0 ? Math.round(report.flagged_services / report.total_services * 100) : 0;
+  const cpiStr = report.cpi_rate ? (report.cpi_rate * 100).toFixed(1) + '%' : 'CPI';
+  const scoreLabel = report.health_score >= 80 ? 'strong' : report.health_score >= 60 ? 'fair' : 'below target';
+  document.getElementById('rpt-score-context').innerHTML =
+    `Your pricing health score is <strong>${report.health_score}/100</strong> — ${scoreLabel}. ` +
+    `Out of <strong>${Number(report.total_services).toLocaleString()} active services</strong> analyzed, ` +
+    `<strong>${report.flagged_services} (${flaggedPct}%)</strong> haven't kept pace with Canada's ${cpiStr} annual inflation rate. ` +
+    `If those services were updated to the suggested prices, the estimated annual revenue gain would be ` +
+    `<strong style="color:var(--success)">+$${Number(report.total_opportunity).toLocaleString()}/yr</strong>. ` +
+    (prev ? `Your score ${report.health_score >= prev.health_score ? 'improved' : 'declined'} from ${prev.health_score} in the ${formatReportTitle(prev)}.` : 'This is your first pricing report.');
+
+  // Load suggestions for this report
+  document.getElementById('approval-list').innerHTML = '<p style="color:var(--muted);text-align:center;padding:1.5rem;font-size:0.85rem">Loading…</p>';
+  document.getElementById('rpt-confirm-bar').style.display = 'none';
+  document.getElementById('suggestion-filter-bar').style.display = 'none';
+  ITEMS = [];
+  currentFilter = 'all';
+  approved.clear(); skipped.clear();
+  updateConfirmBar();
+
+  const recRes2 = await sbFetch('/rest/v1/price_recommendations?clinic_id=eq.' + CLINIC_ID + '&review_id=eq.' + reportId + '&status=eq.pending&select=*&order=est_uplift.desc');
+  ITEMS = recRes2.ok ? await recRes2.json() : [];
+
+  document.getElementById('btn-approve-all-count').textContent = ITEMS.length;
+  document.getElementById('total-items').textContent = ITEMS.length;
+
+  if (ITEMS.length) {
+    // Filter counts
+    const shoppableCount = ITEMS.filter(isShoppable).length;
+    const safeCount = ITEMS.length - shoppableCount;
+    document.getElementById('filter-count-all').textContent = ITEMS.length;
+    document.getElementById('filter-count-safe').textContent = safeCount;
+    document.getElementById('filter-count-shoppable').textContent = shoppableCount;
+    document.getElementById('suggestion-filter-bar').style.display = 'flex';
+    // Reset filter buttons
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('filter-all').classList.add('active');
+
+    renderFilteredList();
+    document.getElementById('rpt-confirm-bar').style.display = 'flex';
+    updateConfirmBar();
+
+    renderTopItems(ITEMS.slice(0, 8));
+  } else {
+    document.getElementById('approval-list').innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem">No suggestions for this report — all prices were current at the time of analysis.</p>';
+    document.getElementById('rpt-top-items').innerHTML = '<p style="color:var(--muted);font-size:0.85rem">No items to display.</p>';
+  }
+
+  // Distribution breakdown (pull from all items, bucketize by pct change)
+  renderDistribution(ITEMS);
+}
+
+function renderTopItems(items) {
+  const maxUplift = Math.max(...items.map(i => realUplift(i)));
+  document.getElementById('rpt-top-items').innerHTML = items.map(item => {
+    const u = realUplift(item);
+    const w = maxUplift > 0 ? Math.round((u / maxUplift) * 100) : 0;
+    const pctChange = item.price_old > 0 ? ((item.price_new - item.price_old) / item.price_old * 100).toFixed(1) : '—';
+    return `
+    <div style="margin-bottom:0.65rem">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:0.82rem">
+        <span style="color:var(--text);font-weight:600">${item.service_name || item.service_code}</span>
+        <span style="color:var(--success);font-weight:700">+$${u.toLocaleString()}/yr</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <div style="flex:1;height:7px;background:var(--surface2);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${w}%;background:var(--success);border-radius:4px;transition:width 0.4s"></div>
+        </div>
+        <span style="font-size:0.72rem;color:var(--muted);white-space:nowrap">${fmt$(item.price_old)} → ${fmt$(item.price_new)} (+${pctChange}%)</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderDistribution(items) {
+  // Bucket by YoY stale_pct (stored in description? — use price delta as proxy)
+  // Buckets: Declined (<0%), Flat (0-1%), Below CPI (1-4.38%), At/Above CPI (>4.38%)
+  // Since we only have flagged items (all below threshold), show breakdown by severity
+  const buckets = [
+    { label: 'Price declined',    min: -Infinity, max: 0,    color: '#ef4444', count: 0, uplift: 0 },
+    { label: 'Flat (0–1%)',       min: 0,         max: 0.01, color: '#f97316', count: 0, uplift: 0 },
+    { label: 'Below inflation',   min: 0.01,      max: 0.044,color: '#eab308', count: 0, uplift: 0 },
+  ];
+  // We don't store YoY pct in price_recommendations, so bucket by uplift magnitude
+  // As a proxy: high uplift = more stale
+  const highThresh  = items.length ? (items[0] ? realUplift(items[0]) * 0.5 : 1000) : 1000;
+  const buckets2 = [
+    { label: 'High impact (top opportunity)',  filter: i => realUplift(i) >= highThresh,           color: '#ef4444' },
+    { label: 'Medium impact',                  filter: i => realUplift(i) >= 200 && realUplift(i) < highThresh, color: '#f97316' },
+    { label: 'Low impact (minor adjustment)',   filter: i => realUplift(i) < 200,                  color: '#eab308' },
+  ].map(b => ({ ...b, items: items.filter(b.filter) }));
+
+  const total = items.length || 1;
+  document.getElementById('rpt-distribution').innerHTML = buckets2.map(b => {
+    const pct = Math.round(b.items.length / total * 100);
+    const uplift = b.items.reduce((s, i) => s + realUplift(i), 0);
+    return `
+    <div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.8rem">
+        <span style="color:var(--text)">${b.label}</span>
+        <span style="color:var(--muted)">${b.items.length} services · +$${uplift.toLocaleString()}/yr</span>
+      </div>
+      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${b.color};border-radius:4px"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function init() {
+  const el = (id) => document.getElementById(id);
+
+  // ─── Performance flags — load active flags and show dashboard alert ───
+  const flagRes = await sbFetch('/rest/v1/price_outcomes?clinic_id=eq.' + CLINIC_ID + '&status=eq.flagged&select=*&order=revenue_delta_pct.asc');
+  FLAG_ITEMS = flagRes.ok ? await flagRes.json() : [];
+  if (FLAG_ITEMS.length) {
+    const fa = el('flag-alert');
+    if (fa) {
+      fa.style.display = 'flex';
+      el('flag-alert-title').textContent = FLAG_ITEMS.length + ' price change' + (FLAG_ITEMS.length > 1 ? 's' : '') + ' underperforming';
+      el('flag-alert-sub').textContent = FLAG_ITEMS.map(o => o.service_name || o.service_code).slice(0, 3).join(', ') + (FLAG_ITEMS.length > 3 ? ' +' + (FLAG_ITEMS.length - 3) + ' more' : '') + ' — revenue or visits dropped since last increase';
+    }
+  }
+
+  // ─── Reports tab — load all reports, render list, auto-open latest ───
+  const rptRes = await sbFetch('/rest/v1/clinic_reports?clinic_id=eq.' + CLINIC_ID + '&order=created_at.desc&select=*');
+  ALL_REPORTS = rptRes.ok ? await rptRes.json() : [];
+  el('reports-list').innerHTML = renderReports(ALL_REPORTS);
+
+  const activeReport = ALL_REPORTS.find(r => r.status === 'active') || ALL_REPORTS[0];
+
+  // Dashboard KPI: fetch live recommendation total so it matches what the modal shows
+  let totalUplift = activeReport ? Number(activeReport.total_opportunity) || 0 : 0;
+  const pendingCount = activeReport ? Number(activeReport.flagged_services) || 0 : 0;
+  if (activeReport) {
+    const liveRecRes = await sbFetch('/rest/v1/price_recommendations?clinic_id=eq.' + CLINIC_ID + '&review_id=eq.' + activeReport.id + '&status=eq.pending&select=annual_volume,price_old,price_new');
+    if (liveRecRes.ok) {
+      const liveRecs = await liveRecRes.json();
+      if (liveRecs.length > 0) {
+        totalUplift = liveRecs.reduce((s, i) => s + Math.round(Number(i.annual_volume || 0) * (Number(i.price_new || 0) - Number(i.price_old || 0))), 0);
+      }
+    }
+  }
+  el('total-items') && (el('total-items').textContent = pendingCount);
+  el('btn-approve-all-count') && (el('btn-approve-all-count').textContent = pendingCount);
+  el('pending-badge') && (el('pending-badge').textContent = pendingCount);
+
+  // ─── Approvals (History + Dashboard) ───
+  const appRes = await sbFetch('/rest/v1/price_approvals?clinic_id=eq.' + CLINIC_ID + '&select=*&order=approved_at.desc');
+  const approvals = appRes.ok ? await appRes.json() : [];
+
+  const timeline = el('history-timeline');
+  if (timeline) timeline.innerHTML = renderHistory(approvals);
+
+  const recovered = approvals.reduce((s, a) => s + Math.round(Number(a.annual_volume || 0) * (Number(a.price_new || 0) - Number(a.price_old || 0))), 0);
+  if (el('kpi-recovered')) {
+    if (recovered > 0) {
+      el('kpi-recovered').textContent = '$' + recovered.toLocaleString();
+    } else {
+      el('kpi-recovered').textContent = '—';
+      const card = document.getElementById('kpi-recovered-card');
+      if (card) {
+        el('kpi-recovered-label').textContent = 'Revenue Recovered';
+        el('kpi-recovered-sub').textContent = 'Approve your first report to start tracking';
+        card.classList.remove('green');
+      }
+    }
+  }
+  if (el('kpi-pending-uplift')) el('kpi-pending-uplift').textContent = '+$' + totalUplift.toLocaleString();
+  if (el('kpi-pending-count')) el('kpi-pending-count').textContent = pendingCount + ' item' + (pendingCount !== 1 ? 's' : '') + ' in latest report';
+
+  // Pending callout
+  if (pendingCount > 0) {
+    const callout = el('pending-callout');
+    if (callout) {
+      callout.style.display = 'flex';
+      el('callout-title').textContent = 'You have ' + pendingCount + ' pricing item' + (pendingCount !== 1 ? 's' : '') + ' in your latest report';
+      el('callout-sub').textContent = 'Est. +$' + totalUplift.toLocaleString() + '/yr · View in Reports tab';
+    }
+  }
+
+  // ─── Revenue (Dashboard) ───
+  const revRes = await sbFetch('/rest/v1/csi_pf_totals?select=mdy,ros,ros_target&order=day.desc&limit=365');
+  if (revRes.ok) {
+    const rows = await revRes.json();
+    const withData = rows.filter(r => r.ros !== null && Number(r.ros) > 0);
+    const annual = rows.reduce((s, r) => s + (Number(r.ros) || 0), 0);
+    const avgDaily = withData.length ? (withData.reduce((s, r) => s + Number(r.ros), 0) / withData.length) : 0;
+    const target = withData.length && withData[0].ros_target ? Number(withData[0].ros_target) : 0;
+
+    if (el('kpi-annual-revenue')) {
+      el('kpi-annual-revenue').textContent = annual >= 1000000
+        ? '$' + (annual / 1000000).toFixed(2) + 'M'
+        : '$' + Math.round(annual / 1000) + 'K';
+    }
+    if (el('kpi-daily-avg')) {
+      el('kpi-daily-avg').textContent = '$' + Math.round(avgDaily).toLocaleString();
+      if (el('kpi-daily-sub') && target > 0) {
+        const pct = Math.round((avgDaily / target) * 100);
+        const color = pct >= 100 ? 'var(--green)' : 'var(--primary)';
+        el('kpi-daily-sub').innerHTML = '<span style="color:' + color + ';font-weight:700">' + pct + '% of $' + Math.round(target / 1000) + 'K target</span>';
+      }
+    }
+
+    // Section subtitle
+    if (el('dash-sub')) el('dash-sub').textContent = 'Rosslyn Veterinary Clinic · Updated ' + new Date().toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    // Health score — read directly from clinic_reports
+    let score, totalAnalyzed, flaggedCount;
+    if (activeReport) {
+      score         = Number(activeReport.health_score)    || 0;
+      totalAnalyzed = Number(activeReport.total_services)  || 0;
+      flaggedCount  = Number(activeReport.flagged_services) || 0;
+    } else {
+      totalAnalyzed = 0;
+      flaggedCount  = ITEMS.length;
+      score = ITEMS.length === 0 ? 97 : Math.max(60, 97 - ITEMS.length);
+    }
+    const scoreAfter = totalAnalyzed > 0
+      ? Math.round((1 - flaggedCount / totalAnalyzed) * 100)
+      : 97;
+    const healthLabel = score >= 90 ? 'Excellent' : score >= 80 ? 'Good' : score >= 70 ? 'Fair' : 'Needs Attention';
+    if (el('health-score-val')) el('health-score-val').textContent = score;
+    if (el('health-title')) el('health-title').textContent = 'Pricing Health: ' + healthLabel;
+    if (el('health-desc') && flaggedCount > 0) {
+      const analysisSub = totalAnalyzed > 0 ? ` (${flaggedCount} of ${totalAnalyzed.toLocaleString()} services scanned)` : '';
+      el('health-desc').innerHTML = flaggedCount + ' service' + (flaggedCount !== 1 ? 's are' : ' is') + ' behind market rate' + analysisSub + '. Reviewing your latest report could unlock <strong>+$' + totalUplift.toLocaleString() + '/yr</strong>.';
+    } else if (el('health-desc')) {
+      const analysisSub = totalAnalyzed > 0 ? ` ${totalAnalyzed.toLocaleString()} services analyzed.` : '';
+      el('health-desc').textContent = 'Your pricing is up to date.' + analysisSub;
+    }
+    if (flaggedCount > 0 && el('health-action')) {
+      el('health-action').innerHTML = '<button onclick="document.getElementById(\'tab-btn-reports\').click()" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:0.82rem;font-weight:700;cursor:pointer">Review Now →</button>';
+    }
+
+    // Revenue bar chart
+    const last30 = rows.slice(0, 30).reverse();
+    if (last30.length && el('revenue-chart-wrap')) {
+      const maxVal = Math.max(...last30.map(r => Math.max(Number(r.ros) || 0, target || 0)), 1);
+      const W = 600, H = 110, PAD = 8, BAR_GAP = 3;
+      const barW = (W - PAD * 2 - BAR_GAP * (last30.length - 1)) / last30.length;
+      const scaleY = (v) => H - PAD - ((v / maxVal) * (H - PAD * 2));
+      const targetY = target ? scaleY(target) : null;
+
+      let bars = last30.map((r, i) => {
+        const v = Math.max(Number(r.ros) || 0, 0);
+        const x = PAD + i * (barW + BAR_GAP);
+        const barH = (v / maxVal) * (H - PAD * 2);
+        const y = H - PAD - barH;
+        const color = target && v >= target ? '#16a34a' : v > 0 ? '#2563eb' : '#e2e8f0';
+        const label = r.mdy ? r.mdy.replace(/\d+-(\d+)-\d+/, '$1') : '';
+        return '<rect x="' + x + '" y="' + (v > 0 ? y : H - PAD) + '" width="' + barW + '" height="' + (v > 0 ? barH : 2) + '" rx="2" fill="' + color + '" opacity="0.85"><title>' + (r.mdy || '') + ': $' + Math.round(v).toLocaleString() + '</title></rect>';
+      }).join('');
+
+      const targetLine = targetY !== null
+        ? '<line x1="' + PAD + '" y1="' + targetY + '" x2="' + (W - PAD) + '" y2="' + targetY + '" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.9"/>'
+        : '';
+
+      el('revenue-chart-wrap').innerHTML =
+        '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" preserveAspectRatio="none" style="display:block">' +
+        bars + targetLine + '</svg>' +
+        '<div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--muted);margin-top:4px;padding:0 8px">' +
+        '<span>' + (last30[0] ? last30[0].mdy : '') + '</span><span>Today</span></div>';
+    }
+  }
+}
+
+function showTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── MAKE A CHANGE ───────────────────────────────────────────────
+let selectedService = null;
+let searchTimer = null;
+const svcCache = {};
+
+function searchServices(query) {
+  clearTimeout(searchTimer);
+  const results = el('search-results');
+  if (!query || query.length < 2) { results.innerHTML = ''; return; }
+  results.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;padding:0.25rem 0">Searching…</p>';
+  searchTimer = setTimeout(async () => {
+    const encoded = encodeURIComponent(query);
+    const res = await sbFetch('/rest/v1/services?description=ilike.*' + encoded + '*&amount=gt.0&select=code,description,amount&limit=500');
+    if (!res.ok) { results.innerHTML = ''; return; }
+    const rows = await res.json();
+
+    const byCode = {};
+    rows.forEach(r => {
+      if (!byCode[r.code]) byCode[r.code] = { code: r.code, desc: r.description, amounts: [] };
+      byCode[r.code].amounts.push(Number(r.amount));
+    });
+
+    const services = Object.values(byCode).map(s => ({
+      code: s.code, desc: s.desc,
+      avgPrice: s.amounts.reduce((a, b) => a + b, 0) / s.amounts.length,
+      sampleCount: s.amounts.length
+    })).sort((a, b) => b.sampleCount - a.sampleCount).slice(0, 10);
+
+    if (!services.length) {
+      results.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;padding:0.25rem 0">No services found.</p>';
+      return;
+    }
+
+    services.forEach(s => { svcCache[s.code] = s; });
+
+    results.innerHTML = services.map(s =>
+      '<div class="svc-result-card" data-code="' + s.code + '">' +
+        '<div style="flex:1">' +
+          '<div style="font-size:0.88rem;font-weight:700;color:var(--text)">' + s.desc + '</div>' +
+          '<div style="font-size:0.75rem;color:var(--muted);margin-top:2px">Code: ' + s.code + '</div>' +
+        '</div>' +
+        '<div style="text-align:right;flex-shrink:0">' +
+          '<div style="font-size:1rem;font-weight:800;color:var(--primary)">' + fmt$(s.avgPrice) + '</div>' +
+          '<div style="font-size:0.7rem;color:var(--muted)">current price</div>' +
+        '</div>' +
+      '</div>'
+    ).join('');
+
+    results.querySelectorAll('.svc-result-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const s = svcCache[card.dataset.code];
+        if (s) selectService(s.code, s.desc, s.avgPrice);
+      });
+    });
+  }, 380);
+}
+
+async function selectService(code, desc, avgPrice) {
+  selectedService = { code, desc: desc || code, avgPrice: avgPrice || 0, annualVolume: 0 };
+
+  el('service-detail').style.display = 'block';
+  el('search-results').innerHTML =
+    '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;display:flex;align-items:center;justify-content:space-between">' +
+      '<div><strong style="color:var(--text)">' + desc + '</strong> <span style="color:var(--muted);font-size:0.8rem">· ' + code + '</span></div>' +
+      '<button onclick="clearServiceSelection()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:2px 6px">✕ Change</button>' +
+    '</div>';
+
+  el('svc-price').textContent = '…'; el('svc-volume').textContent = '…'; el('svc-revenue').textContent = '…';
+  el('svc-history').innerHTML = '<p style="color:var(--muted);font-size:0.85rem">Loading…</p>';
+  el('change-current').value = fmt$(avgPrice);
+  el('change-new').value = '';
+  el('impact-preview').style.display = 'none';
+  el('submit-change-btn').disabled = true;
+
+  const CUTOFF = new Date(); CUTOFF.setFullYear(CUTOFF.getFullYear() - 1);
+  const cutoff = CUTOFF.toISOString().slice(0, 10) + 'T00:00:00';
+
+  const [priceRes, historyRes, pendingRes] = await Promise.all([
+    sbFetch('/rest/v1/services?code=eq.' + code + '&amount=gt.0&select=amount&order=service_date.desc&limit=100'),
+    sbFetch('/rest/v1/price_approvals?service_code=eq.' + code + '&clinic_id=eq.' + CLINIC_ID + '&select=*&order=approved_at.desc'),
+    sbFetch('/rest/v1/price_recommendations?service_code=eq.' + code + '&clinic_id=eq.' + CLINIC_ID + '&status=eq.pending&select=*')
+  ]);
+
+  const countRes = await fetch(SB_URL + '/rest/v1/services?code=eq.' + code + '&service_date=gte.' + cutoff + '&amount=gt.0&select=id',
+    { method: 'HEAD', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'count=exact' } });
+
+  if (priceRes.ok) {
+    const prices = await priceRes.json();
+    if (prices.length) { avgPrice = prices.reduce((s, r) => s + Number(r.amount), 0) / prices.length; }
+  }
+  el('svc-price').textContent = fmt$(avgPrice);
+  el('change-current').value = fmt$(avgPrice);
+  selectedService.avgPrice = avgPrice;
+
+  const cr = countRes.headers.get('content-range');
+  const annualCount = cr ? (parseInt(cr.split('/')[1]) || 0) : 0;
+  selectedService.annualVolume = annualCount;
+  el('svc-volume').textContent = annualCount.toLocaleString();
+  el('svc-revenue').textContent = '$' + Math.round(annualCount * avgPrice).toLocaleString();
+
+  const approvals = historyRes.ok ? await historyRes.json() : [];
+  const pending = pendingRes.ok ? await pendingRes.json() : [];
+
+  let histHtml = '';
+  pending.forEach(p => {
+    histHtml += '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border)">' +
+      '<span class="svc-change-tag" style="background:#dbeafe;color:var(--primary)">Pending</span>' +
+      '<div style="flex:1;font-size:0.85rem;color:var(--muted)">Awaiting approval</div>' +
+      '<div style="font-size:0.9rem;font-weight:700;color:var(--primary)">' + fmt$(p.price_old) + ' → ' + fmt$(p.price_new) + '</div>' +
+    '</div>';
+  });
+  approvals.forEach(a => {
+    const date = new Date(a.approved_at).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+    const impact = Math.round(Number(a.annual_volume || 0) * (Number(a.price_new) - Number(a.price_old)));
+    histHtml += '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border)">' +
+      '<span class="svc-change-tag" style="background:#dcfce7;color:var(--green)">Applied</span>' +
+      '<div style="flex:1;font-size:0.85rem;color:var(--muted)">' + date + ' · ' + (a.source === 'owner' ? 'Owner' : a.source === 'consultant' ? 'Consultant' : 'AI') + '</div>' +
+      '<div style="font-size:0.9rem;font-weight:700;color:var(--green)">' + fmt$(a.price_old) + ' → ' + fmt$(a.price_new) +
+        (impact ? ' <span style="font-size:0.75rem;color:var(--muted)">(+$' + Math.abs(impact).toLocaleString() + '/yr)</span>' : '') + '</div>' +
+    '</div>';
+  });
+
+  el('svc-history').innerHTML = histHtml || '<p style="color:var(--muted);font-size:0.85rem;padding:0.25rem 0">No price changes recorded for this service.</p>';
+}
+
+function clearServiceSelection() {
+  selectedService = null;
+  el('service-detail').style.display = 'none';
+  el('search-results').innerHTML = '';
+  el('service-search').value = '';
+}
+
+function calcImpact() {
+  const newPrice = parseFloat(el('change-new').value);
+  const preview = el('impact-preview');
+  const btn = el('submit-change-btn');
+  if (!selectedService || isNaN(newPrice) || newPrice <= 0) { preview.style.display = 'none'; btn.disabled = true; return; }
+
+  const delta = newPrice - selectedService.avgPrice;
+  const impact = Math.round(delta * selectedService.annualVolume);
+  const sign = delta >= 0 ? '+' : '';
+  const impactColor = delta >= 0 ? 'var(--green)' : 'var(--primary)';
+
+  preview.style.display = 'block';
+  preview.innerHTML =
+    '<strong>' + selectedService.desc + '</strong><br>' +
+    fmt$(selectedService.avgPrice) + ' → <strong>' + fmt$(newPrice) + '</strong>' +
+    ' <span style="color:' + impactColor + ';font-weight:700">(' + sign + '$' + Math.abs(impact).toLocaleString() + '/yr)</span>' +
+    '<br><span style="color:var(--muted);font-size:0.78rem">Based on ' + selectedService.annualVolume.toLocaleString() + ' visits/yr · ' +
+    sign + '$' + (Math.abs(delta)).toFixed(2) + ' per visit</span>';
+
+  btn.disabled = false;
+}
+
+async function submitPriceChange() {
+  if (!selectedService) return;
+  const newPrice = parseFloat(el('change-new').value);
+  if (!newPrice || newPrice <= 0) { alert('Enter a valid new price.'); return; }
+  const btn = el('submit-change-btn');
+  btn.disabled = true; btn.textContent = 'Applying…';
+
+  const row = {
+    clinic_id: CLINIC_ID,
+    review_id: 'owner-' + new Date().toISOString().slice(0, 7),
+    service_code: selectedService.code,
+    service_name: selectedService.desc,
+    price_old: parseFloat(selectedService.avgPrice.toFixed(2)),
+    price_new: parseFloat(newPrice.toFixed(2)),
+    source: 'owner',
+    annual_volume: selectedService.annualVolume,
+    est_uplift: Math.round((newPrice - selectedService.avgPrice) * selectedService.annualVolume),
+    status: 'approved'
+  };
+
+  const res = await fetch(SB_URL + '/rest/v1/price_approvals', {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify(row)
+  });
+
+  if (!res.ok) {
+    alert('Error: ' + await res.text());
+    btn.disabled = false; btn.textContent = 'Apply Price Change';
+    return;
+  }
+
+  btn.textContent = 'Applied ✓';
+  el('svc-history').innerHTML = '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border)">' +
+    '<span class="svc-change-tag" style="background:#dcfce7;color:var(--success)">Applied</span>' +
+    '<div style="flex:1;font-size:0.85rem;color:var(--muted)">Owner change — effective now</div>' +
+    '<div style="font-size:0.9rem;font-weight:700;color:var(--success)">' + fmt$(row.price_old) + ' → ' + fmt$(row.price_new) + '</div>' +
+    '</div>' + el('svc-history').innerHTML;
+  setTimeout(() => { btn.textContent = 'Apply Price Change'; el('change-new').value = ''; el('change-reason').value = ''; el('impact-preview').style.display = 'none'; btn.disabled = true; }, 2500);
+}
+
+// ─── FLAG REVIEW ─────────────────────────────────────────────────
+let FLAG_ITEMS = [];
+const flagDecisions = {}; // service_code → { action: 'adjust'|'monitor', price: number }
+
+function openFlagReview() {
+  if (!FLAG_ITEMS.length) return;
+  document.getElementById('flag-modal-sub').textContent =
+    FLAG_ITEMS.length + ' service' + (FLAG_ITEMS.length !== 1 ? 's' : '') + ' need' + (FLAG_ITEMS.length === 1 ? 's' : '') + ' your attention';
+  // Init decisions
+  FLAG_ITEMS.forEach(o => {
+    flagDecisions[o.service_code] = { action: null, price: Number(o.price_new) };
+  });
+  renderFlagItems();
+  document.getElementById('flag-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFlagModal() {
+  document.getElementById('flag-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderFlagItems() {
+  document.getElementById('flag-items-wrap').innerHTML = FLAG_ITEMS.map(o => {
+    const vd = o.visit_delta_pct;
+    const rd = o.revenue_delta_pct;
+    const gap = o.charge_gap_pct;
+    const d = flagDecisions[o.service_code];
+    const chargeNote = gap < -5
+      ? `<div style="margin-top:4px;font-size:0.72rem;color:#b91c1c">Avg charge ($${(o.current_avg_charge||0).toFixed(2)}) is below confirmed price ($${(o.price_new||0).toFixed(2)}) — may not have been entered in AVImark</div>`
+      : '';
+    return `
+    <div style="border:1px solid #fecaca;border-radius:12px;padding:1.1rem 1.25rem;margin-top:1rem;background:#fff" id="flag-item-${o.service_code}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:0.85rem">
+        <div>
+          <div style="font-size:0.95rem;font-weight:700;color:#0f172a">${o.service_name || o.service_code}</div>
+          <div style="font-size:0.72rem;color:#94a3b8;margin-top:2px">${o.service_code} · price raised from $${(o.price_old||0).toFixed(2)} → $${(o.price_new||0).toFixed(2)}</div>
+          ${chargeNote}
+        </div>
+        <div style="display:flex;gap:1.5rem;text-align:center;flex-shrink:0">
+          <div>
+            <div style="font-size:1.1rem;font-weight:800;color:${vd < -15 ? '#dc2626' : '#64748b'}">${vd >= 0 ? '+' : ''}${vd.toFixed(1)}%</div>
+            <div style="font-size:0.65rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.06em">Visits</div>
+            <div style="font-size:0.72rem;color:#64748b">${o.baseline_visits||0}/yr → ${o.current_visits||0}/yr</div>
+          </div>
+          <div>
+            <div style="font-size:1.1rem;font-weight:800;color:${rd < -5 ? '#dc2626' : '#64748b'}">${rd >= 0 ? '+' : ''}${rd.toFixed(1)}%</div>
+            <div style="font-size:0.65rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.06em">Revenue</div>
+            <div style="font-size:0.72rem;color:#64748b">$${Math.round((o.baseline_revenue||0)/1000)}K → $${Math.round((o.current_revenue||0)/1000)}K/yr</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center">
+        <button onclick="flagChoose('${o.service_code}','adjust')" id="flg-adj-${o.service_code}"
+          style="padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit;border:1.5px solid #dc2626;background:none;color:#dc2626;transition:all .12s">
+          Adjust price
+        </button>
+        <div id="flg-inp-${o.service_code}" style="display:none;align-items:center;gap:0.5rem">
+          <span style="font-size:0.78rem;color:#64748b">New price:</span>
+          <input type="number" step="0.50" min="0" value="${(o.price_old||0).toFixed(2)}"
+            onchange="flagDecisions['${o.service_code}'].price=parseFloat(this.value)||0"
+            style="width:90px;padding:6px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:0.85rem;font-family:inherit;text-align:right">
+          <span style="font-size:0.72rem;color:#94a3b8">(was $${(o.price_old||0).toFixed(2)})</span>
+        </div>
+        <button onclick="flagChoose('${o.service_code}','monitor')" id="flg-mon-${o.service_code}"
+          style="padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid #e2e8f0;background:none;color:#64748b;transition:all .12s">
+          Keep & monitor
+        </button>
+        <span id="flg-chosen-${o.service_code}" style="font-size:0.78rem;color:#16a34a;font-weight:600;display:none"></span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function flagChoose(code, action) {
+  flagDecisions[code].action = action;
+  const adjBtn = document.getElementById('flg-adj-' + code);
+  const monBtn = document.getElementById('flg-mon-' + code);
+  const inp    = document.getElementById('flg-inp-'  + code);
+  const chosen = document.getElementById('flg-chosen-' + code);
+  if (action === 'adjust') {
+    adjBtn.style.background = '#fef2f2'; adjBtn.style.borderColor = '#dc2626';
+    monBtn.style.background = ''; monBtn.style.borderColor = '#e2e8f0';
+    inp.style.display = 'flex';
+    chosen.style.display = 'none';
+  } else {
+    adjBtn.style.background = ''; adjBtn.style.borderColor = '#dc2626';
+    monBtn.style.background = '#f0fdf4'; monBtn.style.borderColor = '#16a34a'; monBtn.style.color = '#16a34a';
+    inp.style.display = 'none';
+    chosen.textContent = 'Will check again in 30 days';
+    chosen.style.display = '';
+  }
+}
+
+async function submitFlagReview() {
+  const btn = document.getElementById('flag-submit-btn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+
+  const adjustments = Object.entries(flagDecisions).filter(([, d]) => d.action === 'adjust');
+  const monitors    = Object.entries(flagDecisions).filter(([, d]) => d.action === 'monitor');
+
+  // Write adjusted prices as new approvals
+  if (adjustments.length) {
+    const rows = adjustments.map(([code, d]) => {
+      const o = FLAG_ITEMS.find(f => f.service_code === code);
+      return {
+        clinic_id:    CLINIC_ID,
+        review_id:    'adjustment-' + new Date().toISOString().slice(0, 7),
+        service_code: code,
+        service_name: o?.service_name || code,
+        price_old:    Number(o?.price_new || 0),
+        price_new:    parseFloat(d.price.toFixed(2)),
+        source:       'owner-adjustment',
+        annual_volume: o?.current_visits || 0,
+        est_uplift:   Math.round(((d.price - Number(o?.price_new || 0)) * (o?.current_visits || 0))),
+        status:       'approved',
+        approved_at:  new Date().toISOString()
+      };
+    });
+    await fetch(SB_URL + '/rest/v1/price_approvals', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify(rows)
+    });
+  }
+
+  // Mark dismissed services as "monitoring"
+  if (monitors.length) {
+    for (const [code] of monitors) {
+      const o = FLAG_ITEMS.find(f => f.service_code === code);
+      if (!o) continue;
+      await sbFetch(
+        `/rest/v1/price_outcomes?clinic_id=eq.${CLINIC_ID}&service_code=eq.${encodeURIComponent(code)}&review_id=eq.${encodeURIComponent(o.review_id)}`,
+        { method: 'PATCH', body: JSON.stringify({ status: 'monitoring', dismissed_at: new Date().toISOString() }) }
+      );
+    }
+  }
+
+  closeFlagModal();
+  btn.textContent = 'Submit Changes'; btn.disabled = false;
+
+  // Remove resolved items from FLAG_ITEMS and update alert
+  const resolvedCodes = new Set([...adjustments, ...monitors].map(([c]) => c));
+  FLAG_ITEMS = FLAG_ITEMS.filter(o => !resolvedCodes.has(o.service_code));
+  if (!FLAG_ITEMS.length) document.getElementById('flag-alert').style.display = 'none';
+  else document.getElementById('flag-alert-title').textContent = FLAG_ITEMS.length + ' service' + (FLAG_ITEMS.length > 1 ? 's' : '') + ' still underperforming';
+}
+
+// Helper
+function el(id) { return document.getElementById(id); }
+
+// Tab routing — default to dashboard on load
+document.getElementById('tab-btn-dashboard').classList.add('active');
+
+init();
+
+// ── PRICE REVIEW MODAL ────────────────────────────────────────────────
+let reviewItems = [];
+const reviewState = {};
+
+function openReviewModal(items, report, outcomes = []) {
+  reviewItems = items;
+  Object.keys(reviewState).forEach(k => delete reviewState[k]);
+  items.forEach(i => {
+    reviewState[i.service_code] = { price: Number(i.price_new).toFixed(2), left: false };
+  });
+
+  const modal = document.getElementById('rv-modal');
+  document.getElementById('rv-title').textContent = formatReportTitle(report) + ' Price Review';
+  document.getElementById('rv-sub').textContent =
+    'Rosslyn Veterinary Clinic · ' + items.length + ' services flagged for update';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  renderPerfSummary(outcomes);
+  renderReviewList('');
+}
+
+function closeReviewModal() {
+  document.getElementById('rv-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderReviewList(q) {
+  const lq = q.toLowerCase();
+  const mode = document.getElementById('rv-fmode').dataset.mode || 'all';
+  let items = reviewItems.filter(i =>
+    !lq || (i.service_name||'').toLowerCase().includes(lq) || (i.service_code||'').toLowerCase().includes(lq)
+  );
+  if (mode === 'edited')  items = items.filter(i => reviewState[i.service_code]?.price !== Number(i.price_new).toFixed(2) && !reviewState[i.service_code]?.left);
+  if (mode === 'left')    items = items.filter(i => reviewState[i.service_code]?.left);
+
+  document.getElementById('rv-list').innerHTML = items.map(item => {
+    const code  = item.service_code;
+    const s     = reviewState[code];
+    const cur   = Number(item.price_old);
+    const sugg  = Number(item.price_new);
+    const vol   = Number(item.annual_volume) || 0;
+    const newP  = parseFloat(s.price) || sugg;
+    const pct   = cur > 0 ? ((newP - cur) / cur * 100).toFixed(1) : '—';
+    const upl   = Math.round((newP - cur) * vol);
+    const edited = s.price !== sugg.toFixed(2);
+    const shp   = isShoppable(item);
+    return `<div class="rv-row${s.left?' rv-left':''}" id="rvrow-${code}">
+      <div>
+        <div class="rv-name">${item.service_name || code}${shp ? '<span class="rv-shp">price-sensitive</span>' : ''}</div>
+        <div class="rv-code">${code}</div>
+      </div>
+      <div class="rv-cell" style="text-align:right">${vol ? vol.toLocaleString() : '—'}</div>
+      <div class="rv-cell">$${cur.toFixed(2)}</div>
+      <div>
+        <input class="rv-inp${edited && !s.left ? ' rv-edited' : ''}" type="number" step="0.01" min="0"
+          value="${s.price}" data-code="${code}" data-sugg="${sugg.toFixed(2)}" data-cur="${cur}" data-vol="${vol}"
+          ${s.left ? 'disabled' : ''}
+          oninput="onRvEdit(this)">
+      </div>
+      <div class="rv-cell" id="rv-pct-${code}" style="text-align:right;color:${s.left?'var(--muted)':'var(--success)'}">${s.left ? '—' : (pct !== '—' ? '+' + pct + '%' : '—')}</div>
+      <div class="rv-cell" id="rv-upl-${code}" style="text-align:right;font-weight:600;color:${s.left?'var(--muted)':'var(--success)'}">${s.left ? '—' : '$' + upl.toLocaleString()}</div>
+      <div><button class="rv-skip-btn${s.left?' rv-skip-on':''}" onclick="rvToggleLeft('${code}')">${s.left ? 'Undo' : 'Leave as is'}</button></div>
+    </div>`;
+  }).join('') || '<p style="text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem">No items match.</p>';
+
+  rvUpdateBar();
+}
+
+function onRvEdit(el) {
+  const code = el.dataset.code, val = el.value;
+  reviewState[code].price = val;
+  el.classList.toggle('rv-edited', val !== el.dataset.sugg);
+  const cur  = parseFloat(el.dataset.cur), vol = parseInt(el.dataset.vol);
+  const newP = parseFloat(val) || 0;
+  const pct  = cur > 0 ? ((newP - cur) / cur * 100).toFixed(1) : '—';
+  const upl  = Math.round((newP - cur) * vol);
+  const pe = document.getElementById('rv-pct-' + code);
+  const ue = document.getElementById('rv-upl-' + code);
+  if (pe) { pe.textContent = pct !== '—' ? '+' + pct + '%' : '—'; pe.style.color = 'var(--success)'; }
+  if (ue) { ue.textContent = '$' + upl.toLocaleString(); ue.style.color = 'var(--success)'; }
+  rvUpdateBar();
+}
+
+function rvToggleLeft(code) {
+  reviewState[code].left = !reviewState[code].left;
+  renderReviewList(document.getElementById('rv-q').value);
+}
+
+function rvSetFilter(mode) {
+  const btn = document.getElementById('rv-fmode');
+  btn.dataset.mode = mode;
+  document.querySelectorAll('.rv-fb').forEach(b => b.classList.remove('rv-fb-on'));
+  document.getElementById('rv-f-' + mode).classList.add('rv-fb-on');
+  renderReviewList(document.getElementById('rv-q').value);
+}
+
+function rvUpdateBar() {
+  const active = reviewItems.filter(i => !reviewState[i.service_code]?.left);
+  const n = active.length;
+  const totUpl = active.reduce((sum, i) => {
+    const cur = Number(i.price_old), newP = parseFloat(reviewState[i.service_code]?.price) || Number(i.price_new);
+    return sum + Math.round((newP - cur) * (Number(i.annual_volume) || 0));
+  }, 0);
+  document.getElementById('rv-bar-n').textContent = n;
+  document.getElementById('rv-bar-upl').textContent = '+$' + totUpl.toLocaleString() + '/yr';
+  document.getElementById('rv-confirm').disabled = n === 0;
+}
+
+function renderPerfSummary(outcomes) {
+  const wrap = document.getElementById('rv-perf');
+  if (!wrap) return;
+  const tracked = outcomes.filter(o => o.status !== 'no_data');
+  if (!tracked.length) { wrap.innerHTML = ''; return; }
+
+  const flagged = tracked.filter(o => o.status === 'flagged');
+  const good    = tracked.filter(o => o.status === 'ok');
+
+  const totalPre  = tracked.reduce((s, o) => s + (o.pre_revenue  || 0), 0);
+  const totalPost = tracked.reduce((s, o) => s + (o.post_revenue || 0), 0);
+  const revDelta  = totalPre > 0 ? ((totalPost - totalPre) / totalPre * 100) : 0;
+  const deltaColor = revDelta >= 0 ? '#16a34a' : '#dc2626';
+  const deltaSign  = revDelta >= 0 ? '+' : '';
+
+  let expanded = false;
+
+  const rows = [...flagged, ...good].map(o => {
+    const vd = o.visit_delta_pct;
+    const rd = o.revenue_delta_pct;
+    const isFlagged = o.status === 'flagged';
+    const vColor = vd < -15 ? '#dc2626' : vd > 0 ? '#16a34a' : '#64748b';
+    const rColor = rd < -5  ? '#dc2626' : rd > 0 ? '#16a34a' : '#64748b';
+    const gapNote = o.charge_gap_pct < -5
+      ? `<span style="font-size:0.68rem;color:#dc2626;margin-left:4px">avg $${(o.post_avg_charge||0).toFixed(2)} (expected $${(o.price_new||0).toFixed(2)})</span>`
+      : '';
+    return `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 80px;gap:0.75rem;align-items:center;padding:0.55rem 0;border-bottom:1px solid #f1f5f9;font-size:0.8rem;${isFlagged?'background:#fff8f8;margin:0 -1.5rem;padding:0.55rem 1.5rem;':''}" class="rv-perf-row">
+      <div>
+        <div style="font-weight:600;color:${isFlagged?'#dc2626':'#0f172a'}">${isFlagged ? '⚠ ' : ''}${o.service_name || o.service_code}</div>
+        <div style="font-size:0.67rem;color:#94a3b8">${o.service_code}${gapNote}</div>
+      </div>
+      <div style="text-align:right;color:${vColor};font-weight:600">${vd >= 0 ? '+' : ''}${vd.toFixed(1)}%<br><span style="color:#94a3b8;font-weight:400;font-size:0.72rem">${o.pre_visits||0}→${o.post_visits||0} visits/yr</span></div>
+      <div style="text-align:right;color:${rColor};font-weight:600">${rd >= 0 ? '+' : ''}${rd.toFixed(1)}%<br><span style="color:#94a3b8;font-weight:400;font-size:0.72rem">$${Math.round((o.pre_revenue||0)/1000)}K→$${Math.round((o.post_revenue||0)/1000)}K</span></div>
+      <div style="text-align:right;color:#64748b;font-size:0.75rem">$${(o.price_old||0).toFixed(2)} → $${(o.price_new||0).toFixed(2)}</div>
+      <div style="text-align:right"><span style="display:inline-block;padding:2px 7px;border-radius:20px;font-size:0.67rem;font-weight:700;background:${isFlagged?'#fee2e2':'#dcfce7'};color:${isFlagged?'#dc2626':'#16a34a'}">${isFlagged ? 'Review' : 'Good'}</span></div>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div style="border-bottom:1px solid #e2e8f0;padding:0.9rem 1.5rem;background:#f8fafc">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px">Performance Since Prior Changes</div>
+          <div style="font-size:0.88rem;color:#0f172a">
+            <strong style="color:${deltaColor}">${deltaSign}${revDelta.toFixed(1)}% revenue</strong> ·
+            <strong>${good.length}</strong> of <strong>${tracked.length}</strong> services performing well
+            ${flagged.length ? `· <strong style="color:#dc2626">${flagged.length} flagged</strong>` : ''}
+          </div>
+        </div>
+        <button id="rv-perf-toggle" onclick="(function(){var t=document.getElementById('rv-perf-table');var open=t.style.display!=='none';t.style.display=open?'none':'block';document.getElementById('rv-perf-toggle').textContent=open?'Show details':'Hide details';})()" style="background:none;border:1px solid #e2e8f0;border-radius:6px;padding:5px 12px;font-size:0.75rem;color:#64748b;cursor:pointer;font-family:inherit;white-space:nowrap">Show details</button>
+      </div>
+    </div>
+    <div id="rv-perf-table" style="display:none;padding:0 1.5rem">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 80px;gap:0.75rem;padding:0.5rem 0;border-bottom:2px solid #e2e8f0;font-size:0.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.07em">
+        <span>Service</span><span style="text-align:right">Visits</span><span style="text-align:right">Revenue</span><span style="text-align:right">Price change</span><span style="text-align:right">Status</span>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+async function confirmReview() {
+  const btn = document.getElementById('rv-confirm');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  const active = reviewItems.filter(i => !reviewState[i.service_code]?.left);
+  const rows = active.map(i => ({
+    clinic_id:    CLINIC_ID,
+    review_id:    i.review_id,
+    service_code: i.service_code,
+    service_name: i.service_name,
+    price_old:    i.price_old,
+    price_new:    parseFloat(reviewState[i.service_code]?.price) || i.price_new,
+    est_uplift:   Math.round((parseFloat(reviewState[i.service_code]?.price || i.price_new) - Number(i.price_old)) * (Number(i.annual_volume) || 0)),
+    status:       'approved',
+    approved_at:  new Date().toISOString(),
+  }));
+  if (rows.length) await sbFetch('/rest/v1/price_approvals', { method:'POST', body: JSON.stringify(rows) });
+  // Mark recommendations as approved
+  const codes = active.map(i => i.service_code);
+  if (codes.length) await sbFetch('/rest/v1/price_recommendations?service_code=in.(' + codes.join(',') + ')&review_id=eq.' + active[0]?.review_id + '&clinic_id=eq.' + CLINIC_ID, { method:'PATCH', body: JSON.stringify({ status:'approved' }) });
+  btn.textContent = 'Done!';
+  setTimeout(() => closeReviewModal(), 1200);
+}
+</script>
+
+<!-- ── PRICE REVIEW MODAL ── -->
+<div id="rv-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:900;align-items:flex-start;justify-content:center;overflow-y:auto;padding:1.5rem 1rem 6rem">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:1080px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2)">
+
+    <!-- Modal header -->
+    <div style="background:linear-gradient(135deg,#1d4ed8,#2563eb,#3b82f6);color:#fff;padding:1.25rem 1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <div>
+        <div id="rv-title" style="font-size:1.1rem;font-weight:800;margin-bottom:2px"></div>
+        <div id="rv-sub" style="font-size:0.78rem;opacity:0.8"></div>
+      </div>
+      <button onclick="closeReviewModal()" style="background:rgba(255,255,255,.18);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">&times;</button>
+    </div>
+
+    <!-- Toolbar -->
+    <div style="padding:1rem 1.5rem 0.5rem;display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;border-bottom:1px solid #e2e8f0">
+      <div style="position:relative;flex:1;min-width:180px">
+        <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8;pointer-events:none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="rv-q" type="text" placeholder="Search services…" oninput="renderReviewList(this.value)"
+          style="width:100%;padding:7px 12px 7px 30px;border:1px solid #e2e8f0;border-radius:7px;font-size:0.83rem;font-family:inherit;color:#0f172a">
+      </div>
+      <span id="rv-fmode" data-mode="all" style="display:none"></span>
+      <button class="rv-fb rv-fb-on" id="rv-f-all" onclick="rvSetFilter('all')">All</button>
+      <button class="rv-fb" id="rv-f-edited" onclick="rvSetFilter('edited')">Edited</button>
+      <button class="rv-fb" id="rv-f-left" onclick="rvSetFilter('left')">Left as is</button>
+    </div>
+
+    <!-- Performance summary (populated by renderPerfSummary for Q2+ reports) -->
+    <div id="rv-perf"></div>
+
+    <!-- Table header -->
+    <div class="rv-hd">
+      <span>Service</span>
+      <span style="text-align:right">Visits/yr</span>
+      <span>Current price</span>
+      <span>Suggested price</span>
+      <span style="text-align:right">Increase</span>
+      <span style="text-align:right">Est. uplift/yr</span>
+      <span></span>
+    </div>
+
+    <!-- List -->
+    <div id="rv-list"></div>
+  </div>
+</div>
+
+<!-- Sticky bottom bar for review modal -->
+<div id="rv-bottombar" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:0.9rem 2rem;z-index:950;box-shadow:0 -2px 12px rgba(0,0,0,.08);align-items:center;justify-content:space-between;gap:1rem">
+  <div style="font-size:0.83rem;color:#64748b"><strong id="rv-bar-n" style="color:#0f172a">—</strong> services to update &nbsp;·&nbsp; <strong id="rv-bar-upl" style="color:#16a34a">—</strong></div>
+  <div style="display:flex;gap:0.55rem">
+    <button onclick="closeReviewModal()" style="background:none;border:1px solid #e2e8f0;border-radius:7px;padding:8px 16px;font-size:0.82rem;cursor:pointer;color:#64748b;font-family:inherit">Cancel</button>
+    <button id="rv-confirm" onclick="confirmReview()" style="background:#16a34a;color:#fff;border:none;border-radius:8px;padding:9px 24px;font-size:0.86rem;font-weight:600;cursor:pointer" disabled>Confirm changes</button>
+  </div>
+</div>
+
+<style>
+.rv-hd {
+  display:grid; grid-template-columns:2fr 90px 110px 120px 75px 115px 115px;
+  padding:0 1.5rem 0.5rem; gap:1rem; align-items:end;
+  font-size:0.62rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.08em;
+  border-bottom:1px solid #e2e8f0; background:#f8fafc;
+}
+.rv-hd span { padding:0.6rem 0 0; }
+.rv-row {
+  display:grid; grid-template-columns:2fr 90px 110px 120px 75px 115px 115px;
+  padding:0.7rem 1.5rem; align-items:center; gap:1rem;
+  border-bottom:1px solid #f1f5f9; background:#fff; transition:background .1s;
+}
+.rv-row:hover { background:#fafcff; }
+.rv-row.rv-left { opacity:0.38; }
+.rv-row.rv-left .rv-name { text-decoration:line-through; color:#64748b; }
+.rv-name { font-size:0.85rem; font-weight:600; color:#0f172a; line-height:1.3; }
+.rv-code { font-size:0.67rem; color:#94a3b8; margin-top:1px; }
+.rv-shp { display:inline-block; font-size:0.58rem; font-weight:600; padding:1px 5px; border-radius:3px; background:#fef9c3; color:#713f12; border:1px solid #fde68a; margin-left:5px; vertical-align:middle; white-space:nowrap; }
+.rv-cell { font-size:0.82rem; color:#64748b; }
+.rv-inp {
+  width:108px; padding:5px 9px; text-align:right; display:block; margin-left:auto;
+  border:1px solid #e2e8f0; border-radius:6px; font-size:0.85rem; font-weight:600;
+  color:#0f172a; font-family:inherit; background:#fff; transition:border .12s, background .12s;
+}
+.rv-inp:focus { outline:none; border-color:#2563eb; }
+.rv-inp.rv-edited { border-color:#2563eb; background:#eff6ff; color:#2563eb; }
+.rv-inp:disabled { background:transparent; border-color:transparent; color:#94a3b8; cursor:default; }
+.rv-skip-btn {
+  display:block; margin-left:auto; padding:4px 10px; white-space:nowrap;
+  border:1px solid #e2e8f0; border-radius:6px; background:none; font-size:0.72rem;
+  font-weight:500; color:#64748b; cursor:pointer; font-family:inherit; transition:all .12s;
+}
+.rv-skip-btn:hover { border-color:#94a3b8; color:#0f172a; }
+.rv-skip-btn.rv-skip-on { border-color:#94a3b8; background:#f1f5f9; color:#0f172a; font-weight:600; }
+.rv-fb {
+  padding:5px 13px; border-radius:20px; font-size:0.74rem; font-weight:500; cursor:pointer;
+  border:1px solid #e2e8f0; background:#f1f5f9; color:#64748b; transition:all .12s; font-family:inherit;
+}
+.rv-fb:hover { border-color:#94a3b8; color:#0f172a; }
+.rv-fb.rv-fb-on { background:#2563eb; border-color:#2563eb; color:#fff; font-weight:600; }
+</style>
+
+<script>
+// Show/hide the bottom bar when modal is open
+const _rvObs = new MutationObserver(() => {
+  const open = document.getElementById('rv-modal').style.display !== 'none';
+  document.getElementById('rv-bottombar').style.display = open ? 'flex' : 'none';
+});
+_rvObs.observe(document.getElementById('rv-modal'), { attributes:true, attributeFilter:['style'] });
+</script>
+</body>
+</html>

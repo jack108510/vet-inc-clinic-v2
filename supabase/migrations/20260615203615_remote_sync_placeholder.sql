@@ -1,0 +1,3 @@
+-- Placeholder to align local migration history with the already-applied
+-- remote migration 20260615203615 on the linked Vet INC Supabase project.
+-- The live database already contains this migration record.
