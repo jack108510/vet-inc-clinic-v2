@@ -74,7 +74,7 @@ a { color: var(--blue); text-decoration:none; }
   width:100%; max-width:340px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
 }
 .login-logo-img {
-  width:160px; height:42px; margin:0 auto 24px;
+  width:200px; height:52px; margin:0 auto 28px;
   display:block; object-fit:contain;
 }
 .login-card h1 { text-align:center; font-size:20px; font-weight:700; margin-bottom:2px; display:none; }
@@ -161,15 +161,17 @@ a { color: var(--blue); text-decoration:none; }
 .topbar {
   display:flex;
   background:#fff; border-bottom:1px solid var(--gray-border);
-  padding:6px 4px 6px 16px; align-items:center; justify-content:space-between;
+  padding:6px 4px 6px 12px; align-items:center; justify-content:space-between;
   position:sticky; top:0; z-index:50;
   max-width:480px; margin:0 auto; width:100%;
   box-shadow:0 1px 12px rgba(37,99,235,0.07);
 }
-.topbar .topbar-logo { display:flex; align-items:center; gap:8px; text-decoration:none; }
-.topbar .topbar-logo img { height:30px; width:auto; object-fit:contain; border-radius:4px; }
+.topbar .topbar-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.topbar .topbar-logo img { height:32px; width:auto; object-fit:contain; }
 .topbar .topbar-logo .logo-text { font-size:17px; font-weight:800; color:var(--text); }
 .topbar .topbar-logo .logo-text span { color:var(--blue); }
+.topbar .header-divider { width:1px; height:20px; background:var(--border-light); }
+.topbar .clinic-name { font-size:12px; color:var(--text-secondary); font-weight:500; }
 .topbar .bell-btn { position:relative; padding:8px; }
 .topbar .bell-btn svg { width:24px; height:24px; }
 .topbar .bell-badge {
@@ -576,7 +578,10 @@ a { color: var(--blue); text-decoration:none; }
       <div class="topbar-logo">
         <img src="logo.png" alt="Vet INC">
       </div>
-      <button class="bell-btn" onclick="openNotifications()">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="header-divider"></div>
+        <span class="clinic-name" id="topbarClinic">Rosslyn</span>
+        <button class="bell-btn" onclick="openNotifications()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
           <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
