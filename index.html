@@ -151,45 +151,65 @@ a { color: var(--blue); text-decoration:none; }
 .sidebar-user .user-info .name { font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .sidebar-user .user-info .email { font-size:11px; color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
-/* Main content */
+/* Main content — full width web app */
 .main-content {
-  flex:1; margin:0 auto;
-  padding:0 0 80px; max-width:480px;
+  flex:1; margin:0;
+  padding:24px 32px 32px; max-width:1200px;
   width:100%;
-  min-height:100vh;
+  min-height:calc(100vh - 56px);
 }
 
-/* TopBar (always visible — mobile app style) */
+/* TopBar with inline tabs (web app style) */
 .topbar {
   display:flex;
   background:#fff; border-bottom:1px solid var(--gray-border);
-  padding:6px 4px 6px 12px; align-items:center; justify-content:space-between;
+  padding:0 24px; align-items:center;
   position:sticky; top:0; z-index:50;
-  max-width:480px; margin:0 auto; width:100%;
+  width:100%;
   box-shadow:0 1px 12px rgba(37,99,235,0.07);
+  height:56px;
 }
-.topbar .topbar-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-.topbar .topbar-logo img { height:28px; width:28px; object-fit:cover; border-radius:6px; }
-.topbar .topbar-logo .logo-text { font-size:17px; font-weight:800; color:var(--text); }
+.topbar .topbar-logo {
+  display:flex; align-items:center; gap:8px;
+  padding-right:20px; margin-right:8px;
+  border-right:1px solid var(--gray-border);
+  height:100%;
+}
+.topbar .topbar-logo img { height:28px; width:auto; object-fit:contain; border-radius:4px; }
+.topbar .topbar-logo .logo-text { font-size:16px; font-weight:800; color:var(--text); white-space:nowrap; }
 .topbar .topbar-logo .logo-text span { color:var(--blue); }
-.topbar .header-divider { width:1px; height:20px; background:var(--border-light); }
-.topbar .clinic-name { font-size:12px; color:var(--text-secondary); font-weight:500; }
-.topbar .bell-btn { position:relative; padding:8px; }
-.topbar .bell-btn svg { width:24px; height:24px; }
+.topbar-tabs {
+  display:flex; align-items:center; gap:0; height:100%; flex:1;
+}
+.topbar-tab {
+  display:flex; align-items:center; gap:6px;
+  padding:0 16px; height:100%;
+  font-size:14px; font-weight:500; color:var(--text-secondary);
+  border-bottom:2px solid transparent;
+  transition:all .15s; cursor:pointer; white-space:nowrap;
+  background:none; border-top:none; border-left:none; border-right:none;
+}
+.topbar-tab:hover { color:var(--text); background:var(--gray-light); }
+.topbar-tab.active { color:var(--blue); border-bottom-color:var(--blue); font-weight:600; }
+.topbar-tab svg { width:18px; height:18px; stroke-width:2; }
+.topbar-right { display:flex; align-items:center; gap:12px; height:100%; }
+.topbar .header-divider { width:1px; height:24px; background:var(--gray-border); }
+.topbar .clinic-name { font-size:13px; color:var(--text-secondary); font-weight:500; white-space:nowrap; }
+.topbar .bell-btn { position:relative; padding:8px; cursor:pointer; background:none; border:none; }
+.topbar .bell-btn svg { width:22px; height:22px; }
 .topbar .bell-badge {
   position:absolute; top:4px; right:4px;
   background:var(--red); color:#fff; font-size:10px; font-weight:700;
   padding:1px 5px; border-radius:8px; min-width:16px; text-align:center;
 }
 
-/* Bottom tabs (always visible) */
+/* Bottom tabs — mobile only */
 .bottom-tabs {
-  display:block;
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%); right:auto; z-index:100;
+  display:none;
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
   background:#fff; border-top:1px solid var(--gray-border);
   padding:8px 0 env(safe-area-inset-bottom, 8px);
   height:64px;
-  width:100%; max-width:480px;
 }
 .bottom-tabs .tab-inner {
   display:flex; align-items:center; justify-content:space-around; height:100%;
@@ -507,6 +527,13 @@ a { color: var(--blue); text-decoration:none; }
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
+  .topbar { padding:0 12px; height:52px; }
+  .topbar-tabs { display:none; }
+  .topbar .topbar-logo { border-right:none; padding-right:8px; margin-right:0; }
+  .topbar .topbar-logo .logo-text { display:none; }
+  .topbar-right .header-divider, .topbar-right .clinic-name { display:none; }
+  .bottom-tabs { display:block; }
+  .main-content { padding:16px 16px 80px; }
   .hero-row { grid-template-columns:1fr; }
   .quarterly-row { grid-template-columns:1fr; }
   .grade-section { flex-direction:column; text-align:center; gap:16px; }
@@ -514,15 +541,9 @@ a { color: var(--blue); text-decoration:none; }
   .modal-overlay { align-items:flex-end; }
 }
 
-/* Desktop: center phone-width container with subtle bg */
+/* Desktop: full width web app */
 @media (min-width: 769px) {
-  body { background:#e8ecf1; }
-  #app { justify-content:center; }
-  .main-content { 
-    background:var(--bg);
-    box-shadow:0 0 0 1px var(--gray-border);
-    min-height:100vh;
-  }
+  body { background:var(--bg); }
 }
 </style>
 </head>
@@ -564,28 +585,17 @@ a { color: var(--blue); text-decoration:none; }
 
 <!-- ===== APP ===== -->
 <div id="app">
-  <!-- Sidebar hidden (mobile app style) -->
-  <aside class="sidebar" style="display:none"></aside>
-    <div class="sidebar-logo">
-      <div class="logo-icon">V</div>
-      <div class="logo-text">Vet INC<small>Pricing Intelligence</small></div>
+  <!-- TopBar with logo + inline tabs + bell -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <img src="logo.png" alt="Vet INC">
+      <div class="logo-text">Vet <span>INC</span></div>
     </div>
-    <nav id="sidebarNav"></nav>
-    <div class="sidebar-user" id="sidebarUser"></div>
-  </aside>
-
-  <!-- Main content -->
-  <div class="main-content" id="mainContent">
-    <!-- Mobile topbar -->
-    <div class="topbar">
-      <div class="topbar-logo">
-        <img src="logo.png" alt="Vet INC" style="height:28px;width:auto;object-fit:contain;border-radius:4px;">
-        <div class="logo-text">Vet <span>INC</span></div>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div class="header-divider"></div>
-        <span class="clinic-name" id="topbarClinic">Rosslyn</span>
-        <button class="bell-btn" onclick="openNotifications()">
+    <div class="topbar-tabs" id="topbarTabs"></div>
+    <div class="topbar-right">
+      <div class="header-divider"></div>
+      <span class="clinic-name" id="topbarClinic">Rosslyn</span>
+      <button class="bell-btn" onclick="openNotifications()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
           <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
@@ -593,6 +603,10 @@ a { color: var(--blue); text-decoration:none; }
         <span class="bell-badge" id="bellBadge" style="display:none">0</span>
       </button>
     </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content" id="mainContent">
 
     <!-- Page: Home -->
     <div class="page active" id="page-home"></div>
@@ -849,9 +863,8 @@ async function doLogin() {
 function enterApp() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').classList.add('active');
-  buildNav();
+  buildTopbarTabs();
   buildBottomTabs();
-  buildSidebarUser();
   loadAllData();
 }
 
@@ -887,12 +900,16 @@ const NAV_ITEMS = [
 ];
 
 function buildNav() {
-  const nav = document.getElementById('sidebarNav');
-  nav.innerHTML = NAV_ITEMS.map(item => `
-    <button class="nav-item ${item.id === currentPage ? 'active' : ''}" onclick="switchPage('${item.id}')">
+  // Deprecated — replaced by topbar tabs
+}
+
+function buildTopbarTabs() {
+  const el = document.getElementById('topbarTabs');
+  if (!el) return;
+  el.innerHTML = NAV_ITEMS.map(item => `
+    <button class="topbar-tab ${item.id === currentPage ? 'active' : ''}" onclick="switchPage('${item.id}')">
       ${item.icon}
       <span>${item.label}</span>
-      ${item.id === 'reports' ? '<span class="nav-badge" id="navReportBadge" style="display:none"></span>' : ''}
     </button>
   `).join('');
 }
@@ -927,10 +944,10 @@ function switchPage(pageId) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(n => n.classList.remove('active'));
   // Update active states
-  const navItems = document.querySelectorAll('#sidebarNav .nav-item');
-  const tabItems = document.querySelectorAll('#bottomTabs .tab-btn');
-  navItems.forEach((n, i) => { if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active'); });
-  tabItems.forEach((n, i) => { if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active'); });
+  const tabItems = document.querySelectorAll('#topbarTabs .topbar-tab');
+  const bottomItems = document.querySelectorAll('#bottomTabs .tab-btn');
+  tabItems.forEach((n, i) => { if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active'); else n.classList.remove('active'); });
+  bottomItems.forEach((n, i) => { if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active'); else n.classList.remove('active'); });
 }
 
 // ============================================================
