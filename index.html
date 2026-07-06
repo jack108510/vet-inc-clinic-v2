@@ -74,11 +74,13 @@ a { color: var(--blue); text-decoration:none; }
   width:100%; max-width:340px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
 }
 .login-logo-img {
-  width:240px; height:64px; margin:0 auto 32px;
-  display:block; object-fit:contain;
+  width:100px; height:100px; margin:0 auto 16px;
+  display:block; object-fit:cover; border-radius:24px;
+  box-shadow:0 4px 16px rgba(37,99,235,0.15);
 }
-.login-card h1 { text-align:center; font-size:20px; font-weight:700; margin-bottom:2px; display:none; }
-.login-card .subtitle { text-align:center; color:var(--gray); font-size:13px; margin-bottom:24px; }
+.login-brand-name { text-align:center; font-size:26px; font-weight:800; color:var(--text); margin-bottom:2px; letter-spacing:-0.5px; }
+.login-brand-name span { color:var(--blue); }
+.login-card .subtitle { text-align:center; color:var(--gray); font-size:13px; margin-bottom:28px; }
 .input-group { margin-bottom:16px; }
 .input-group label { display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text-secondary); }
 .input-group input {
@@ -167,7 +169,7 @@ a { color: var(--blue); text-decoration:none; }
   box-shadow:0 1px 12px rgba(37,99,235,0.07);
 }
 .topbar .topbar-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-.topbar .topbar-logo img { height:32px; width:auto; object-fit:contain; }
+.topbar .topbar-logo img { height:28px; width:28px; object-fit:cover; border-radius:6px; }
 .topbar .topbar-logo .logo-text { font-size:17px; font-weight:800; color:var(--text); }
 .topbar .topbar-logo .logo-text span { color:var(--blue); }
 .topbar .header-divider { width:1px; height:20px; background:var(--border-light); }
@@ -529,7 +531,8 @@ a { color: var(--blue); text-decoration:none; }
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="loginScreen">
   <div class="login-card">
-    <img src="logo.png" alt="Vet INC" class="login-logo-img">
+    <img src="icon.png" alt="Vet INC" class="login-logo-img">
+    <div class="login-brand-name">Vet <span>INC</span></div>
     <p class="subtitle">Pricing Intelligence Platform</p>
     <div class="login-error" id="loginError"></div>
     <div class="input-group">
@@ -576,7 +579,8 @@ a { color: var(--blue); text-decoration:none; }
     <!-- Mobile topbar -->
     <div class="topbar">
       <div class="topbar-logo">
-        <img src="logo.png" alt="Vet INC">
+        <img src="icon.png" alt="Vet INC">
+        <div class="logo-text">Vet <span>INC</span></div>
       </div>
       <div style="display:flex; align-items:center; gap:10px;">
         <div class="header-divider"></div>
