@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="icon.png">
 <title>Vet INC — Pricing Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +17,7 @@
   --blue: #2563eb;
   --blue-light: #dbeafe;
   --blue-dark: #1d4ed8;
+  --primary-light: #60a5fa;
   --gray: #94a3b8;
   --gray-light: #f1f5f9;
   --gray-border: #e2e8f0;
@@ -26,9 +29,12 @@
   --amber-light: #fef3c7;
   --purple: #7c3aed;
   --purple-light: #ede9fe;
-  --bg: #f5f7fa;
+  --bg: #f0f6ff;
+  --surface: #ffffff;
+  --surface2: #eff6ff;
+  --border-light: #dbeafe;
   --card: #ffffff;
-  --text: #1e293b;
+  --text: #1e3a5f;
   --text-secondary: #64748b;
   --text-light: #94a3b8;
   --radius: 16px;
@@ -60,20 +66,18 @@ a { color: var(--blue); text-decoration:none; }
 #loginScreen {
   position:fixed; inset:0; z-index:9999;
   display:flex; align-items:center; justify-content:center;
-  background:#f0f6ff;
+  background:var(--bg);
   padding:20px;
 }
 .login-card {
   background:#fff; border-radius:20px; padding:28px 24px;
   width:100%; max-width:340px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
 }
-.login-logo {
-  width:56px; height:56px; margin:0 auto 20px;
-  background:var(--blue); border-radius:14px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:24px; font-weight:800; color:#fff;
+.login-logo-img {
+  width:160px; height:42px; margin:0 auto 24px;
+  display:block; object-fit:contain;
 }
-.login-card h1 { text-align:center; font-size:20px; font-weight:700; margin-bottom:2px; }
+.login-card h1 { text-align:center; font-size:20px; font-weight:700; margin-bottom:2px; display:none; }
 .login-card .subtitle { text-align:center; color:var(--gray); font-size:13px; margin-bottom:24px; }
 .input-group { margin-bottom:16px; }
 .input-group label { display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text-secondary); }
@@ -160,14 +164,12 @@ a { color: var(--blue); text-decoration:none; }
   padding:6px 4px 6px 16px; align-items:center; justify-content:space-between;
   position:sticky; top:0; z-index:50;
   max-width:480px; margin:0 auto; width:100%;
+  box-shadow:0 1px 12px rgba(37,99,235,0.07);
 }
-.topbar .topbar-logo { font-size:17px; font-weight:700; display:flex; align-items:center; gap:8px; }
-.topbar .topbar-logo .logo-icon {
-  width:36px; height:36px; border-radius:6px;
-  background:var(--blue);
-  display:flex; align-items:center; justify-content:center;
-  font-size:14px; font-weight:800; color:#fff;
-}
+.topbar .topbar-logo { display:flex; align-items:center; gap:8px; text-decoration:none; }
+.topbar .topbar-logo img { height:30px; width:auto; object-fit:contain; border-radius:4px; }
+.topbar .topbar-logo .logo-text { font-size:17px; font-weight:800; color:var(--text); }
+.topbar .topbar-logo .logo-text span { color:var(--blue); }
 .topbar .bell-btn { position:relative; padding:8px; }
 .topbar .bell-btn svg { width:24px; height:24px; }
 .topbar .bell-badge {
@@ -525,8 +527,7 @@ a { color: var(--blue); text-decoration:none; }
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="loginScreen">
   <div class="login-card">
-    <div class="login-logo">Vet</div>
-    <h1>Vet INC</h1>
+    <img src="logo.png" alt="Vet INC" class="login-logo-img">
     <p class="subtitle">Pricing Intelligence Platform</p>
     <div class="login-error" id="loginError"></div>
     <div class="input-group">
@@ -573,8 +574,7 @@ a { color: var(--blue); text-decoration:none; }
     <!-- Mobile topbar -->
     <div class="topbar">
       <div class="topbar-logo">
-        <div class="logo-icon">Vet</div>
-        Vet INC
+        <img src="logo.png" alt="Vet INC">
       </div>
       <button class="bell-btn" onclick="openNotifications()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
