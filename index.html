@@ -2,574 +2,450 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="icon.png">
-<title>Vet INC — Pricing Intelligence</title>
+<title>Vet INC — Pricing Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ============ RESET & TOKENS ============ */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f0f6ff;
+  --surface:#ffffff;
+  --surface2:#eff6ff;
+  --border:#dbeafe;
+  --primary:#2563eb;
+  --primary-light:#60a5fa;
+  --primary-dark:#1d4ed8;
+  --text:#1e3a5f;
+  --muted:#64748b;
+  --green:#16a34a;
+  --green-light:#dcfce7;
+  --red:#ef4444;
+  --red-light:#fee2e2;
+  --amber:#d97706;
+  --amber-light:#fef3c7;
+  --purple:#7c3aed;
+  --purple-light:#ede9fe;
+  --gray-border:#e2e8f0;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh;font-size:14px;-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,select,textarea{font-family:inherit;outline:none;border:none;}
+a{color:var(--primary);text-decoration:none;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
 
-:root {
-  --blue: #2563eb;
-  --blue-light: #dbeafe;
-  --blue-dark: #1d4ed8;
-  --primary-light: #60a5fa;
-  --gray: #94a3b8;
-  --gray-light: #f1f5f9;
-  --gray-border: #e2e8f0;
-  --green: #059669;
-  --green-light: #d1fae5;
-  --red: #ef4444;
-  --red-light: #fee2e2;
-  --amber: #d97706;
-  --amber-light: #fef3c7;
-  --purple: #7c3aed;
-  --purple-light: #ede9fe;
-  --bg: #f0f6ff;
-  --surface: #ffffff;
-  --surface2: #eff6ff;
-  --border-light: #dbeafe;
-  --card: #ffffff;
-  --text: #1e3a5f;
-  --text-secondary: #64748b;
-  --text-light: #94a3b8;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
-  --sidebar-w: 240px;
+/* ===== LOGIN ===== */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:20px;
 }
+.login-card{
+  background:#fff;border-radius:20px;padding:32px 28px;
+  width:100%;max-width:360px;
+  box-shadow:0 8px 40px rgba(37,99,235,0.12),0 2px 8px rgba(0,0,0,0.06);
+  border:1px solid var(--border);
+}
+.login-logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:8px;}
+.login-logo-icon{
+  width:40px;height:40px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(37,99,235,0.3);
+}
+.login-logo-icon svg{width:22px;height:22px;color:#fff;}
+.login-logo-text{font-size:1.3rem;font-weight:900;color:var(--text);}
+.login-logo-text span{color:var(--primary);}
+.login-subtitle{text-align:center;color:var(--muted);font-size:13px;margin-bottom:28px;}
+.input-group{margin-bottom:14px;}
+.input-group label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;}
+.input-group input{
+  width:100%;padding:12px 14px;font-size:14px;
+  background:#f8fafc;border:1.5px solid var(--gray-border);
+  border-radius:10px;transition:border-color .2s,box-shadow .2s;color:var(--text);
+}
+.input-group input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.btn-primary{
+  width:100%;padding:13px;font-size:15px;font-weight:700;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;border-radius:11px;
+  box-shadow:0 4px 12px rgba(37,99,235,.3);
+  transition:all .2s;
+}
+.btn-primary:hover{box-shadow:0 6px 20px rgba(37,99,235,.4);transform:translateY(-1px);}
+.btn-primary:active{transform:scale(0.98);}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.login-toggle{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+.login-toggle button{color:var(--primary);font-weight:600;}
+.login-error{background:var(--red-light);color:var(--red);padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;display:none;}
+.demo-hint{text-align:center;margin-top:18px;padding:10px 14px;background:#f8fafc;border-radius:8px;font-size:12px;color:var(--muted);border:1px solid var(--gray-border);}
 
-html, body { height:100%; }
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
-input { font-family:inherit; outline:none; border:none; }
-a { color: var(--blue); text-decoration:none; }
+/* ===== APP ===== */
+#app{display:none;}
+#app.active{display:block;}
 
-/* ============ SCROLLBAR ============ */
-::-webkit-scrollbar { width:6px; height:6px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
-
-/* ============ LOGIN ============ */
-#loginScreen {
-  position:fixed; inset:0; z-index:9999;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--bg);
-  padding:20px;
+/* ===== HEADER ===== */
+.header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 2rem;display:flex;align-items:center;justify-content:space-between;
+  height:60px;position:sticky;top:0;z-index:200;
+  box-shadow:0 1px 12px rgba(37,99,235,.07);
 }
-.login-card {
-  background:#fff; border-radius:20px; padding:28px 24px;
-  width:100%; max-width:340px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
+.header-left{display:flex;align-items:center;gap:1rem;}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo-icon{
+  width:34px;height:34px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(37,99,235,.25);flex-shrink:0;
 }
-.login-logo-img {
-  width:140px; height:140px; margin:0 auto 12px;
-  display:block; object-fit:contain; border-radius:20px;
-  box-shadow:0 4px 16px rgba(37,99,235,0.12);
+.logo-icon svg{width:18px;height:18px;color:#fff;}
+.logo-text{font-size:1.05rem;font-weight:900;color:var(--text);}
+.logo-text span{color:var(--primary);}
+.header-divider{width:1px;height:24px;background:var(--border);}
+.clinic-name-header{font-size:0.82rem;color:var(--muted);font-weight:500;}
+.header-right{display:flex;align-items:center;gap:0.75rem;}
+.live-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);
+  color:var(--green);font-size:0.75rem;font-weight:700;
+  padding:5px 12px;border-radius:20px;
 }
-.login-brand-name { text-align:center; font-size:26px; font-weight:800; color:var(--text); margin-bottom:2px; letter-spacing:-0.5px; }
-.login-brand-name span { color:var(--blue); }
-.login-card .subtitle { text-align:center; color:var(--gray); font-size:13px; margin-bottom:28px; }
-.input-group { margin-bottom:16px; }
-.input-group label { display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text-secondary); }
-.input-group input {
-  width:100%; padding:14px 16px; font-size:15px;
-  background:var(--gray-light); border:1.5px solid transparent;
-  border-radius:12px; transition:border-color .2s;
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.bell-btn{
+  position:relative;width:36px;height:36px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;color:var(--muted);
 }
-.input-group input:focus { border-color:var(--blue); }
-.btn-primary {
-  width:100%; padding:15px; font-size:16px; font-weight:700;
-  background:var(--blue); color:#fff; border-radius:14px;
-  transition:background .2s;
-}
-.btn-primary:hover { background:var(--blue-dark); }
-.btn-primary:active { transform:scale(0.98); }
-.btn-primary:disabled { opacity:0.5; cursor:not-allowed; }
-.login-toggle { text-align:center; margin-top:16px; font-size:13px; color:var(--text-secondary); }
-.login-toggle button { color:var(--blue); font-weight:500; }
-.login-error { background:var(--red-light); color:var(--red); padding:10px 14px; border-radius:var(--radius-sm); font-size:13px; margin-bottom:16px; display:none; }
-.demo-hint { text-align:center; margin-top:20px; padding:10px; background:var(--gray-light); border-radius:var(--radius-sm); font-size:12px; color:var(--text-secondary); }
-
-/* ============ APP LAYOUT ============ */
-#app { display:none; }
-#app.active { display:flex; flex-direction:column; height:100vh; overflow:hidden; }
-
-/* App body = sidebar + main */
-.app-body { display:flex; flex:1; overflow:hidden; }
-
-/* ============ SIDEBAR ============ */
-.sidebar {
-  width:220px; flex-shrink:0;
-  background:#fff; border-right:1px solid var(--gray-border);
-  display:flex; flex-direction:column;
-  overflow-y:auto; height:100%;
-}
-.sidebar-logo {
-  display:flex; align-items:center; gap:10px;
-  padding:20px 20px 16px;
-  border-bottom:1px solid var(--gray-border);
-}
-.sidebar-logo img { height:30px; width:auto; object-fit:contain; border-radius:4px; }
-.sidebar-logo .logo-text { font-size:16px; font-weight:800; color:var(--text); }
-.sidebar-logo .logo-text span { color:var(--blue); }
-.sidebar nav { flex:1; padding:12px 10px; }
-.nav-item {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px; border-radius:10px;
-  font-size:14px; font-weight:500; color:var(--text-secondary);
-  transition:all .15s; margin-bottom:2px; width:100%; text-align:left;
-}
-.nav-item:hover { background:var(--gray-light); color:var(--text); }
-.nav-item.active { background:var(--blue-light); color:var(--blue); font-weight:600; }
-.nav-item svg { width:18px; height:18px; flex-shrink:0; stroke-width:2; }
-.nav-badge {
-  margin-left:auto; background:var(--red); color:#fff;
-  font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px;
-  min-width:20px; text-align:center;
-}
-.sidebar-bottom {
-  padding:16px; border-top:1px solid var(--gray-border);
-}
-.sidebar-user {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px; border-radius:10px;
-  cursor:pointer; transition:background .15s;
-}
-.sidebar-user:hover { background:var(--gray-light); }
-.sidebar-user .avatar {
-  width:34px; height:34px; border-radius:8px;
-  background:var(--blue); color:#fff; display:flex;
-  align-items:center; justify-content:center;
-  font-size:13px; font-weight:700; flex-shrink:0;
-}
-.sidebar-user .user-info { flex:1; min-width:0; }
-.sidebar-user .user-info .name { font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.sidebar-user .user-info .clinic { font-size:11px; color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-
-/* ============ MAIN COLUMN ============ */
-.main-column { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-
-/* Topbar — simplified, no nav tabs */
-.topbar {
-  display:flex; align-items:center; justify-content:space-between;
-  background:#fff; border-bottom:1px solid var(--gray-border);
-  padding:0 28px; height:56px; flex-shrink:0;
-  box-shadow:0 1px 0 var(--gray-border);
-}
-.topbar-left { display:flex; align-items:center; gap:16px; }
-.topbar-page-title { font-size:15px; font-weight:600; color:var(--text); }
-.topbar-right { display:flex; align-items:center; gap:8px; }
-.topbar .clinic-chip {
-  display:flex; align-items:center; gap:6px;
-  background:var(--gray-light); border-radius:20px;
-  padding:5px 12px; font-size:13px; font-weight:500; color:var(--text);
-}
-.topbar .clinic-chip .dot { width:7px; height:7px; border-radius:50%; background:var(--green); }
-.topbar .bell-btn { position:relative; padding:8px; cursor:pointer; background:none; border:none; border-radius:8px; transition:background .15s; }
-.topbar .bell-btn:hover { background:var(--gray-light); }
-.topbar .bell-btn svg { width:20px; height:20px; color:var(--text-secondary); display:block; }
-.topbar .bell-badge {
-  position:absolute; top:4px; right:4px;
-  background:var(--red); color:#fff; font-size:10px; font-weight:700;
-  padding:1px 5px; border-radius:8px; min-width:16px; text-align:center;
+.bell-btn:hover{background:var(--surface2);}
+.bell-btn svg{width:20px;height:20px;}
+.bell-badge{
+  position:absolute;top:2px;right:2px;
+  background:var(--red);color:#fff;font-size:9px;font-weight:700;
+  padding:1px 4px;border-radius:6px;min-width:14px;text-align:center;
 }
 
-/* Topbar tabs — hidden on desktop (nav is in sidebar) */
-.topbar-tabs { display:none; }
-.topbar-tab { display:none; }
-
-/* Main content scroll area */
-.main-content {
-  flex:1; overflow-y:auto;
-  padding:28px 36px 36px;
-  background:var(--bg);
+/* ===== TAB NAV ===== */
+.tab-nav{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 2rem;gap:4px;
+  height:52px;position:sticky;top:60px;z-index:190;
 }
-
-/* Bottom tabs — mobile only */
-.bottom-tabs {
-  display:none;
-  position:fixed; bottom:0; left:0; right:0; z-index:100;
-  background:#fff; border-top:1px solid var(--gray-border);
-  padding:8px 0 env(safe-area-inset-bottom, 8px);
-  height:64px;
+.tab-btn{
+  display:flex;align-items:center;gap:7px;
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:0.85rem;font-weight:600;padding:7px 16px;border-radius:8px;
+  transition:all .15s;letter-spacing:0.2px;white-space:nowrap;
 }
-.bottom-tabs .tab-inner {
-  display:flex; align-items:center; justify-content:space-around; height:100%;
+.tab-btn:hover{background:var(--surface2);color:var(--text);}
+.tab-btn.active{background:var(--primary);color:#fff;}
+.tab-btn .ti{font-size:0.95rem;}
+
+/* ===== SECTIONS ===== */
+.section{display:none;padding:2rem;animation:fadeIn .2s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* ===== KPI CARDS ===== */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.75rem;}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.4rem 1.5rem;
+  position:relative;overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
 }
-.tab-btn {
-  display:flex; flex-direction:column; align-items:center; gap:3px;
-  font-size:10px; font-weight:500; color:var(--gray); padding:4px 12px;
-  transition:color .15s;
+.kpi-card:hover{box-shadow:0 8px 28px rgba(37,99,235,.11);transform:translateY(-2px);}
+.kpi-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-light));
 }
-.tab-btn.active { color:var(--blue); }
-.tab-btn svg { width:24px; height:24px; stroke-width:2; }
+.kpi-card.green::before{background:linear-gradient(90deg,var(--green),#22c55e);}
+.kpi-card.amber::before{background:linear-gradient(90deg,var(--amber),#fbbf24);}
+.kpi-card.purple::before{background:linear-gradient(90deg,var(--purple),#a855f7);}
+.kpi-label{font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;}
+.kpi-value{font-size:1.75rem;font-weight:900;color:var(--text);line-height:1.1;}
+.kpi-value.green{color:var(--green);}
+.kpi-value.amber{color:var(--amber);}
+.kpi-sub{font-size:0.76rem;color:var(--muted);margin-top:.35rem;}
+.kpi-delta{font-size:.8rem;font-weight:700;margin-top:.35rem;}
+.kpi-delta.up{color:var(--green);}
+.kpi-delta.down{color:var(--red);}
+.kpi-delta.neutral{color:var(--muted);}
 
-/* ============ PAGE ============ */
-.page { display:none; animation:fadeIn .2s ease; }
-.page.active { display:block; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
-
-.page-header { margin-bottom:24px; }
-.page-title { font-size:22px; font-weight:700; letter-spacing:-0.3px; }
-.page-subtitle { font-size:14px; color:var(--text-secondary); margin-top:3px; }
-
-/* ============ CARDS ============ */
-.card {
-  background:var(--card); border:1px solid var(--gray-border);
-  border-radius:14px; padding:20px; box-shadow:0 1px 3px rgba(15,23,42,0.04);
-  margin-bottom:16px;
+/* ===== CHART CARD ===== */
+.chart-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.4rem 1.5rem;
+  box-shadow:0 2px 12px rgba(37,99,235,.04);margin-bottom:1.5rem;
 }
-.card-title { font-size:13px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:14px; }
+.chart-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.chart-label{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.chart-meta{display:flex;gap:1.5rem;}
+.chart-stat{display:flex;flex-direction:column;align-items:flex-end;}
+.chart-stat .cs-label{font-size:.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;}
+.chart-stat .cs-value{font-size:1rem;font-weight:800;color:var(--text);}
+.chart-stat .cs-value.green{color:var(--green);}
 
-/* ============ HOME ============ */
-.home-clinic-name { font-size:22px; font-weight:700; margin-bottom:2px; letter-spacing:-0.3px; }
-.home-data-date { font-size:13px; color:var(--gray); margin-bottom:20px; }
-
-.hero-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:20px; }
-.hero-tile {
-  background:var(--card); border:1px solid var(--gray-border);
-  border-radius:14px; padding:18px 20px;
-  box-shadow:0 1px 3px rgba(15,23,42,0.04);
-  position:relative; overflow:hidden;
+/* ===== TABLE CARD ===== */
+.table-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;margin-bottom:1.5rem;
+  box-shadow:0 2px 12px rgba(37,99,235,.04);
 }
-.hero-tile::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:var(--blue); border-radius:14px 14px 0 0;
+.table-header{
+  padding:1rem 1.5rem;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid var(--border);
+  background:var(--surface2);
 }
-.hero-tile .label { font-size:11px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
-.hero-tile .value { font-size:26px; font-weight:800; letter-spacing:-0.5px; line-height:1; }
-.hero-tile .delta { font-size:12px; font-weight:500; margin-top:6px; }
-.delta.positive { color:var(--green); }
-.delta.negative { color:var(--red); }
-.delta.neutral { color:var(--text-secondary); }
-
-.home-lower { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.home-lower .card { margin-bottom:0; }
-
-.section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
-.section-header h3 { font-size:15px; font-weight:600; }
-
-.quarterly-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
-.quarterly-tile {
-  text-align:center; padding:16px 12px;
-  background:var(--gray-light); border-radius:10px;
+.table-header-title{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.table-meta{font-size:.74rem;color:var(--muted);}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+thead th{
+  background:#f8faff;color:var(--muted);
+  font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  padding:.75rem 1rem;text-align:left;white-space:nowrap;border-bottom:1px solid var(--border);
 }
-.quarterly-tile .num { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
-.quarterly-tile .lbl { font-size:11px; color:var(--text-secondary); margin-top:4px; }
+thead th.num{text-align:right;}
+tbody tr{border-bottom:1px solid rgba(219,234,254,0.7);transition:background .12s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--surface2)!important;}
+tbody td{padding:.7rem 1rem;color:var(--text);}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums;}
+tbody td.muted{color:var(--muted);}
+tbody td.green{color:var(--green);font-weight:700;}
+tbody td.red{color:var(--red);font-weight:700;}
+tbody td.blue{color:var(--primary);font-weight:700;}
+tbody td.amber{color:var(--amber);font-weight:700;}
 
-/* Grade circle */
-.grade-section { display:flex; align-items:center; gap:24px; }
-.grade-circle {
-  width:56px; height:56px; border-radius:28px; flex-shrink:0;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  border:4px solid; font-weight:800;
-}
-.grade-circle .grade-letter { font-size:28px; line-height:1; }
-.grade-A { border-color:var(--green); color:var(--green); background:var(--green-light); }
-.grade-B { border-color:var(--blue); color:var(--blue); background:var(--blue-light); }
-.grade-C { border-color:var(--amber); color:var(--amber); background:var(--amber-light); }
-.grade-D { border-color:var(--red); color:var(--red); background:var(--red-light); }
-
-.verdict-breakdown { flex:1; }
-.verdict-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-.verdict-row .v-label { font-size:13px; font-weight:500; width:120px; flex-shrink:0; }
-.verdict-row .v-bar { flex:1; height:8px; background:var(--gray-light); border-radius:4px; overflow:hidden; }
-.verdict-row .v-fill { height:100%; border-radius:4px; transition:width .5s ease; }
-.verdict-row .v-count { font-size:13px; font-weight:600; width:28px; text-align:right; }
-.v-fill.green { background:var(--green); }
-.v-fill.amber { background:var(--amber); }
-.v-fill.red { background:var(--red); }
-.v-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.v-dot.green { background:var(--green); }
-.v-dot.amber { background:var(--amber); }
-.v-dot.red { background:var(--red); }
-
-/* ============ REPORTS ============ */
-.report-card {
-  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius);
-  padding:20px; margin-bottom:14px; box-shadow:var(--shadow);
-  cursor:pointer; transition:transform .1s, box-shadow .2s;
-}
-.report-card:hover { box-shadow:var(--shadow-lg); }
-.report-card:active { transform:scale(0.99); }
-.report-card-header { display:flex; align-items:flex-start; gap:14px; }
-.report-icon {
-  width:44px; height:44px; border-radius:12px; flex-shrink:0;
-  display:flex; align-items:center; justify-content:center; font-size:22px;
-}
-.report-icon.copilot { background:var(--blue-light); color:var(--blue); }
-.report-icon.autopilot { background:var(--green-light); color:var(--green); }
-.report-icon.monitor { background:var(--purple-light); color:var(--purple); }
-.report-info { flex:1; min-width:0; }
-.report-info h3 { font-size:16px; font-weight:600; margin-bottom:2px; }
-.report-info .report-sub { font-size:13px; color:var(--text-secondary); }
-.report-big-num { display:flex; align-items:baseline; gap:6px; margin-top:12px; }
-.report-big-num .num { font-size:28px; font-weight:800; }
-.report-big-num .lbl { font-size:13px; color:var(--text-secondary); }
-.report-opp { font-size:13px; font-weight:600; color:var(--green); margin-top:2px; }
-.report-progress { margin-top:10px; }
-.progress-bar { height:6px; background:var(--gray-light); border-radius:3px; overflow:hidden; }
-.progress-fill { height:100%; border-radius:3px; background:var(--blue); transition:width .4s ease; }
-.report-cpi { font-size:12px; color:var(--text-secondary); margin-top:8px; }
-
-/* Report Modal */
-.modal-overlay {
-  position:fixed; inset:0; z-index:200;
-  background:rgba(0,0,0,0.4); display:none;
-  align-items:flex-end; justify-content:center;
-}
-.modal-overlay.active { display:flex; }
-.modal-sheet {
-  background:#fff; width:100%; max-width:600px;
-  max-height:85vh; border-radius:20px 20px 0 0;
-  display:flex; flex-direction:column; overflow:hidden;
-  animation:slideUp .25s ease;
-}
-@keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
-.modal-header { padding:20px; border-bottom:1px solid var(--gray-border); display:flex; align-items:center; justify-content:space-between; }
-.modal-header h3 { font-size:18px; font-weight:600; }
-.modal-close { padding:6px; font-size:20px; color:var(--text-secondary); }
-.modal-body { flex:1; overflow-y:auto; padding:16px 20px; }
-
-.change-item {
-  background:var(--gray-light); border-radius:var(--radius-sm); padding:14px;
-  margin-bottom:10px; display:flex; align-items:center; gap:12px;
-}
-.change-item .ci-info { flex:1; min-width:0; }
-.change-item .ci-name { font-size:14px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.change-item .ci-code { font-size:12px; color:var(--text-secondary); }
-.change-item .ci-prices { font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px; }
-.change-item .ci-actions { display:flex; gap:6px; }
-.ci-btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:600; }
-.ci-btn.approve { background:var(--green); color:#fff; }
-.ci-btn.reject { background:var(--gray-light); color:var(--text-secondary); border:1px solid var(--gray-border); }
-
-.approve-all-bar { padding:16px 20px; border-top:1px solid var(--gray-border); display:flex; gap:10px; }
-
-/* ============ CHANGES ============ */
-.search-bar { position:relative; margin-bottom:16px; }
-.search-bar input {
-  width:100%; padding:12px 14px 12px 42px; font-size:15px;
-  border:1.5px solid var(--gray-border); border-radius:var(--radius-sm);
-  background:#fff;
-}
-.search-bar svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--gray); }
-.search-bar input:focus { border-color:var(--blue); }
-
-.service-row {
-  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius-sm);
-  padding:14px 16px; margin-bottom:8px; cursor:pointer;
-  display:flex; align-items:center; justify-content:space-between;
+/* ===== REVIEW ITEMS (price review tab) ===== */
+.review-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;margin-bottom:10px;overflow:hidden;
+  box-shadow:0 1px 4px rgba(37,99,235,.05);
   transition:box-shadow .2s;
 }
-.service-row:hover { box-shadow:var(--shadow); }
-.service-row .sr-name { font-size:14px; font-weight:500; }
-.service-row .sr-meta { font-size:12px; color:var(--text-secondary); }
-.service-row .sr-price { font-size:16px; font-weight:700; }
-
-/* Price editor */
-.price-editor { background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius); padding:24px; margin-bottom:16px; }
-.price-editor .pe-service-name { font-size:16px; font-weight:600; margin-bottom:4px; }
-.price-editor .pe-service-code { font-size:13px; color:var(--text-secondary); margin-bottom:20px; }
-.price-input-wrap { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
-.price-input-wrap .dollar { font-size:32px; font-weight:700; color:var(--text-secondary); }
-.price-input-wrap input {
-  width:120px; font-size:36px; font-weight:800; border:none;
-  border-bottom:2px solid var(--gray-border); padding:4px 0;
-  text-align:center;
+.review-card:hover{box-shadow:0 4px 16px rgba(37,99,235,.09);}
+.review-row{
+  display:grid;grid-template-columns:1fr auto auto auto;
+  align-items:center;gap:1rem;padding:1rem 1.5rem;
 }
-.price-input-wrap input:focus { border-bottom-color:var(--blue); }
-.delta-badge {
-  display:inline-flex; align-items:center; gap:4px;
-  padding:4px 10px; border-radius:20px; font-size:13px; font-weight:600;
+.review-name{font-size:.9rem;font-weight:600;color:var(--text);}
+.review-code{font-size:.74rem;color:var(--muted);margin-top:2px;}
+.review-prices{display:flex;align-items:center;gap:.5rem;font-size:.85rem;}
+.review-old{color:var(--muted);text-decoration:line-through;}
+.review-arrow{color:var(--muted);}
+.review-new{font-weight:700;color:var(--text);}
+.pct-badge{
+  display:inline-flex;align-items:center;padding:3px 9px;
+  border-radius:20px;font-size:.75rem;font-weight:700;
 }
-.delta-badge.positive { background:var(--green-light); color:var(--green); }
-.delta-badge.negative { background:var(--red-light); color:var(--red); }
-.delta-badge.neutral { background:var(--gray-light); color:var(--text-secondary); }
-
-.bump-buttons { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
-.bump-btn {
-  padding:8px 16px; border-radius:20px; font-size:13px; font-weight:600;
-  background:var(--blue-light); color:var(--blue); transition:all .15s;
+.pct-badge.up{background:rgba(22,163,74,.1);color:var(--green);}
+.pct-badge.down{background:rgba(239,68,68,.1);color:var(--red);}
+.pct-badge.neutral{background:#f1f5f9;color:var(--muted);}
+.review-actions{display:flex;gap:6px;}
+.btn-approve{
+  padding:6px 16px;border-radius:7px;font-size:.78rem;font-weight:700;
+  background:var(--green);color:#fff;transition:all .15s;
 }
-.bump-btn:hover { background:var(--blue); color:#fff; }
-
-.impact-preview {
-  background:var(--green-light); border-radius:var(--radius-sm);
-  padding:14px; display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:16px;
+.btn-approve:hover{filter:brightness(1.08);}
+.btn-approve.approved{background:rgba(22,163,74,.12);color:var(--green);border:1px solid rgba(22,163,74,.25);}
+.btn-skip{
+  padding:6px 14px;border-radius:7px;font-size:.78rem;font-weight:600;
+  background:#f1f5f9;color:var(--muted);border:1px solid var(--gray-border);
+  transition:all .15s;
 }
-.impact-preview .ip-label { font-size:13px; color:var(--text-secondary); }
-.impact-preview .ip-value { font-size:18px; font-weight:700; color:var(--green); }
+.btn-skip:hover{background:#e2e8f0;}
 
-.btn-save {
-  width:100%; padding:14px; font-size:15px; font-weight:600;
-  background:var(--blue); color:#fff; border-radius:var(--radius-sm);
+/* ===== FLAG CARD (monitor tab) ===== */
+.flag-card{
+  background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--amber);
+  border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:10px;
+  box-shadow:0 1px 4px rgba(37,99,235,.04);
 }
-.btn-save:hover { background:var(--blue-dark); }
-.btn-save:disabled { opacity:0.5; }
-
-/* ============ HISTORY ============ */
-.filter-chips { display:flex; gap:8px; margin-bottom:16px; }
-.chip {
-  padding:6px 16px; border-radius:20px; font-size:13px; font-weight:500;
-  background:#fff; border:1px solid var(--gray-border); color:var(--text-secondary);
+.flag-card.red{border-left-color:var(--red);}
+.flag-card.green{border-left-color:var(--green);}
+.flag-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+.flag-name{font-size:.9rem;font-weight:700;color:var(--text);}
+.flag-code{font-size:.74rem;color:var(--muted);margin-top:2px;}
+.flag-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;
+  white-space:nowrap;flex-shrink:0;
 }
-.chip.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+.flag-badge.warn{background:var(--amber-light);color:var(--amber);}
+.flag-badge.alert{background:var(--red-light);color:var(--red);}
+.flag-badge.ok{background:var(--green-light);color:var(--green);}
+.flag-stats{display:flex;gap:2rem;margin-top:.85rem;}
+.flag-stat{display:flex;flex-direction:column;gap:2px;}
+.flag-stat .fs-label{font-size:.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.flag-stat .fs-value{font-size:.95rem;font-weight:800;color:var(--text);}
+.flag-stat .fs-value.red{color:var(--red);}
+.flag-stat .fs-value.green{color:var(--green);}
 
-.history-summary { font-size:13px; color:var(--text-secondary); margin-bottom:16px; }
-.date-header { font-size:13px; font-weight:600; color:var(--text-secondary); margin:16px 0 8px; }
-
-.history-card {
-  background:var(--card); border:1px solid var(--gray-border); border-radius:var(--radius-sm);
-  padding:14px 16px; margin-bottom:8px; cursor:pointer;
+/* ===== SECTION TITLE ROW ===== */
+.section-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.section-title{font-size:1.1rem;font-weight:800;color:var(--text);}
+.section-sub{font-size:.82rem;color:var(--muted);margin-top:2px;}
+.section-action{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 16px;border-radius:8px;font-size:.8rem;font-weight:700;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;
+  box-shadow:0 2px 8px rgba(37,99,235,.25);transition:all .15s;
 }
-.history-card-header { display:flex; align-items:center; justify-content:space-between; }
-.history-card .hc-name { font-size:14px; font-weight:500; }
-.history-card .hc-prices { font-size:13px; color:var(--text-secondary); margin-top:2px; }
-.history-card .hc-right { display:flex; align-items:center; gap:8px; }
-.status-pill {
-  padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600;
+.section-action:hover{box-shadow:0 4px 14px rgba(37,99,235,.35);transform:translateY(-1px);}
+.section-action.secondary{background:#f1f5f9;color:var(--muted);box-shadow:none;border:1px solid var(--gray-border);}
+.section-action.secondary:hover{background:#e2e8f0;transform:none;box-shadow:none;}
+
+/* ===== SEARCH BAR ===== */
+.search-wrap{position:relative;margin-bottom:1rem;}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);}
+.search-wrap input{
+  width:100%;padding:10px 14px 10px 36px;
+  border:1.5px solid var(--gray-border);border-radius:9px;
+  font-size:.85rem;background:#fff;color:var(--text);
+  transition:border-color .2s;
 }
-.status-pill.pending { background:var(--amber-light); color:var(--amber); }
-.status-pill.applied { background:var(--green-light); color:var(--green); }
-.history-card-detail { display:none; padding-top:12px; margin-top:12px; border-top:1px solid var(--gray-border); font-size:13px; color:var(--text-secondary); }
-.history-card.expanded .history-card-detail { display:block; }
-.history-card-detail .detail-row { margin-bottom:4px; }
+.search-wrap input:focus{border-color:var(--primary);}
 
-/* ============ SETTINGS ============ */
-.profile-card { display:flex; align-items:center; gap:16px; }
-.profile-avatar {
-  width:56px; height:56px; border-radius:14px;
-  background:var(--blue); color:#fff;
-  display:flex; align-items:center; justify-content:center;
-  font-size:20px; font-weight:700;
+/* ===== FILTER CHIPS ===== */
+.filter-row{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;}
+.chip{
+  padding:5px 14px;border-radius:20px;font-size:.78rem;font-weight:600;
+  background:#fff;border:1px solid var(--gray-border);color:var(--muted);
+  transition:all .15s;
 }
-.profile-info .name { font-size:17px; font-weight:600; }
-.profile-info .email { font-size:13px; color:var(--text-secondary); }
+.chip:hover{border-color:var(--primary);color:var(--primary);}
+.chip.active{background:var(--primary);color:#fff;border-color:var(--primary);}
 
-.settings-section { margin-bottom:16px; }
-.settings-section h3 { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; padding-left:4px; }
-.settings-row {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 0; border-bottom:1px solid var(--gray-border);
+/* ===== HISTORY ITEMS ===== */
+.history-date-header{
+  font-size:.72rem;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;
+  margin:1.25rem 0 .5rem;
 }
-.settings-row:last-child { border-bottom:none; }
-.settings-row .sr-label { font-size:14px; }
-.settings-row .sr-value { font-size:14px; color:var(--text-secondary); }
-
-/* Toggle switch */
-.toggle { width:44px; height:24px; border-radius:12px; background:#cbd5e1; position:relative; cursor:pointer; transition:background .2s; }
-.toggle.active { background:var(--blue); }
-.toggle::after { content:''; position:absolute; width:20px; height:20px; border-radius:50%; background:#fff; top:2px; left:2px; transition:left .2s; }
-.toggle.active::after { left:22px; }
-
-/* Select */
-.select-input {
-  padding:6px 28px 6px 10px; font-size:14px; border:1px solid var(--gray-border);
-  border-radius:8px; background:#fff; appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-position:right 8px center; background-repeat:no-repeat; background-size:12px;
+.history-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:11px;padding:.9rem 1.25rem;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  cursor:pointer;transition:box-shadow .15s;
 }
-
-.btn-danger { width:100%; padding:12px; font-size:14px; font-weight:600; background:var(--red-light); color:var(--red); border-radius:var(--radius-sm); border:1px solid var(--red); }
-.btn-logout { width:100%; padding:12px; font-size:14px; font-weight:600; background:var(--gray-light); color:var(--text); border-radius:var(--radius-sm); }
-
-/* ============ NOTIFICATIONS ============ */
-.notif-panel {
-  position:fixed; top:0; right:0; bottom:0; width:100%; max-width:420px;
-  background:#fff; z-index:300; transform:translateX(100%);
-  transition:transform .25s ease; display:flex; flex-direction:column;
-  box-shadow:-4px 0 24px rgba(0,0,0,0.1);
+.history-item:hover{box-shadow:0 3px 12px rgba(37,99,235,.08);}
+.history-item-left{flex:1;min-width:0;}
+.hi-name{font-size:.88rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hi-meta{font-size:.74rem;color:var(--muted);margin-top:2px;}
+.hi-right{display:flex;align-items:center;gap:.75rem;flex-shrink:0;}
+.status-pill{
+  padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;
 }
-.notif-panel.active { transform:translateX(0); }
-.notif-header { padding:20px; border-bottom:1px solid var(--gray-border); display:flex; align-items:center; justify-content:space-between; }
-.notif-header h3 { font-size:18px; font-weight:600; }
-.notif-body { flex:1; overflow-y:auto; }
-.notif-item { padding:16px 20px; border-bottom:1px solid var(--gray-border); cursor:pointer; }
-.notif-item.unread { background:var(--blue-light); }
-.notif-item .ni-title { font-size:14px; font-weight:600; margin-bottom:2px; }
-.notif-item .ni-body { font-size:13px; color:var(--text-secondary); }
-.notif-item .ni-time { font-size:11px; color:var(--text-light); margin-top:4px; }
-.notif-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:250; display:none; }
-.notif-overlay.active { display:block; }
+.status-pill.applied{background:var(--green-light);color:var(--green);}
+.status-pill.pending{background:var(--amber-light);color:var(--amber);}
+.status-pill.skipped{background:#f1f5f9;color:var(--muted);}
 
-/* ============ LOADING ============ */
-.spinner {
-  width:24px; height:24px; border:3px solid var(--gray-border);
-  border-top-color:var(--blue); border-radius:50%;
-  animation:spin 0.8s linear infinite;
+/* ===== SETTINGS ===== */
+.settings-section{margin-bottom:1.5rem;}
+.settings-section h3{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;padding-left:2px;}
+.settings-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.settings-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid var(--border);
 }
-@keyframes spin { to { transform:rotate(360deg); } }
-.loading-center { display:flex; justify-content:center; padding:40px; }
-.empty-state { text-align:center; padding:40px 20px; color:var(--text-secondary); }
-.empty-state svg { width:48px; height:48px; margin-bottom:12px; opacity:0.4; }
+.settings-row:last-child{border-bottom:none;}
+.sr-label{font-size:.88rem;font-weight:500;}
+.sr-value{font-size:.88rem;color:var(--muted);}
+.toggle{width:42px;height:23px;border-radius:12px;background:#cbd5e1;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--primary);}
+.toggle::after{content:'';position:absolute;width:19px;height:19px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.toggle.on::after{left:21px;}
+.select-input{padding:6px 28px 6px 10px;font-size:.85rem;border:1px solid var(--gray-border);border-radius:8px;background:#fff;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-position:right 8px center;background-repeat:no-repeat;background-size:12px;color:var(--text);}
+.profile-row{display:flex;align-items:center;gap:14px;padding:18px 20px;}
+.profile-avatar{width:48px;height:48px;border-radius:12px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;flex-shrink:0;}
+.profile-info .pn{font-size:1rem;font-weight:700;}
+.profile-info .pe{font-size:.8rem;color:var(--muted);}
+.btn-logout{width:100%;padding:12px;font-size:.88rem;font-weight:700;background:#f1f5f9;color:var(--text);border-radius:10px;margin-top:.5rem;border:1px solid var(--gray-border);transition:background .15s;}
+.btn-logout:hover{background:#e2e8f0;}
 
-/* ============ TOAST ============ */
-.toast {
-  position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(100px);
-  background:var(--text); color:#fff; padding:12px 24px; border-radius:24px;
-  font-size:14px; font-weight:500; z-index:500;
-  transition:transform .3s ease; box-shadow:var(--shadow-lg);
+/* ===== EMPTY / LOADING ===== */
+.spinner{width:22px;height:22px;border:2.5px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading{display:flex;align-items:center;justify-content:center;gap:.75rem;padding:3rem;color:var(--muted);}
+.empty-state{text-align:center;padding:3rem 1.5rem;color:var(--muted);}
+.empty-state svg{width:44px;height:44px;margin-bottom:12px;opacity:.35;}
+.empty-state p{font-size:.9rem;}
+
+/* ===== NOTIFICATION PANEL ===== */
+.notif-overlay{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:250;display:none;}
+.notif-overlay.active{display:block;}
+.notif-panel{
+  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:400px;
+  background:#fff;z-index:300;transform:translateX(100%);
+  transition:transform .25s ease;display:flex;flex-direction:column;
+  box-shadow:-4px 0 32px rgba(0,0,0,.12);
 }
-.toast.show { transform:translateX(-50%) translateY(0); }
-.toast.success { background:var(--green); }
-.toast.error { background:var(--red); }
+.notif-panel.active{transform:translateX(0);}
+.notif-header{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.notif-header h3{font-size:1rem;font-weight:700;}
+.notif-header-actions{display:flex;gap:8px;}
+.notif-header-actions button{font-size:.8rem;color:var(--primary);font-weight:600;}
+.notif-body{flex:1;overflow-y:auto;}
+.notif-item{padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+.notif-item:hover{background:var(--surface2);}
+.notif-item.unread{background:#eff6ff;}
+.ni-title{font-size:.85rem;font-weight:600;margin-bottom:2px;}
+.ni-body{font-size:.78rem;color:var(--muted);}
+.ni-time{font-size:.7rem;color:#94a3b8;margin-top:4px;}
 
-/* ============ RESPONSIVE ============ */
-@media (max-width: 768px) {
-  .sidebar { display:none; }
-  .topbar { padding:0 12px; height:52px; }
-  .topbar .clinic-chip { display:none; }
-  .topbar-left .topbar-logo { display:flex; align-items:center; gap:8px; }
-  .topbar-left .topbar-logo img { height:24px; }
-  .topbar-left .topbar-logo .logo-text { font-size:15px; font-weight:800; }
-  .bottom-tabs { display:block; }
-  .main-content { padding:16px 16px 80px; }
-  .hero-row { grid-template-columns:1fr; }
-  .home-lower { grid-template-columns:1fr; }
-  .quarterly-row { grid-template-columns:1fr; }
-  .grade-section { flex-direction:column; text-align:center; gap:16px; }
-  .verdict-row .v-label { width:100px; }
-  .modal-overlay { align-items:flex-end; }
-  .toast { bottom:72px; }
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--text);color:#fff;padding:11px 22px;border-radius:22px;
+  font-size:.85rem;font-weight:500;z-index:500;
+  transition:transform .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.2);
+  pointer-events:none;white-space:nowrap;
 }
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
 
-/* Desktop refinements */
-@media (min-width: 769px) {
-  body { background:var(--bg); }
-  .toast { bottom:24px; }
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .header{padding:0 1rem;}
+  .tab-nav{padding:0 1rem;overflow-x:auto;gap:2px;}
+  .tab-btn span.tab-label{display:none;}
+  .section{padding:1rem;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .review-row{grid-template-columns:1fr auto;gap:.5rem;}
+  .review-prices{display:none;}
+  .flag-stats{gap:1rem;flex-wrap:wrap;}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== LOGIN SCREEN ===== -->
+<!-- ===== LOGIN ===== -->
 <div id="loginScreen">
   <div class="login-card">
-    <img src="logo.png" alt="Vet INC" class="login-logo-img" onerror="this.style.display='none'">
-    <div class="login-brand-name">Vet <span>INC</span></div>
-    <p class="subtitle">Pricing Intelligence Platform</p>
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="login-logo-text">Vet <span>INC</span></div>
+    </div>
+    <p class="login-subtitle">Fee schedule management</p>
     <div class="login-error" id="loginError"></div>
     <div class="input-group">
       <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="you@vetinc.ca" value="">
+      <input type="email" id="loginEmail" placeholder="you@clinic.ca">
     </div>
     <div class="input-group">
       <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="••••••••" value="">
+      <input type="password" id="loginPassword" placeholder="••••••••">
     </div>
     <div id="signupFields" style="display:none">
       <div class="input-group">
@@ -592,72 +468,72 @@ a { color: var(--blue); text-decoration:none; }
 
 <!-- ===== APP ===== -->
 <div id="app">
-  <!-- Sidebar (desktop) -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <img src="logo.png" alt="Vet INC" onerror="this.style.display='none'">
-      <div class="logo-text">Vet <span>INC</span></div>
-    </div>
-    <nav id="sidebarNav"></nav>
-    <div class="sidebar-bottom">
-      <div class="sidebar-user" id="sidebarUser" onclick="switchPage('settings')">
-        <div class="avatar" id="sidebarAvatar">VI</div>
-        <div class="user-info">
-          <div class="name" id="sidebarClinicName">Clinic</div>
-          <div class="clinic" id="sidebarEmail">—</div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
+        <div class="logo-text">Vet <span>INC</span></div>
       </div>
+      <div class="header-divider"></div>
+      <span class="clinic-name-header" id="headerClinicName">Loading…</span>
+    </div>
+    <div class="header-right">
+      <div class="live-badge"><span class="live-dot"></span> Live</div>
+      <button class="bell-btn" onclick="openNotifications()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <span class="bell-badge" id="bellBadge" style="display:none">0</span>
+      </button>
     </div>
   </div>
 
-  <!-- Main column (topbar + content) -->
-  <div class="main-column">
-    <!-- TopBar -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <!-- Mobile logo (hidden on desktop since sidebar has it) -->
-        <div class="topbar-logo" style="display:none" id="topbarLogoMobile">
-          <img src="logo.png" alt="Vet INC">
-          <div class="logo-text">Vet <span>INC</span></div>
-        </div>
-        <span class="topbar-page-title" id="topbarPageTitle">Home</span>
-      </div>
-      <div class="topbar-right">
-        <div class="clinic-chip">
-          <span class="dot"></span>
-          <span id="topbarClinic">Rosslyn</span>
-        </div>
-        <button class="bell-btn" onclick="openNotifications()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-          </svg>
-          <span class="bell-badge" id="bellBadge" style="display:none">0</span>
-        </button>
-      </div>
-      <!-- Hidden but kept for JS compat -->
-      <div class="topbar-tabs" id="topbarTabs" style="display:none"></div>
-    </div>
-
-    <!-- Main content -->
-    <div class="main-content" id="mainContent">
-      <!-- Page: Home -->
-      <div class="page active" id="page-home"></div>
-      <!-- Page: Reports -->
-      <div class="page" id="page-reports"></div>
-      <!-- Page: Changes -->
-      <div class="page" id="page-changes"></div>
-      <!-- Page: History -->
-      <div class="page" id="page-history"></div>
-      <!-- Page: Settings -->
-      <div class="page" id="page-settings"></div>
-    </div>
+  <!-- Tab Nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('overview')" id="tab-btn-overview">
+      <span class="ti">📊</span> <span class="tab-label">Overview</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('review')" id="tab-btn-review">
+      <span class="ti">✅</span> <span class="tab-label">Price Review</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('monitor')" id="tab-btn-monitor">
+      <span class="ti">🔍</span> <span class="tab-label">Monitor</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('history')" id="tab-btn-history">
+      <span class="ti">🕐</span> <span class="tab-label">History</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('settings')" id="tab-btn-settings">
+      <span class="ti">⚙️</span> <span class="tab-label">Settings</span>
+    </button>
   </div>
 
-  <!-- Bottom tabs (mobile) -->
-  <div class="bottom-tabs">
-    <div class="tab-inner" id="bottomTabs"></div>
+  <!-- ===== TAB: OVERVIEW ===== -->
+  <div class="section active" id="section-overview">
+    <div id="overview-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
   </div>
+
+  <!-- ===== TAB: PRICE REVIEW ===== -->
+  <div class="section" id="section-review">
+    <div id="review-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  </div>
+
+  <!-- ===== TAB: MONITOR ===== -->
+  <div class="section" id="section-monitor">
+    <div id="monitor-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  </div>
+
+  <!-- ===== TAB: HISTORY ===== -->
+  <div class="section" id="section-history">
+    <div id="history-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  </div>
+
+  <!-- ===== TAB: SETTINGS ===== -->
+  <div class="section" id="section-settings">
+    <div id="settings-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  </div>
+
 </div>
 
 <!-- Notification panel -->
@@ -665,26 +541,12 @@ a { color: var(--blue); text-decoration:none; }
 <div class="notif-panel" id="notifPanel">
   <div class="notif-header">
     <h3>Notifications</h3>
-    <div style="display:flex; gap:8px;">
-      <button style="font-size:13px; color:var(--blue); font-weight:500;" id="markAllReadBtn" onclick="markAllRead()">Mark all read</button>
-      <button class="modal-close" onclick="closeNotifications()">✕</button>
+    <div class="notif-header-actions">
+      <button onclick="markAllRead()">Mark all read</button>
+      <button onclick="closeNotifications()" style="color:var(--muted);">✕</button>
     </div>
   </div>
   <div class="notif-body" id="notifBody"></div>
-</div>
-
-<!-- Report modal -->
-<div class="modal-overlay" id="reportModal">
-  <div class="modal-sheet">
-    <div class="modal-header">
-      <h3 id="modalTitle">Report</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-    <div class="approve-all-bar" id="approveAllBar" style="display:none">
-      <button class="btn-primary" style="flex:1" onclick="approveAll()">Approve All</button>
-    </div>
-  </div>
 </div>
 
 <!-- Toast -->
@@ -695,7 +557,7 @@ a { color: var(--blue); text-decoration:none; }
 // CONFIG
 // ============================================================
 const SB_URL = 'https://rnqhhzatlxmyvccdvqkr.supabase.co/rest/v1';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJucWhoemF0bHhteXZjY2R2cWtyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTAxNDk4NSwiZXhwIjoyMDkwNTkwOTg1fQ.Js6sEzcCbIkIx5QDtk4TDtSliUeD52e2H2D-Sxatg2w';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJucWhoemF0bHhteXZjY2R2cXIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0NjE0MDEzMCwiZXhwIjoyMDYxNzE2MTMwfQ.EBVwHuGz-lv9sKNv7SJT9aoBZPrxTMSSJJH-Ptg2w';
 const CURRENT_CLINIC = 'rosslyn';
 const SALT = '_vetinc_salt_2026';
 
@@ -707,13 +569,11 @@ const sbHeaders = {
   'Authorization': `Bearer ${SB_KEY}`,
   'Content-Type': 'application/json'
 };
-
 async function sbFetch(path) {
   const res = await fetch(`${SB_URL}/${path}`, { headers: sbHeaders });
   if (!res.ok) throw new Error(`SB ${res.status}: ${await res.text()}`);
   return res.json();
 }
-
 async function sbPost(path, body) {
   const res = await fetch(`${SB_URL}/${path}`, {
     method: 'POST',
@@ -723,7 +583,6 @@ async function sbPost(path, body) {
   if (!res.ok) throw new Error(`SB POST ${res.status}: ${await res.text()}`);
   return res.json();
 }
-
 async function sbPatch(path, body) {
   const res = await fetch(`${SB_URL}/${path}`, {
     method: 'PATCH',
@@ -741,24 +600,15 @@ function fmtMoney(n) {
   if (n == null || isNaN(n)) return '$0';
   return '$' + Math.round(n).toLocaleString('en-US');
 }
-
 function fmtMoneyDecimal(n) {
   if (n == null || isNaN(n)) return '$0.00';
   return '$' + Number(n).toFixed(2);
 }
-
 function fmtDate(iso) {
-  if (!iso) return '';
+  if (!iso) return '—';
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
 }
-
-function fmtDateShort(iso) {
-  if (!iso) return '';
-  const d = new Date(iso);
-  return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
-}
-
 function timeAgo(iso) {
   const diff = Date.now() - new Date(iso).getTime();
   const hrs = Math.floor(diff / 3600000);
@@ -768,25 +618,16 @@ function timeAgo(iso) {
   if (days < 7) return days + 'd ago';
   return fmtDate(iso);
 }
-
-function computeGrade(confident, uncertain, reverted) {
-  const total = confident + uncertain + reverted;
-  if (total === 0) return { grade: 'B', score: 75 };
-  const score = Math.round((confident * 100 + uncertain * 50) / total);
-  let grade = 'D';
-  if (score >= 85) grade = 'A';
-  else if (score >= 70) grade = 'B';
-  else if (score >= 50) grade = 'C';
-  return { grade, score };
+function daysSince(iso) {
+  if (!iso) return null;
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
 }
-
 async function sha256(text) {
   const encoder = new TextEncoder();
   const data = encoder.encode(text);
   const hash = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
-
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -798,20 +639,17 @@ function showToast(msg, type = '') {
 // STATE
 // ============================================================
 let currentUser = null;
-let currentPage = 'home';
 let clinicSettings = null;
 let notificationsData = [];
-let reportsData = [];
+let reviewData = [];
 let historyData = [];
-let servicesData = [];
-let selectedService = null;
-let currentReport = null;
+let historyFilter = 'all';
+let reviewFilter = 'all';
+let isSignup = false;
 
 // ============================================================
 // AUTH
 // ============================================================
-let isSignup = false;
-
 function toggleSignup() {
   isSignup = !isSignup;
   document.getElementById('signupFields').style.display = isSignup ? 'block' : 'none';
@@ -829,62 +667,29 @@ async function doLogin() {
   const password = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   const btn = document.getElementById('loginBtn');
-
   if (!email || !password) { errEl.textContent = 'Please enter email and password'; errEl.style.display = 'block'; return; }
-
   btn.disabled = true;
-  btn.textContent = 'Signing in...';
-
+  btn.textContent = 'Signing in…';
   try {
     const hash = await sha256(password + SALT);
-
     if (isSignup) {
       const clinicName = document.getElementById('signupClinic').value.trim();
       const confirm = document.getElementById('signupConfirm').value;
       if (!clinicName) throw new Error('Clinic name is required');
       if (password !== confirm) throw new Error('Passwords do not match');
-
       const existing = await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`);
       if (existing.length > 0) throw new Error('Email already registered');
-
-      await sbPost('vet_auth', {
-        username: email,
-        password_hash: hash,
-        clinic: clinicName,
-        role: 'admin',
-        active: true,
-        clinic_id: CURRENT_CLINIC
-      });
-
-      const user = (await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`))[0];
-      currentUser = user;
+      await sbPost('vet_auth', { username: email, password_hash: hash, clinic: clinicName, role: 'admin', active: true, clinic_id: CURRENT_CLINIC });
+      currentUser = (await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`))[0];
     } else {
-      // Try vet_auth first
       let users = await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&active=eq.true&limit=1`);
       if (users.length > 0 && users[0].password_hash === hash) {
         currentUser = users[0];
       } else {
-        // Fallback to user_accounts
-        users = await sbFetch(`user_accounts?email=eq.${encodeURIComponent(email)}&limit=1`);
-        if (users.length > 0) {
-          // For user_accounts, accept any password with the right hash pattern
-          // or compare against vet_auth hash
-          const vetAuth = await sbFetch(`vet_auth?username=eq.${encodeURIComponent(email)}&limit=1`);
-          if (vetAuth.length > 0 && vetAuth[0].password_hash === hash) {
-            currentUser = vetAuth[0];
-          } else {
-            throw new Error('Invalid email or password');
-          }
-        } else {
-          throw new Error('Invalid email or password');
-        }
+        throw new Error('Invalid email or password');
       }
     }
-
-    // Store session
     sessionStorage.setItem('vetinc_user', JSON.stringify(currentUser));
-
-    // Load app
     enterApp();
   } catch (err) {
     errEl.textContent = err.message || 'Login failed';
@@ -897,14 +702,8 @@ async function doLogin() {
 function enterApp() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').classList.add('active');
-  buildNav();
-  buildBottomTabs();
-  buildTopbarTabs();
-  buildSidebarUser();
-  // Show mobile logo on mobile
-  const isMobile = window.innerWidth < 769;
-  const mobileLogo = document.getElementById('topbarLogoMobile');
-  if (mobileLogo) mobileLogo.style.display = isMobile ? 'flex' : 'none';
+  const initials = (currentUser?.clinic || 'VI').substring(0, 2).toUpperCase();
+  document.getElementById('headerClinicName').textContent = currentUser?.clinic || 'Rosslyn Veterinary Clinic';
   loadAllData();
 }
 
@@ -917,623 +716,428 @@ function logout() {
   document.getElementById('loginPassword').value = '';
 }
 
-// Auto-login from session
+// Auto-login
 const savedUser = sessionStorage.getItem('vetinc_user');
 if (savedUser) {
-  try {
-    currentUser = JSON.parse(savedUser);
-    enterApp();
-  } catch (e) {
-    sessionStorage.removeItem('vetinc_user');
-  }
+  try { currentUser = JSON.parse(savedUser); enterApp(); } catch (e) { sessionStorage.removeItem('vetinc_user'); }
 }
 
 // ============================================================
 // NAVIGATION
 // ============================================================
-const NAV_ITEMS = [
-  { id: 'home', label: 'Home', icon: getIcon('home') },
-  { id: 'reports', label: 'Reports', icon: getIcon('reports') },
-  { id: 'changes', label: 'Changes', icon: getIcon('changes') },
-  { id: 'history', label: 'History', icon: getIcon('history') },
-  { id: 'settings', label: 'Settings', icon: getIcon('settings') },
-];
-
-function buildNav() {
-  const el = document.getElementById('sidebarNav');
-  if (!el) return;
-  el.innerHTML = NAV_ITEMS.map(item => `
-    <button class="nav-item ${item.id === currentPage ? 'active' : ''}" onclick="switchPage('${item.id}')">
-      ${item.icon}
-      <span>${item.label}</span>
-    </button>
-  `).join('');
-}
-
-function buildTopbarTabs() {
-  // No-op — tabs moved to sidebar
-}
-
-function buildBottomTabs() {
-  const tabs = document.getElementById('bottomTabs');
-  tabs.innerHTML = NAV_ITEMS.map(item => `
-    <button class="tab-btn ${item.id === currentPage ? 'active' : ''}" onclick="switchPage('${item.id}')">
-      ${item.icon}
-      <span>${item.label}</span>
-    </button>
-  `).join('');
-}
-
-function buildSidebarUser() {
-  if (!currentUser) return;
-  const initials = (currentUser.clinic || 'VI').substring(0, 2).toUpperCase();
-  const avatarEl = document.getElementById('sidebarAvatar');
-  const nameEl = document.getElementById('sidebarClinicName');
-  const emailEl = document.getElementById('sidebarEmail');
-  if (avatarEl) avatarEl.textContent = initials;
-  if (nameEl) nameEl.textContent = currentUser.clinic || 'Vet INC';
-  if (emailEl) emailEl.textContent = currentUser.username || '';
-  // Update topbar clinic chip
-  const topbarClinic = document.getElementById('topbarClinic');
-  if (topbarClinic) topbarClinic.textContent = currentUser.clinic || 'Rosslyn';
-}
-
-function switchPage(pageId) {
-  currentPage = pageId;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + pageId).classList.add('active');
-
-  // Update sidebar nav
-  document.querySelectorAll('#sidebarNav .nav-item').forEach((n, i) => {
-    if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active');
-    else n.classList.remove('active');
-  });
-
-  // Update bottom tabs
-  document.querySelectorAll('#bottomTabs .tab-btn').forEach((n, i) => {
-    if (NAV_ITEMS[i]?.id === pageId) n.classList.add('active');
-    else n.classList.remove('active');
-  });
-
-  // Update topbar page title
-  const titleEl = document.getElementById('topbarPageTitle');
-  const item = NAV_ITEMS.find(n => n.id === pageId);
-  if (titleEl && item) titleEl.textContent = item.label;
+let currentTab = 'overview';
+function showTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + tab).classList.add('active');
+  document.getElementById('tab-btn-' + tab).classList.add('active');
+  currentTab = tab;
 }
 
 // ============================================================
-// ICONS
-// ============================================================
-function getIcon(name) {
-  const icons = {
-    home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
-    reports: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-    changes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
-    history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.1.39.42.7.81.81H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
-  };
-  return icons[name] || '';
-}
-
-// ============================================================
-// DATA LOADING
+// LOAD ALL DATA
 // ============================================================
 async function loadAllData() {
-  loadHome();
-  loadReports();
-  loadChanges();
+  loadOverview();
+  loadReview();
+  loadMonitor();
   loadHistory();
   loadSettings();
   loadNotifications();
 }
 
 // ============================================================
-// HOME
+// OVERVIEW TAB
 // ============================================================
-async function loadHome() {
-  const el = document.getElementById('page-home');
-  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
-
+async function loadOverview() {
+  const el = document.getElementById('overview-content');
   try {
-    // Fetch data in parallel
-    const [reports, recs, notifs, settings, revenueData] = await Promise.all([
-      sbFetch(`reports?clinic_id=eq.${CURRENT_CLINIC}&status=eq.active&order=sort_order.asc`),
-      sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc`),
-      sbFetch(`notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc`),
+    const [settings, recs, notifs, revenueData] = await Promise.all([
       sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`),
-      sbFetch(`csi_pf_totals?ros=not.is.null&order=day.desc&limit=30&select=day,mdy,ros,daily_total`)
+      sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=500`),
+      sbFetch(`notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc`),
+      sbFetch(`csi_pf_totals?ros=not.is.null&order=day.desc&limit=30&select=day,mdy,ros`)
     ]);
 
     clinicSettings = settings[0] || {};
-    reportsData = reports;
-    historyData = recs;
     notificationsData = notifs;
+    reviewData = recs;
 
-    // Calculate metrics
-    const clinicName = clinicSettings.clinic_name || 'Rosslyn Veterinary Hospital';
-    const dataDate = reports.length > 0 ? fmtDate(reports[0].created_at) : 'N/A';
-
-    // Revenue from csi_pf_totals (sum last 30 days of ros)
-    const revenue = revenueData.reduce((sum, r) => sum + (r.ros || 0), 0);
-    const revenuePrev = revenueData.slice(15).reduce((s, r) => s + (r.ros || 0), 0);
-    const revenueRecent = revenueData.slice(0, 15).reduce((s, r) => s + (r.ros || 0), 0);
-    const revenueDelta = revenuePrev > 0 ? ((revenueRecent - revenuePrev) / revenuePrev * 100) : 0;
-
-    // Avg invoice
-    const visitDays = revenueData.filter(r => r.ros != null);
-    const avgInvoice = visitDays.length > 0 ? revenue / visitDays.length : 0;
-    const totalVisits = visitDays.length;
-
-    // Price changes count
-    const priceChanges = recs.filter(r => r.status === 'applied').length;
-    const avgAdj = recs.length > 0
-      ? recs.reduce((s, r) => s + (r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0), 0) / recs.length
-      : 0;
-    const servicesMonitored = new Set(recs.map(r => r.service_code)).size;
-
-    // Verdict counts
-    const confirmed = recs.filter(r => r.status === 'applied').length;
-    const reverted = 0; // No reverted status in data yet
-    const evaluating = recs.filter(r => r.status === 'pending').length;
-    const grade = computeGrade(confirmed, evaluating, reverted);
-
-    // Update bell badge
+    // Notification badge
     const unread = notifs.filter(n => !n.read).length;
     const badge = document.getElementById('bellBadge');
-    if (unread > 0) {
-      badge.textContent = unread;
-      badge.style.display = 'block';
-    } else {
-      badge.style.display = 'none';
-    }
+    badge.textContent = unread;
+    badge.style.display = unread > 0 ? 'block' : 'none';
 
-    // Render
-    el.innerHTML = `
-      <div class="page-header">
-        <div class="home-clinic-name">${clinicName}</div>
-        <div class="home-data-date">Data through ${dataDate}</div>
-      </div>
+    // Metrics
+    const revenue30 = revenueData.reduce((s, r) => s + (r.ros || 0), 0);
+    const revenueRecent = revenueData.slice(0, 15).reduce((s, r) => s + (r.ros || 0), 0);
+    const revenuePrev = revenueData.slice(15).reduce((s, r) => s + (r.ros || 0), 0);
+    const revDelta = revenuePrev > 0 ? ((revenueRecent - revenuePrev) / revenuePrev * 100) : 0;
+    const activeDays = revenueData.filter(r => r.ros).length;
+    const avgDaily = activeDays > 0 ? revenue30 / activeDays : 0;
 
-      <div class="hero-row">
-        <div class="hero-tile">
-          <div class="label">Revenue (30d)</div>
-          <div class="value">${fmtMoney(revenue)}</div>
-          <div class="delta ${revenueDelta >= 0 ? 'positive' : 'negative'}">
-            ${revenueDelta >= 0 ? '↑' : '↓'} ${Math.abs(revenueDelta).toFixed(1)}%
-          </div>
-        </div>
-        <div class="hero-tile">
-          <div class="label">Avg Daily</div>
-          <div class="value">${fmtMoney(avgInvoice)}</div>
-          <div class="delta neutral">${visitDays.length} active days</div>
-        </div>
-        <div class="hero-tile">
-          <div class="label">Active Days</div>
-          <div class="value">${totalVisits}</div>
-          <div class="delta neutral">Last 30 days</div>
-        </div>
-      </div>
+    const applied = recs.filter(r => r.status === 'applied');
+    const pending = recs.filter(r => r.status === 'pending');
 
-      <div class="home-lower">
-        <div class="card">
-          <div class="card-title">Quarterly Summary</div>
-          <div class="quarterly-row">
-            <div class="quarterly-tile">
-              <div class="num">${priceChanges}</div>
-              <div class="lbl">Price Changes</div>
-            </div>
-            <div class="quarterly-tile">
-              <div class="num">${avgAdj > 0 ? '+' : ''}${isNaN(avgAdj) ? '0.0' : avgAdj.toFixed(1)}%</div>
-              <div class="lbl">Avg Adjustment</div>
-            </div>
-            <div class="quarterly-tile">
-              <div class="num">${servicesMonitored}</div>
-              <div class="lbl">Services Monitored</div>
-            </div>
-          </div>
-        </div>
+    // Last review date — most recent applied rec
+    const lastReviewDate = applied.length > 0 ? applied[0].created_at : null;
+    const daysSinceReview = daysSince(lastReviewDate);
 
-        <div class="card">
-          <div class="card-title">System Performance</div>
-          <div class="grade-section">
-            <div class="grade-circle grade-${grade.grade}">
-              <div class="grade-letter">${grade.grade}</div>
-              <div class="grade-score">${grade.score}/100</div>
-            </div>
-            <div class="verdict-breakdown">
-              <div class="verdict-row">
-                <div class="v-dot green"></div>
-                <div class="v-label">Confirmed Wins</div>
-                <div class="v-bar"><div class="v-fill green" style="width:${confirmed + evaluating + reverted > 0 ? (confirmed / (confirmed + evaluating + reverted) * 100) : 0}%"></div></div>
-                <div class="v-count">${confirmed}</div>
-              </div>
-              <div class="verdict-row">
-                <div class="v-dot amber"></div>
-                <div class="v-label">Evaluating</div>
-                <div class="v-bar"><div class="v-fill amber" style="width:${confirmed + evaluating + reverted > 0 ? (evaluating / (confirmed + evaluating + reverted) * 100) : 0}%"></div></div>
-                <div class="v-count">${evaluating}</div>
-              </div>
-              <div class="verdict-row">
-                <div class="v-dot red"></div>
-                <div class="v-label">Reverted</div>
-                <div class="v-bar"><div class="v-fill red" style="width:0%"></div></div>
-                <div class="v-count">${reverted}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  } catch (err) {
-    el.innerHTML = `<div class="empty-state"><p>⚠️ Failed to load data: ${err.message}</p></div>`;
-  }
-}
+    // Next review — based on schedule setting
+    const schedule = clinicSettings.schedule || 'Quarterly';
+    const scheduleMap = { Weekly: 7, 'Bi-weekly': 14, Monthly: 30, Quarterly: 90 };
+    const intervalDays = scheduleMap[schedule] || 90;
+    const daysUntilNext = lastReviewDate
+      ? Math.max(0, intervalDays - (daysSinceReview || 0))
+      : 0;
 
-// ============================================================
-// REPORTS
-// ============================================================
-async function loadReports() {
-  const el = document.getElementById('page-reports');
-  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+    // Health score: based on how current pricing is
+    const healthPct = Math.min(100, Math.round(((intervalDays - Math.min(daysSinceReview || 0, intervalDays)) / intervalDays) * 100));
+    const healthColor = healthPct >= 70 ? 'green' : healthPct >= 40 ? 'amber' : 'red';
 
-  try {
-    const reports = await sbFetch(`reports?clinic_id=eq.${CURRENT_CLINIC}&status=eq.active&order=sort_order.asc`);
-    reportsData = reports;
-
-    if (reports.length === 0) {
-      el.innerHTML = `
-        <div class="page-header"><div class="page-title">Reports</div></div>
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <p>No reports available yet</p>
-        </div>
-      `;
-      return;
-    }
-
-    // Smart sort: copilot first, then monitor, then autopilot
-    const orderMap = { copilot: 1, monitor: 2, autopilot: 3 };
-    reports.sort((a, b) => (orderMap[a.report_type] || 9) - (orderMap[b.report_type] || 9));
+    // Avg adjustment
+    const avgAdj = applied.length > 0
+      ? applied.reduce((s, r) => s + (r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0), 0) / applied.length
+      : 0;
 
     el.innerHTML = `
-      <div class="page-header">
-        <div class="page-title">Reports</div>
-        <div class="page-subtitle">${reports.length} active ${reports.length === 1 ? 'report' : 'reports'}</div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Revenue (30d)</div>
+          <div class="kpi-value">${fmtMoney(revenue30)}</div>
+          <div class="kpi-sub">Rosslyn Veterinary</div>
+          <div class="kpi-delta ${revDelta >= 0 ? 'up' : 'down'}">${revDelta >= 0 ? '↑' : '↓'} ${Math.abs(revDelta).toFixed(1)}% vs prior 15d</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avg Daily Revenue</div>
+          <div class="kpi-value">${fmtMoney(avgDaily)}</div>
+          <div class="kpi-sub">${activeDays} active days in window</div>
+        </div>
+        <div class="kpi-card ${healthColor}">
+          <div class="kpi-label">Pricing Health</div>
+          <div class="kpi-value ${healthColor}">${healthPct}%</div>
+          <div class="kpi-sub">${daysSinceReview != null ? daysSinceReview + ' days since last review' : 'No reviews yet'}</div>
+        </div>
+        <div class="kpi-card amber">
+          <div class="kpi-label">Next Review</div>
+          <div class="kpi-value amber">${daysUntilNext === 0 ? 'Now' : daysUntilNext + 'd'}</div>
+          <div class="kpi-sub">${schedule} cadence · ${schedule === 'Quarterly' ? 'Every 90 days' : 'Every ' + intervalDays + ' days'}</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">Changes Applied</div>
+          <div class="kpi-value green">${applied.length}</div>
+          <div class="kpi-sub">Avg +${avgAdj.toFixed(1)}% per change</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-label">Pending Review</div>
+          <div class="kpi-value" style="color:var(--purple)">${pending.length}</div>
+          <div class="kpi-sub">Recommendations awaiting approval</div>
+        </div>
       </div>
-      <div id="reportList"></div>
-    `;
 
-    const listEl = document.getElementById('reportList');
-    listEl.innerHTML = reports.map(r => {
-      const data = r.data || {};
-      const flagged = data.flagged_services || 0;
-      const opp = data.total_opportunity || 0;
-      const approved = data.approved_count || 0;
-      const progress = flagged > 0 ? (approved / flagged * 100) : 0;
-      const cpi = data.cpi_label || '';
-      const iconClass = r.report_type || 'copilot';
-      const iconEmoji = r.report_type === 'autopilot' ? '⚡' : r.report_type === 'monitor' ? '📊' : '📈';
-
-      return `
-        <div class="report-card" onclick="openReport('${r.id}')">
-          <div class="report-card-header">
-            <div class="report-icon ${iconClass}">${iconEmoji}</div>
-            <div class="report-info">
-              <h3>${r.title}</h3>
-              <div class="report-sub">${r.subtitle || ''}</div>
-              <div class="report-big-num">
-                <span class="num">${flagged}</span>
-                <span class="lbl">flagged services</span>
-              </div>
-              <div class="report-opp">${fmtMoney(opp)} opportunity</div>
-              ${progress > 0 ? `
-                <div class="report-progress">
-                  <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
-                </div>
-              ` : ''}
-              ${cpi ? `<div class="report-cpi">${cpi}</div>` : ''}
-            </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-label">Review Activity</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;">
+          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
+            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Last Review</div>
+            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${lastReviewDate ? fmtDate(lastReviewDate) : '—'}</div>
+            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">${daysSinceReview != null ? daysSinceReview + ' days ago' : 'No reviews yet'}</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
+            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Review Cadence</div>
+            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${schedule}</div>
+            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">Every ${intervalDays} days</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
+            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Total Recommendations</div>
+            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${recs.length}</div>
+            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">${applied.length} applied · ${pending.length} pending</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
+            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Services Tracked</div>
+            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${new Set(recs.map(r => r.service_code)).size}</div>
+            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">Unique service codes</div>
           </div>
         </div>
-      `;
-    }).join('');
+      </div>
+
+      ${daysUntilNext === 0 || pending.length > 0 ? `
+      <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+        <div>
+          <div style="font-size:.95rem;font-weight:700;color:var(--text);">
+            ${daysUntilNext === 0 ? '🔔 Price review is due' : `📋 ${pending.length} recommendations waiting`}
+          </div>
+          <div style="font-size:.82rem;color:var(--muted);margin-top:4px;">
+            ${daysUntilNext === 0 ? 'Your ' + schedule.toLowerCase() + ' review window is open. Review and approve recommendations.' : 'You have pending price recommendations to review and approve.'}
+          </div>
+        </div>
+        <button class="section-action" onclick="showTab('review')" style="white-space:nowrap;">Review Now →</button>
+      </div>
+      ` : ''}
+    `;
   } catch (err) {
     el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
   }
 }
 
-async function openReport(reportId) {
-  const report = reportsData.find(r => r.id === reportId);
-  if (!report) return;
-  currentReport = report;
-
-  document.getElementById('modalTitle').textContent = report.title;
-  const body = document.getElementById('modalBody');
-  const approveBar = document.getElementById('approveAllBar');
-
-  body.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
-  document.getElementById('reportModal').classList.add('active');
-
+// ============================================================
+// PRICE REVIEW TAB
+// ============================================================
+async function loadReview() {
+  const el = document.getElementById('review-content');
   try {
-    // Get recommendations for this report
-    const changes = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&review_id=eq.${report.data?.monitoring_id || report.id}&order=est_uplift.desc&limit=200`);
-
-    if (changes.length === 0) {
-      // Try without review_id filter for copilot reports
-      const allChanges = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=50`);
-      if (allChanges.length > 0) {
-        renderReportChanges(allChanges);
-      } else {
-        body.innerHTML = `
-          <div class="empty-state">
-            <p>No price changes in this report.</p>
-            <p style="margin-top:8px; font-size:13px;">${report.subtitle || ''}</p>
-          </div>
-        `;
-        approveBar.style.display = 'none';
-      }
-    } else {
-      renderReportChanges(changes);
-      approveBar.style.display = report.report_type === 'copilot' ? 'flex' : 'none';
-    }
+    const recs = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=200`);
+    reviewData = recs;
+    renderReview();
   } catch (err) {
-    body.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
-    approveBar.style.display = 'none';
+    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
   }
 }
 
-function renderReportChanges(changes) {
-  const body = document.getElementById('modalBody');
-  body.innerHTML = changes.slice(0, 50).map(c => {
-    const delta = c.price_new - c.price_old;
-    const pct = c.price_old > 0 ? (delta / c.price_old * 100) : 0;
-    const isPositive = delta > 0;
+function renderReview() {
+  const el = document.getElementById('review-content');
+  let recs = reviewData;
+
+  if (reviewFilter === 'pending') recs = recs.filter(r => r.status === 'pending');
+  else if (reviewFilter === 'applied') recs = recs.filter(r => r.status === 'applied');
+
+  const pendingCount = reviewData.filter(r => r.status === 'pending').length;
+  const appliedCount = reviewData.filter(r => r.status === 'applied').length;
+
+  el.innerHTML = `
+    <div class="section-title-row">
+      <div>
+        <div class="section-title">Price Recommendations</div>
+        <div class="section-sub">${pendingCount} pending · ${appliedCount} approved</div>
+      </div>
+      ${pendingCount > 0 ? `<button class="section-action" onclick="approveAll()">Approve All Pending</button>` : ''}
+    </div>
+    <div class="filter-row">
+      <button class="chip ${reviewFilter === 'all' ? 'active' : ''}" onclick="setReviewFilter('all')">All (${reviewData.length})</button>
+      <button class="chip ${reviewFilter === 'pending' ? 'active' : ''}" onclick="setReviewFilter('pending')">Pending (${pendingCount})</button>
+      <button class="chip ${reviewFilter === 'applied' ? 'active' : ''}" onclick="setReviewFilter('applied')">Approved (${appliedCount})</button>
+    </div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search services…" oninput="filterReviewSearch(this.value)" id="reviewSearch">
+    </div>
+    <div id="reviewList"></div>
+  `;
+
+  renderReviewList(recs);
+}
+
+function renderReviewList(recs) {
+  const el = document.getElementById('reviewList');
+  if (!el) return;
+  if (recs.length === 0) {
+    el.innerHTML = `<div class="empty-state"><p>No recommendations found</p></div>`;
+    return;
+  }
+  el.innerHTML = recs.slice(0, 100).map(r => {
+    const delta = r.price_new - r.price_old;
+    const pct = r.price_old > 0 ? (delta / r.price_old * 100) : 0;
+    const isApplied = r.status === 'applied';
     return `
-      <div class="change-item">
-        <div class="ci-info">
-          <div class="ci-name">${c.service_name || 'Unknown'}</div>
-          <div class="ci-code">${c.service_code || ''} · Vol: ${c.annual_volume || 0}/yr</div>
-        </div>
-        <div class="ci-prices">
-          ${fmtMoneyDecimal(c.price_old)} → ${fmtMoneyDecimal(c.price_new)}
-          <span class="delta-badge ${isPositive ? 'positive' : 'negative'}">
-            ${isPositive ? '+' : ''}${pct.toFixed(1)}%
+      <div class="review-card">
+        <div class="review-row">
+          <div>
+            <div class="review-name">${r.service_name || 'Unknown Service'}</div>
+            <div class="review-code">Code: ${r.service_code || '—'} · Vol: ${r.annual_volume || 0}/yr · Est. impact: ${fmtMoney(r.est_uplift || 0)}/yr</div>
+          </div>
+          <div class="review-prices">
+            <span class="review-old">${fmtMoneyDecimal(r.price_old)}</span>
+            <span class="review-arrow">→</span>
+            <span class="review-new">${fmtMoneyDecimal(r.price_new)}</span>
+          </div>
+          <span class="pct-badge ${delta > 0 ? 'up' : delta < 0 ? 'down' : 'neutral'}">
+            ${delta >= 0 ? '+' : ''}${pct.toFixed(1)}%
           </span>
-        </div>
-        <div class="ci-actions">
-          <button class="ci-btn ${c.status === 'applied' ? 'approve' : 'reject'}" onclick="toggleApproval('${c.id}', '${c.status}')">
-            ${c.status === 'applied' ? '✓ Approved' : 'Approve'}
-          </button>
+          <div class="review-actions">
+            <button class="btn-approve ${isApplied ? 'approved' : ''}" onclick="toggleApproval('${r.id}', '${r.status}')">
+              ${isApplied ? '✓ Approved' : 'Approve'}
+            </button>
+            ${!isApplied ? `<button class="btn-skip" onclick="skipRec('${r.id}')">Skip</button>` : ''}
+          </div>
         </div>
       </div>
     `;
-  }).join('') + (changes.length > 50 ? `<p style="text-align:center; color:var(--text-secondary); padding:12px;">+ ${changes.length - 50} more...</p>` : '');
+  }).join('') + (recs.length > 100 ? `<p style="text-align:center;color:var(--muted);padding:1rem;">+ ${recs.length - 100} more…</p>` : '');
+}
+
+function setReviewFilter(f) {
+  reviewFilter = f;
+  renderReview();
+}
+
+function filterReviewSearch(q) {
+  if (!q) { renderReviewList(reviewData.filter(r => reviewFilter === 'all' ? true : r.status === reviewFilter)); return; }
+  const ql = q.toLowerCase();
+  const filtered = reviewData.filter(r =>
+    (r.service_name || '').toLowerCase().includes(ql) ||
+    (r.service_code || '').toLowerCase().includes(ql)
+  );
+  renderReviewList(filtered);
 }
 
 async function toggleApproval(itemId, currentStatus) {
   const newStatus = currentStatus === 'applied' ? 'pending' : 'applied';
   try {
     await sbPatch(`price_recommendations?id=eq.${itemId}`, { status: newStatus });
-    showToast(`${newStatus === 'applied' ? 'Approved' : 'Reverted'} successfully`, 'success');
-    // Refresh modal
-    if (currentReport) openReport(currentReport.id);
+    showToast(newStatus === 'applied' ? '✓ Approved' : 'Reverted', 'success');
+    loadReview();
+    loadOverview();
   } catch (err) {
-    showToast('Failed to update: ' + err.message, 'error');
+    showToast('Failed: ' + err.message, 'error');
+  }
+}
+
+async function skipRec(itemId) {
+  try {
+    await sbPatch(`price_recommendations?id=eq.${itemId}`, { status: 'skipped' });
+    showToast('Skipped', '');
+    loadReview();
+  } catch (err) {
+    showToast('Failed: ' + err.message, 'error');
   }
 }
 
 async function approveAll() {
-  if (!currentReport) return;
+  const pending = reviewData.filter(r => r.status === 'pending');
+  if (pending.length === 0) { showToast('Nothing to approve', ''); return; }
   try {
-    const changes = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&review_id=eq.${currentReport.data?.monitoring_id || currentReport.id}&status=eq.pending&limit=200`);
-    for (const c of changes) {
-      await sbPatch(`price_recommendations?id=eq.${c.id}`, { status: 'applied' });
+    for (const r of pending) {
+      await sbPatch(`price_recommendations?id=eq.${r.id}`, { status: 'applied' });
     }
-    showToast(`${changes.length} recommendations approved!`, 'success');
-    openReport(currentReport.id);
+    showToast(`✓ ${pending.length} recommendations approved`, 'success');
+    loadReview();
+    loadOverview();
   } catch (err) {
     showToast('Failed: ' + err.message, 'error');
   }
 }
 
-function closeModal() {
-  document.getElementById('reportModal').classList.remove('active');
-}
-
 // ============================================================
-// CHANGES (Quick Price Change)
+// MONITOR TAB — post-change flagging
 // ============================================================
-async function loadChanges() {
-  const el = document.getElementById('page-changes');
-  el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">Quick Price Change</div>
-      <div class="page-subtitle">Search and update service prices</div>
-    </div>
-    <div class="search-bar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="serviceSearch" placeholder="Search services..." oninput="searchServices(this.value)">
-    </div>
-    <div id="searchResults">
-      <div class="empty-state">
-        <p style="font-size:14px;">Start typing to search services</p>
-      </div>
-    </div>
-  `;
-}
-
-let searchTimeout = null;
-async function searchServices(query) {
-  clearTimeout(searchTimeout);
-  if (!query || query.length < 2) {
-    document.getElementById('searchResults').innerHTML = '<div class="empty-state"><p style="font-size:14px;">Start typing to search services</p></div>';
-    return;
-  }
-
-  searchTimeout = setTimeout(async () => {
-    const resultsEl = document.getElementById('searchResults');
-    resultsEl.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
-
-    try {
-      // Try dhv_service_history first, fallback to price_recommendations for service list
-      let services = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&service_name=ilike.*${encodeURIComponent(query)}*&order=created_at.desc&limit=50`);
-
-      // Deduplicate by service_code
-      const seen = new Set();
-      services = services.filter(s => {
-        const key = s.service_code;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-
-      if (services.length === 0) {
-        resultsEl.innerHTML = `<div class="empty-state"><p>No services found for "${query}"</p></div>`;
-        return;
-      }
-
-      resultsEl.innerHTML = services.map(s => `
-        <div class="service-row" onclick="editPrice('${s.service_code}', '${encodeURIComponent(s.service_name || 'Unknown')}', ${s.price_new || s.price_old || 0}, ${s.annual_volume || 0})">
-          <div>
-            <div class="sr-name">${s.service_name || 'Unknown'}</div>
-            <div class="sr-meta">Code: ${s.service_code || 'N/A'} · Vol: ${s.annual_volume || 0}/yr</div>
-          </div>
-          <div class="sr-price">${fmtMoneyDecimal(s.price_new || s.price_old)}</div>
-        </div>
-      `).join('');
-    } catch (err) {
-      resultsEl.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
-    }
-  }, 300);
-}
-
-function editPrice(code, nameEncoded, currentPrice, volume) {
-  const name = decodeURIComponent(nameEncoded);
-  selectedService = { code, name, currentPrice, volume };
-  const resultsEl = document.getElementById('searchResults');
-
-  resultsEl.innerHTML = `
-    <div class="price-editor">
-      <div class="pe-service-name">${name}</div>
-      <div class="pe-service-code">Code: ${code} · Annual Volume: ${volume}</div>
-
-      <div class="price-input-wrap">
-        <span class="dollar">$</span>
-        <input type="number" id="priceInput" value="${currentPrice.toFixed(2)}" step="0.50" oninput="updateDelta()">
-        <span class="delta-badge neutral" id="deltaBadge">No change</span>
-      </div>
-
-      <div class="bump-buttons">
-        <button class="bump-btn" onclick="bumpPrice(0.03)">+3%</button>
-        <button class="bump-btn" onclick="bumpPrice(0.05)">+5%</button>
-        <button class="bump-btn" onclick="bumpPrice(0.10)">+10%</button>
-        <button class="bump-btn" onclick="bumpPrice(0.15)">+15%</button>
-        <button class="bump-btn" onclick="bumpPrice(-0.05)" style="background:var(--red-light); color:var(--red);">−5%</button>
-      </div>
-
-      <div class="impact-preview" id="impactPreview" style="display:none">
-        <span class="ip-label">Estimated Annual Impact</span>
-        <span class="ip-value" id="impactValue">$0</span>
-      </div>
-
-      <button class="btn-save" id="saveBtn" onclick="savePriceChange()">Save Price Change</button>
-    </div>
-    <button class="btn-logout" onclick="loadChanges()" style="margin-top:8px;">← Back to Search</button>
-  `;
-}
-
-function bumpPrice(percent) {
-  const input = document.getElementById('priceInput');
-  const current = selectedService.currentPrice;
-  const newPrice = (current * (1 + percent)).toFixed(2);
-  input.value = newPrice;
-  updateDelta();
-}
-
-function updateDelta() {
-  const input = document.getElementById('priceInput');
-  const newPrice = parseFloat(input.value) || 0;
-  const oldPrice = selectedService.currentPrice;
-  const diff = newPrice - oldPrice;
-  const pct = oldPrice > 0 ? (diff / oldPrice * 100) : 0;
-
-  const badge = document.getElementById('deltaBadge');
-  if (Math.abs(diff) < 0.01) {
-    badge.className = 'delta-badge neutral';
-    badge.textContent = 'No change';
-  } else if (diff > 0) {
-    badge.className = 'delta-badge positive';
-    badge.textContent = `+$${diff.toFixed(2)} (+${pct.toFixed(1)}%)`;
-  } else {
-    badge.className = 'delta-badge negative';
-    badge.textContent = `−$${Math.abs(diff).toFixed(2)} (${pct.toFixed(1)}%)`;
-  }
-
-  // Annual impact
-  const impactEl = document.getElementById('impactPreview');
-  const impactVal = document.getElementById('impactValue');
-  const annualImpact = diff * selectedService.volume;
-  if (Math.abs(annualImpact) > 0.5) {
-    impactEl.style.display = 'flex';
-    impactVal.textContent = (annualImpact >= 0 ? '+' : '−') + fmtMoney(Math.abs(annualImpact));
-    impactVal.style.color = annualImpact >= 0 ? 'var(--green)' : 'var(--red)';
-  } else {
-    impactEl.style.display = 'none';
-  }
-}
-
-async function savePriceChange() {
-  if (!selectedService) return;
-  const input = document.getElementById('priceInput');
-  const btn = document.getElementById('saveBtn');
-  const newPrice = parseFloat(input.value);
-
-  if (!newPrice || newPrice <= 0) {
-    showToast('Enter a valid price', 'error');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
-
+async function loadMonitor() {
+  const el = document.getElementById('monitor-content');
   try {
-    await sbPost('price_recommendations', {
-      clinic_id: CURRENT_CLINIC,
-      review_id: 'manual-' + Date.now(),
-      service_code: selectedService.code,
-      service_name: selectedService.name,
-      price_old: selectedService.currentPrice,
-      price_new: newPrice,
-      source: 'manual',
-      est_uplift: Math.round((newPrice - selectedService.currentPrice) * selectedService.volume),
-      status: 'applied',
-      annual_volume: selectedService.volume
+    // Get applied recommendations — these are what we monitor
+    const applied = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&status=eq.applied&order=created_at.desc&limit=200`);
+
+    if (applied.length === 0) {
+      el.innerHTML = `
+        <div class="section-title-row">
+          <div><div class="section-title">Post-Change Monitor</div><div class="section-sub">Track performance after price changes</div></div>
+        </div>
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <p>No approved price changes to monitor yet.</p>
+          <p style="margin-top:8px;font-size:.8rem;">Once you approve recommendations, we'll flag any services that underperform after the change.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Group by service and check for underperformance
+    // Flag: price went up but est_uplift was high and it's been >30 days
+    const now = Date.now();
+    const flags = applied.map(r => {
+      const daysSinceChange = Math.floor((now - new Date(r.created_at).getTime()) / 86400000);
+      const pct = r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0;
+      // Flagging logic: large increase + enough time has passed to see impact
+      let flagType = 'ok';
+      let flagLabel = 'Tracking';
+      if (daysSinceChange < 14) { flagType = 'ok'; flagLabel = 'Too early to flag'; }
+      else if (pct > 15) { flagType = 'warn'; flagLabel = 'Watch: Large increase'; }
+      else if (pct > 25) { flagType = 'alert'; flagLabel = 'Review: Very large increase'; }
+      else { flagType = 'ok'; flagLabel = 'Performing normally'; }
+      return { ...r, daysSinceChange, pct, flagType, flagLabel };
     });
 
-    btn.textContent = '✓ Saved!';
-    btn.style.background = 'var(--green)';
-    showToast('Price change saved successfully!', 'success');
+    const watchFlags = flags.filter(f => f.flagType !== 'ok' || f.daysSinceChange >= 14);
+    const alertCount = flags.filter(f => f.flagType === 'alert').length;
+    const warnCount = flags.filter(f => f.flagType === 'warn').length;
 
-    setTimeout(() => {
-      loadChanges();
-      loadHistory(); // Refresh history
-    }, 1500);
+    el.innerHTML = `
+      <div class="section-title-row">
+        <div>
+          <div class="section-title">Post-Change Monitor</div>
+          <div class="section-sub">${applied.length} price changes tracked · ${alertCount} alerts · ${warnCount} warnings</div>
+        </div>
+      </div>
+
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem;">
+        <div class="kpi-card">
+          <div class="kpi-label">Changes Tracked</div>
+          <div class="kpi-value">${applied.length}</div>
+          <div class="kpi-sub">Price changes applied</div>
+        </div>
+        <div class="kpi-card amber">
+          <div class="kpi-label">Warnings</div>
+          <div class="kpi-value amber">${warnCount}</div>
+          <div class="kpi-sub">Large increases to watch</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avg Change</div>
+          <div class="kpi-value">+${(applied.reduce((s, r) => s + (r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0), 0) / applied.length).toFixed(1)}%</div>
+          <div class="kpi-sub">Across all applied changes</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-header-title">Applied Price Changes</div>
+          <div class="table-meta">${applied.length} changes</div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Code</th>
+                <th class="num">Old Price</th>
+                <th class="num">New Price</th>
+                <th class="num">Change</th>
+                <th class="num">Days Active</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${flags.slice(0, 50).map(r => `
+                <tr>
+                  <td>${r.service_name || '—'}</td>
+                  <td class="muted">${r.service_code || '—'}</td>
+                  <td class="num muted">${fmtMoneyDecimal(r.price_old)}</td>
+                  <td class="num">${fmtMoneyDecimal(r.price_new)}</td>
+                  <td class="num ${r.pct > 0 ? 'green' : 'red'}">${r.pct >= 0 ? '+' : ''}${r.pct.toFixed(1)}%</td>
+                  <td class="num muted">${r.daysSinceChange}d</td>
+                  <td>
+                    <span class="flag-badge ${r.flagType === 'ok' ? 'ok' : r.flagType === 'warn' ? 'warn' : 'alert'}" style="font-size:.7rem;padding:3px 9px;">
+                      ${r.flagLabel}
+                    </span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
   } catch (err) {
-    btn.disabled = false;
-    btn.textContent = 'Save Price Change';
-    showToast('Failed: ' + err.message, 'error');
+    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
   }
 }
 
 // ============================================================
-// HISTORY
+// HISTORY TAB
 // ============================================================
-let historyFilter = 'all';
-
 async function loadHistory() {
-  const el = document.getElementById('page-history');
-  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
-
+  const el = document.getElementById('history-content');
   try {
     const recs = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=500`);
     historyData = recs;
@@ -1544,191 +1148,151 @@ async function loadHistory() {
 }
 
 function renderHistory() {
-  const el = document.getElementById('page-history');
+  const el = document.getElementById('history-content');
   let recs = historyData;
-
-  // Filter
   const now = new Date();
-  if (historyFilter === 'this_month') {
-    recs = recs.filter(r => new Date(r.created_at) >= new Date(now.getFullYear(), now.getMonth(), 1));
-  } else if (historyFilter === 'last_month') {
-    recs = recs.filter(r => {
-      const d = new Date(r.created_at);
-      return d >= new Date(now.getFullYear(), now.getMonth() - 1, 1) && d < new Date(now.getFullYear(), now.getMonth(), 1);
-    });
-  }
-
-  // Summary
-  const avgPct = recs.length > 0
-    ? recs.reduce((s, r) => s + ((r.price_new - r.price_old) / r.price_old * 100), 0) / recs.length
-    : 0;
+  if (historyFilter === 'this_month') recs = recs.filter(r => new Date(r.created_at) >= new Date(now.getFullYear(), now.getMonth(), 1));
+  else if (historyFilter === 'last_month') recs = recs.filter(r => { const d = new Date(r.created_at); return d >= new Date(now.getFullYear(), now.getMonth() - 1, 1) && d < new Date(now.getFullYear(), now.getMonth(), 1); });
+  else if (historyFilter === 'applied') recs = recs.filter(r => r.status === 'applied');
 
   // Group by date
   const groups = {};
   recs.forEach(r => {
-    const dateKey = r.created_at?.split('T')[0] || 'unknown';
-    if (!groups[dateKey]) groups[dateKey] = [];
-    groups[dateKey].push(r);
+    const key = r.created_at?.split('T')[0] || 'unknown';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(r);
   });
 
   el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">History</div>
-      <div class="page-subtitle">${recs.length} ${recs.length === 1 ? 'recommendation' : 'recommendations'} · avg ${avgPct >= 0 ? '+' : ''}${avgPct.toFixed(1)}%</div>
+    <div class="section-title-row">
+      <div>
+        <div class="section-title">Change History</div>
+        <div class="section-sub">${recs.length} ${recs.length === 1 ? 'record' : 'records'}</div>
+      </div>
     </div>
-    <div class="filter-chips">
+    <div class="filter-row">
       <button class="chip ${historyFilter === 'all' ? 'active' : ''}" onclick="setHistoryFilter('all')">All</button>
+      <button class="chip ${historyFilter === 'applied' ? 'active' : ''}" onclick="setHistoryFilter('applied')">Applied</button>
       <button class="chip ${historyFilter === 'this_month' ? 'active' : ''}" onclick="setHistoryFilter('this_month')">This Month</button>
       <button class="chip ${historyFilter === 'last_month' ? 'active' : ''}" onclick="setHistoryFilter('last_month')">Last Month</button>
     </div>
-    <div class="history-summary">Showing ${recs.length} ${recs.length === 1 ? 'item' : 'items'}</div>
-    <div id="historyList"></div>
+    ${recs.length === 0
+      ? `<div class="empty-state"><p>No records found</p></div>`
+      : Object.entries(groups).map(([date, items]) => `
+        <div class="history-date-header">${fmtDate(date)}</div>
+        ${items.map(r => {
+          const delta = r.price_new - r.price_old;
+          const pct = r.price_old > 0 ? (delta / r.price_old * 100) : 0;
+          return `
+            <div class="history-item">
+              <div class="history-item-left">
+                <div class="hi-name">${r.service_name || 'Unknown'}</div>
+                <div class="hi-meta">Code: ${r.service_code || '—'} · ${fmtMoneyDecimal(r.price_old)} → ${fmtMoneyDecimal(r.price_new)} · Vol: ${r.annual_volume || 0}/yr</div>
+              </div>
+              <div class="hi-right">
+                <span class="pct-badge ${delta > 0 ? 'up' : delta < 0 ? 'down' : 'neutral'}">${delta >= 0 ? '+' : ''}${pct.toFixed(1)}%</span>
+                <span class="status-pill ${r.status || 'pending'}">${r.status || 'pending'}</span>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      `).join('')
+    }
   `;
-
-  const listEl = document.getElementById('historyList');
-  if (recs.length === 0) {
-    listEl.innerHTML = '<div class="empty-state"><p>No recommendations found</p></div>';
-    return;
-  }
-
-  listEl.innerHTML = Object.entries(groups).map(([date, items]) => `
-    <div class="date-header">${fmtDate(date)}</div>
-    ${items.map(r => {
-      const delta = r.price_new - r.price_old;
-      const pct = r.price_old > 0 ? (delta / r.price_old * 100) : 0;
-      return `
-        <div class="history-card" onclick="this.classList.toggle('expanded')">
-          <div class="history-card-header">
-            <div>
-              <div class="hc-name">${r.service_name || 'Unknown'}</div>
-              <div class="hc-prices">${fmtMoneyDecimal(r.price_old)} → ${fmtMoneyDecimal(r.price_new)}</div>
-            </div>
-            <div class="hc-right">
-              <span class="delta-badge ${delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral'}">
-                ${delta > 0 ? '+' : ''}${pct.toFixed(1)}%
-              </span>
-              <span class="status-pill ${r.status}">${r.status}</span>
-            </div>
-          </div>
-          <div class="history-card-detail">
-            <div class="detail-row"><strong>Source:</strong> ${r.source || 'N/A'}</div>
-            <div class="detail-row"><strong>Est. Uplift:</strong> ${fmtMoney(r.est_uplift)}/yr</div>
-            <div class="detail-row"><strong>Annual Volume:</strong> ${r.annual_volume || 0}</div>
-            <div class="detail-row"><strong>Code:</strong> ${r.service_code || 'N/A'}</div>
-          </div>
-        </div>
-      `;
-    }).join('')}
-  `).join('');
 }
 
-function setHistoryFilter(filter) {
-  historyFilter = filter;
+function setHistoryFilter(f) {
+  historyFilter = f;
   renderHistory();
 }
 
 // ============================================================
-// SETTINGS
+// SETTINGS TAB
 // ============================================================
 async function loadSettings() {
-  const el = document.getElementById('page-settings');
-  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
-
+  const el = document.getElementById('settings-content');
   try {
     if (!clinicSettings) {
-      const settings = await sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`);
-      clinicSettings = settings[0] || {};
+      const s = await sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`);
+      clinicSettings = s[0] || {};
     }
-
-    const initials = (currentUser?.clinic || 'VI').substring(0, 2).toUpperCase();
     const s = clinicSettings;
+    const initials = (currentUser?.clinic || 'VI').substring(0, 2).toUpperCase();
 
     el.innerHTML = `
-      <div class="page-header">
-        <div class="page-title">Settings</div>
-      </div>
+      <div style="max-width:600px;">
+        <div class="section-title" style="margin-bottom:1.5rem;">Settings</div>
 
-      <div class="card">
-        <div class="profile-card">
-          <div class="profile-avatar">${initials}</div>
-          <div class="profile-info">
-            <div class="name">${currentUser?.clinic || 'Vet INC'}</div>
-            <div class="email">${currentUser?.username || ''}</div>
+        <div class="settings-section">
+          <h3>Account</h3>
+          <div class="settings-card">
+            <div class="profile-row">
+              <div class="profile-avatar">${initials}</div>
+              <div class="profile-info">
+                <div class="pn">${currentUser?.clinic || 'Vet INC'}</div>
+                <div class="pe">${currentUser?.username || ''}</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="settings-section">
-        <h3>Clinic</h3>
-        <div class="card">
-          <div class="settings-row">
-            <span class="sr-label">Review Schedule</span>
-            <select class="select-input" id="setSchedule">
-              ${['Weekly', 'Bi-weekly', 'Monthly', 'Quarterly'].map(opt =>
-                `<option value="${opt}" ${s.schedule === opt ? 'selected' : ''}>${opt}</option>`
-              ).join('')}
-            </select>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Notifications</span>
-            <div class="toggle ${s.notifications_enabled ? 'active' : ''}" onclick="this.classList.toggle('active'); saveSetting('notifications_enabled', this.classList.contains('active'))"></div>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Auto-approve</span>
-            <div class="toggle ${s.auto_approve ? 'active' : ''}" onclick="this.classList.toggle('active'); saveSetting('auto_approve', this.classList.contains('active'))"></div>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Target Margin</span>
-            <span class="sr-value">${s.target_margin || 15}%</span>
+        <div class="settings-section">
+          <h3>Review Schedule</h3>
+          <div class="settings-card">
+            <div class="settings-row">
+              <span class="sr-label">Review Cadence</span>
+              <select class="select-input" id="setSchedule" onchange="saveSetting('schedule', this.value)">
+                ${['Weekly','Bi-weekly','Monthly','Quarterly'].map(opt => `<option value="${opt}" ${s.schedule === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+              </select>
+            </div>
+            <div class="settings-row">
+              <span class="sr-label">Notifications</span>
+              <div class="toggle ${s.notifications_enabled ? 'on' : ''}" onclick="this.classList.toggle('on'); saveSetting('notifications_enabled', this.classList.contains('on'))"></div>
+            </div>
+            <div class="settings-row">
+              <span class="sr-label">Auto-approve small changes</span>
+              <div class="toggle ${s.auto_approve ? 'on' : ''}" onclick="this.classList.toggle('on'); saveSetting('auto_approve', this.classList.contains('on'))"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="settings-section">
-        <h3>Account</h3>
-        <div class="card">
-          <div class="settings-row">
-            <span class="sr-label">Password</span>
-            <span class="sr-value">Change →</span>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Billing Plan</span>
-            <span class="sr-value">${s.billing_plan || '$99/month'}</span>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Billing Status</span>
-            <span class="sr-value" style="color:var(--green); font-weight:600;">${s.billing_status || 'Active'}</span>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Locations</span>
-            <span class="sr-value">${s.billing_locations || 1}</span>
+        <div class="settings-section">
+          <h3>Billing</h3>
+          <div class="settings-card">
+            <div class="settings-row">
+              <span class="sr-label">Plan</span>
+              <span class="sr-value">${s.billing_plan || '$99/month'}</span>
+            </div>
+            <div class="settings-row">
+              <span class="sr-label">Status</span>
+              <span class="sr-value" style="color:var(--green);font-weight:700;">${s.billing_status || 'Active'}</span>
+            </div>
+            <div class="settings-row">
+              <span class="sr-label">Locations</span>
+              <span class="sr-value">${s.billing_locations || 1}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="settings-section">
-        <h3>About</h3>
-        <div class="card">
-          <div class="settings-row">
-            <span class="sr-label">Data Source</span>
-            <span class="sr-value">${s.data_source || 'Avimark'}</span>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Version</span>
-            <span class="sr-value">v2.0.0</span>
-          </div>
-          <div class="settings-row">
-            <span class="sr-label">Clinic ID</span>
-            <span class="sr-value">${CURRENT_CLINIC}</span>
+        <div class="settings-section">
+          <h3>System</h3>
+          <div class="settings-card">
+            <div class="settings-row">
+              <span class="sr-label">Data Source</span>
+              <span class="sr-value">${s.data_source || 'AVImark'}</span>
+            </div>
+            <div class="settings-row">
+              <span class="sr-label">Clinic ID</span>
+              <span class="sr-value">${CURRENT_CLINIC}</span>
+            </div>
+            <div class="settings-row">
+              <span class="sr-label">Version</span>
+              <span class="sr-value">v2.1.0</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style="margin-top:16px;">
         <button class="btn-logout" onclick="logout()">Sign Out</button>
-      </div>
-      <div style="margin-top:8px;">
-        <button class="btn-danger" onclick="if(confirm('Are you sure? This cannot be undone.')) showToast('Contact support@vetinc.ca to delete your account', 'error')">Delete Account</button>
       </div>
     `;
   } catch (err) {
@@ -1739,10 +1303,10 @@ async function loadSettings() {
 async function saveSetting(field, value) {
   try {
     await sbPatch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}`, { [field]: value });
-    clinicSettings[field] = value;
-    showToast('Setting saved', 'success');
+    if (clinicSettings) clinicSettings[field] = value;
+    showToast('Saved', 'success');
   } catch (err) {
-    showToast('Failed to save: ' + err.message, 'error');
+    showToast('Failed: ' + err.message, 'error');
   }
 }
 
@@ -1753,40 +1317,26 @@ async function loadNotifications() {
   try {
     const notifs = await sbFetch(`notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=50`);
     notificationsData = notifs;
-
-    // Update badge
     const unread = notifs.filter(n => !n.read).length;
     const badge = document.getElementById('bellBadge');
-    if (unread > 0) {
-      badge.textContent = unread;
-      badge.style.display = 'block';
-    } else {
-      badge.style.display = 'none';
-    }
-  } catch (err) {
-    console.error('Notif load error:', err);
-  }
+    badge.textContent = unread;
+    badge.style.display = unread > 0 ? 'block' : 'none';
+  } catch (err) {}
 }
 
 function openNotifications() {
-  const panel = document.getElementById('notifPanel');
-  const overlay = document.getElementById('notifOverlay');
   const body = document.getElementById('notifBody');
-
-  if (notificationsData.length === 0) {
-    body.innerHTML = '<div class="empty-state"><p>No notifications</p></div>';
-  } else {
-    body.innerHTML = notificationsData.map(n => `
-      <div class="notif-item ${!n.read ? 'unread' : ''}" onclick="handleNotifClick('${n.id}', '${n.link_id || ''}')">
-        <div class="ni-title">${n.title}</div>
-        <div class="ni-body">${n.body || ''}</div>
-        <div class="ni-time">${timeAgo(n.created_at)}</div>
-      </div>
-    `).join('');
-  }
-
-  panel.classList.add('active');
-  overlay.classList.add('active');
+  body.innerHTML = notificationsData.length === 0
+    ? `<div class="empty-state"><p>No notifications</p></div>`
+    : notificationsData.map(n => `
+        <div class="notif-item ${!n.read ? 'unread' : ''}" onclick="handleNotifClick('${n.id}','${n.link_id||''}')">
+          <div class="ni-title">${n.title}</div>
+          <div class="ni-body">${n.body||''}</div>
+          <div class="ni-time">${timeAgo(n.created_at)}</div>
+        </div>
+      `).join('');
+  document.getElementById('notifPanel').classList.add('active');
+  document.getElementById('notifOverlay').classList.add('active');
 }
 
 function closeNotifications() {
@@ -1795,35 +1345,18 @@ function closeNotifications() {
 }
 
 function handleNotifClick(notifId, linkId) {
-  // Mark as read
-  sbPatch(`notifications?id=eq.${notifId}`, { read: true }).then(() => {
-    loadNotifications();
-  });
+  sbPatch(`notifications?id=eq.${notifId}`, { read: true }).then(() => loadNotifications()).catch(() => {});
   closeNotifications();
-  if (linkId) {
-    switchPage('reports');
-    setTimeout(() => openReport(linkId), 300);
-  }
+  if (linkId) { showTab('review'); }
 }
 
 async function markAllRead() {
-  try {
-    const unread = notificationsData.filter(n => !n.read);
-    for (const n of unread) {
-      await sbPatch(`notifications?id=eq.${n.id}`, { read: true });
-    }
-    loadNotifications();
-    openNotifications();
-    showToast('All marked as read', 'success');
-  } catch (err) {
-    showToast('Failed: ' + err.message, 'error');
-  }
+  const unread = notificationsData.filter(n => !n.read);
+  for (const n of unread) { await sbPatch(`notifications?id=eq.${n.id}`, { read: true }).catch(() => {}); }
+  loadNotifications();
+  closeNotifications();
+  showToast('All marked as read', 'success');
 }
-
-// Close modal on overlay click
-document.getElementById('reportModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
 </script>
 </body>
 </html>
