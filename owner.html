@@ -43,7 +43,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 200;
@@ -76,6 +76,7 @@ body {
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 2rem;
   gap: 4px;
   height: 52px;
@@ -184,6 +185,7 @@ body {
 }
 .approval-item:hover { box-shadow: 0 4px 20px rgba(37,99,235,.09); }
 .approval-item.approved { border-left: 4px solid var(--green); background: #f0fdf4; }
+.approval-item.rejected { border-left: 4px solid var(--red); background: #fef2f2; }
 .approval-item.skipped { border-left: 4px solid var(--border); opacity: 0.55; }
 
 .ai-chip {
@@ -208,21 +210,18 @@ body {
 .price-uplift { font-size: 0.75rem; color: var(--muted); }
 
 .item-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
-.btn-approve {
-  background: var(--green); color: #fff;
-  border: none; border-radius: 8px;
-  padding: 7px 16px; font-size: 0.82rem; font-weight: 700;
+.btn-cycle {
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 7px 18px; font-size: 0.82rem; font-weight: 700;
   cursor: pointer; transition: all 0.15s;
+  min-width: 100px; text-align: center;
 }
-.btn-approve:hover { background: #15803d; }
-.btn-approve.active { background: #dcfce7; color: var(--green); border: 1.5px solid var(--green); }
-.btn-skip {
-  background: none; color: var(--muted);
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 7px 14px; font-size: 0.82rem; font-weight: 600;
-  cursor: pointer; transition: all 0.15s;
-}
-.btn-skip:hover { background: var(--surface2); }
+.btn-cycle.state-none { background: var(--surface2); color: var(--muted); border-color: var(--border); }
+.btn-cycle.state-none:hover { background: #dbeafe; color: var(--primary); }
+.btn-cycle.state-approve { background: #dcfce7; color: var(--green); border-color: var(--green); }
+.btn-cycle.state-approve:hover { background: #bbf7d0; }
+.btn-cycle.state-reject { background: #fecaca; color: var(--red); border-color: var(--red); }
+.btn-cycle.state-reject:hover { background: #fca5a5; }
 
 .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
 .filter-btn {
@@ -419,7 +418,8 @@ body {
   .header { padding: 0 1rem; }
   .section { padding: 1rem; }
   .review-hero { padding: 1.25rem; }
-  .tab-nav { padding: 0 0.5rem; overflow-x: auto; }
+  .tab-nav { padding: 0 0.5rem; overflow-x: auto; justify-content: flex-start; }
+  .header-divider, .clinic-name { display: none; }
   .confirm-bar { margin: 0 -1rem; padding: 1rem; }
   .kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .kpi-value { font-size: 1.35rem; }
@@ -433,7 +433,7 @@ body {
 <header class="header">
   <div class="header-left">
     <div class="logo-wrap">
-      <img src="https://raw.githubusercontent.com/jack108510/vet-inc-clinic/main/logo.png" alt="Vet INC" height="72" style="display:block;height:72px;width:auto;" />
+      <img src="https://raw.githubusercontent.com/jack108510/vet-inc-clinic/main/logo.png" alt="Vet INC" height="48" style="display:block;height:48px;width:auto;" />
     </div>
     <div class="header-divider"></div>
     <div class="clinic-name">Rosslyn Veterinary Clinic</div>
@@ -546,12 +546,12 @@ body {
           <div class="card-title" style="margin-bottom:0.2rem">Suggested Price Changes</div>
           <p style="font-size:0.78rem;color:var(--muted);margin:0">Based on CPI analysis of your transaction data. Accept what makes sense — skip the rest.</p>
         </div>
-        <button class="btn-approve-all" onclick="approveAll()" style="font-size:0.8rem;padding:8px 16px">✓ Accept All <span id="btn-approve-all-count">…</span></button>
+        <button class="btn-approve-all" onclick="approveAll()" style="font-size:0.8rem;padding:8px 16px">✓ Approve All <span id="btn-approve-all-count">…</span></button>
       </div>
 
       <!-- Confirm bar inline -->
       <div id="rpt-confirm-bar" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-        <span style="font-size:0.85rem;color:var(--text)"><strong id="approved-count">0</strong> of <strong id="total-items">…</strong> accepted · Est. uplift: <strong id="approved-uplift" style="color:var(--success)">$0</strong>/yr</span>
+        <span style="font-size:0.85rem;color:var(--text)"><strong id="approved-count">0</strong> approved · <strong id="rejected-count">0</strong> rejected · Est. uplift: <strong id="approved-uplift" style="color:var(--success)">$0</strong>/yr</span>
         <button class="btn-confirm" id="confirm-btn" onclick="confirmApproval()" disabled>Apply Accepted Changes</button>
       </div>
 
@@ -770,7 +770,8 @@ const REVIEW_ID = new URLSearchParams(window.location.search).get('review') || '
 
 let ITEMS = [];
 const approved = new Set();
-const skipped = new Set();
+const rejected = new Set();
+const skipped = new Set(); // kept for compat, unused now
 let currentFilter = 'all';
 
 const SHOPPABLE_KEYWORDS = [
@@ -814,57 +815,56 @@ function realUplift(item) {
 
 function updateConfirmBar() {
   const count = approved.size;
+  const rejCount = rejected.size;
   const uplift = ITEMS.filter(i => approved.has(i.service_code)).reduce((s, i) => s + realUplift(i), 0);
   const setEl = (id, fn) => { const e = document.getElementById(id); if (e) fn(e); };
   setEl('approved-count', e => e.textContent = count);
+  setEl('rejected-count', e => e.textContent = rejCount);
   setEl('approved-uplift', e => e.textContent = '$' + uplift.toLocaleString());
   setEl('confirm-btn', e => e.disabled = count === 0);
-  const remaining = ITEMS.length - skipped.size;
+  const remaining = ITEMS.length - approved.size - rejected.size;
   setEl('pending-badge', e => { e.textContent = remaining; e.style.display = remaining === 0 ? 'none' : ''; });
   // Show/hide the inline confirm bar in report detail
   const bar = document.getElementById('rpt-confirm-bar');
   if (bar) bar.style.display = ITEMS.length > 0 ? 'flex' : 'none';
 }
 
-function toggleApprove(code) {
-  const btn = document.getElementById('approve-' + code);
+function cycleApproval(code) {
+  const btn = document.getElementById('cycle-' + code);
   const item = document.getElementById('item-' + code);
+  // Cycle: none → approve → reject → none
   if (approved.has(code)) {
+    // approve → reject
     approved.delete(code);
-    btn.textContent = '✓ Approve';
-    btn.classList.remove('active');
+    rejected.add(code);
+    btn.textContent = '✗ Reject';
+    btn.className = 'btn-cycle state-reject';
     item.classList.remove('approved');
+    item.classList.add('rejected');
+  } else if (rejected.has(code)) {
+    // reject → none
+    rejected.delete(code);
+    btn.textContent = 'None';
+    btn.className = 'btn-cycle state-none';
+    item.classList.remove('rejected');
   } else {
+    // none → approve
     approved.add(code);
-    skipped.delete(code);
-    btn.textContent = '✓ Approved';
-    btn.classList.add('active');
-    item.classList.remove('skipped');
+    btn.textContent = '✓ Approve';
+    btn.className = 'btn-cycle state-approve';
     item.classList.add('approved');
   }
   updateConfirmBar();
 }
 
-function skipItem(code) {
-  const item = document.getElementById('item-' + code);
-  const btn = document.getElementById('approve-' + code);
-  approved.delete(code);
-  skipped.add(code);
-  btn.textContent = '✓ Approve';
-  btn.classList.remove('active');
-  item.classList.remove('approved');
-  item.classList.add('skipped');
-  updateConfirmBar();
-}
-
 function approveAll() {
   ITEMS.forEach(i => {
-    if (!skipped.has(i.service_code)) {
+    if (!rejected.has(i.service_code)) {
       approved.add(i.service_code);
-      const btn = document.getElementById('approve-' + i.service_code);
+      const btn = document.getElementById('cycle-' + i.service_code);
       const el  = document.getElementById('item-' + i.service_code);
-      if (btn) { btn.textContent = '✓ Approved'; btn.classList.add('active'); }
-      if (el)  { el.classList.remove('skipped'); el.classList.add('approved'); }
+      if (btn) { btn.textContent = '✓ Approve'; btn.className = 'btn-cycle state-approve'; }
+      if (el)  { el.classList.remove('skipped','rejected'); el.classList.add('approved'); }
     }
   });
   updateConfirmBar();
@@ -930,9 +930,8 @@ function renderItem(item) {
     '</div>' +
     '<div class="price-uplift">$' + realUplift(item).toLocaleString() + '/yr<div style="font-size:0.7rem;color:var(--muted);font-weight:400">' + Number(item.annual_volume).toLocaleString() + ' visits/yr</div></div>' +
     '<div class="item-actions">' +
-      '<button class="btn-approve" id="approve-' + code + '" onclick="toggleApprove(\'' + code + '\')">✓ Approve</button>' +
-      '<button class="btn-skip" onclick="skipItem(\'' + code + '\')">Skip</button>' +
-    '</div></div>';
+      '<button class="btn-cycle state-none" id="cycle-' + code + '" onclick="cycleApproval(\'' + code + '\')">None</button>' +
+    '</div></div>;
 }
 
 function renderHistory(approvals) {
