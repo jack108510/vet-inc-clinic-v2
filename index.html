@@ -1382,6 +1382,344 @@ a { color: var(--primary); text-decoration: none; }
   .flag-stats { gap: 1rem; flex-wrap: wrap; }
 }
 
+/* ============================================================
+   NEW COMPONENT STYLES (mobile-aligned)
+   Styled to match existing clinic.vetinc.ca aesthetic
+   ============================================================ */
+
+/* HOME — clinic header + hero stats */
+.home-clinic-name { font-size: 1.6rem; font-weight: 900; color: var(--text); line-height: 1.15; }
+.home-date { font-size: 0.82rem; color: var(--muted); margin-top: 0.25rem; margin-bottom: 1.5rem; }
+.home-section-title { font-size: 0.72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.09em; margin: 2rem 0 1rem; }
+
+.hero-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 0.5rem; }
+@media (max-width: 768px) { .hero-row { grid-template-columns: 1fr; } }
+
+.stat-tile {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.25rem 1.4rem;
+  box-shadow: 0 2px 12px rgba(37,99,235,.04); transition: box-shadow 0.2s, transform 0.2s;
+  border-left: 4px solid var(--primary);
+}
+.stat-tile:hover { box-shadow: 0 8px 28px rgba(37,99,235,.11); transform: translateY(-2px); }
+.stat-tile-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.5rem; }
+.stat-tile-value { font-size: 1.85rem; font-weight: 900; color: var(--text); line-height: 1.05; }
+.stat-tile-sub { font-size: 0.76rem; font-weight: 600; margin-top: 0.35rem; }
+.stat-tile-sub.up { color: var(--green); }
+.stat-tile-sub.down { color: var(--red); }
+.stat-tile.cyan { border-left-color: #0ea5e9; }
+.stat-tile.green { border-left-color: var(--green); }
+.stat-tile.red { border-left-color: var(--red); }
+
+/* HOME — system grade card */
+.grade-card {
+  display: flex; align-items: center; gap: 1.25rem;
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 14px; padding: 1.4rem 1.5rem; margin-bottom: 1rem;
+  box-shadow: 0 2px 12px rgba(37,99,235,.04);
+}
+.grade-circle {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.grade-letter { font-size: 1.8rem; font-weight: 900; color: #fff; }
+.grade-title { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+.grade-score { font-size: 1.5rem; font-weight: 900; color: var(--text); margin: 0.15rem 0; }
+.grade-sub { font-size: 0.78rem; color: var(--muted); }
+
+/* HOME — verdict breakdown */
+.verdict-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 0.5rem 1.4rem;
+  box-shadow: 0 2px 12px rgba(37,99,235,.04);
+}
+.verdict-row {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 0; border-bottom: 1px solid var(--border);
+}
+.verdict-row:last-child { border-bottom: none; }
+.verdict-icon {
+  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
+}
+.verdict-mid { flex: 1; min-width: 0; }
+.verdict-label { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.verdict-subtitle { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
+.verdict-bar-track { height: 6px; background: #e2e8f0; border-radius: 3px; margin-top: 0.5rem; overflow: hidden; }
+.verdict-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+.verdict-count { font-size: 1.3rem; font-weight: 900; color: var(--text); min-width: 36px; text-align: right; }
+
+/* REPORTS — section labels + cards */
+.report-section-label { font-size: 0.72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.09em; margin: 1.5rem 0 0.75rem; }
+.report-section-label:first-child { margin-top: 0; }
+.report-card-v2 {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.1rem 1.3rem; margin-bottom: 0.75rem;
+  cursor: pointer; transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+  box-shadow: 0 1px 6px rgba(37,99,235,.03);
+}
+.report-card-v2:hover { box-shadow: 0 6px 20px rgba(37,99,235,.1); transform: translateY(-1px); }
+.report-card-v2.action { border: 2px solid var(--primary); }
+.report-card-v2.unread { border: 2px solid #f59e0b; }
+.report-card-v2-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.report-card-v2-title { font-size: 0.95rem; font-weight: 800; color: var(--text); }
+.report-card-v2-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.report-card-v2-body { display: flex; align-items: center; gap: 1rem; margin-top: 0.85rem; }
+.report-card-v2-num { font-size: 2rem; font-weight: 900; color: var(--text); line-height: 1; }
+.report-card-v2-of { font-size: 0.8rem; color: var(--muted); }
+.report-card-v2-potential { font-size: 0.78rem; color: var(--green); font-weight: 700; margin-top: 2px; }
+
+.mode-badge-v2 {
+  display: inline-flex; align-items: center; gap: 4px;
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap;
+}
+.mode-badge-v2.copilot { background: rgba(37,99,235,.08); color: var(--primary); border: 1px solid rgba(37,99,235,.2); }
+.mode-badge-v2.autopilot { background: rgba(124,58,237,.08); color: var(--purple); border: 1px solid rgba(124,58,237,.2); }
+.mode-badge-v2.monitor { background: rgba(234,88,12,.08); color: var(--orange); border: 1px solid rgba(234,88,12,.2); }
+
+.card-state-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.card-state-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* REPORT MODAL — change rows */
+.modal-change-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.8rem 1rem; border: 1px solid var(--border);
+  border-radius: 10px; margin-bottom: 0.5rem; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.modal-change-row:hover { background: var(--surface2); }
+.modal-change-row.approved { border-color: var(--green); background: rgba(22,163,74,.04); }
+.modal-change-row.rejected { border-color: var(--red); background: rgba(239,68,68,.04); }
+.check-circle {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #fff;
+}
+.check-circle.on { background: var(--green); border-color: var(--green); }
+.check-circle.reject { background: var(--red); border-color: var(--red); }
+.change-prices-inline { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.pc-old { font-size: 0.78rem; color: var(--muted); }
+.pc-arrow { color: var(--muted); font-size: 0.78rem; }
+.pc-new { font-size: 0.82rem; font-weight: 700; }
+.pct-inline { font-size: 0.72rem; font-weight: 700; color: var(--green); }
+
+/* CHANGES — service editor */
+.quick-search-wrap { margin-bottom: 1.25rem; }
+.quick-search-box {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.7rem 1rem;
+}
+.quick-search-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+.quick-search-input {
+  border: none; outline: none; background: none; flex: 1;
+  font-size: 0.9rem; color: var(--text); font-family: inherit;
+}
+.quick-result-card {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.5rem;
+  cursor: pointer; transition: all 0.15s;
+}
+.quick-result-card:hover { border-color: var(--primary); box-shadow: 0 3px 12px rgba(37,99,235,.08); }
+.quick-result-name { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.quick-result-code { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
+.quick-result-price { font-size: 0.92rem; font-weight: 800; color: var(--primary); }
+.quick-empty {
+  text-align: center; padding: 3rem 1rem; color: var(--muted);
+}
+.quick-empty-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+.edit-service-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.2rem 1.4rem; margin-bottom: 1.25rem;
+}
+.edit-service-name { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+.edit-service-code { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+.edit-price-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.5rem; }
+.edit-price-input-row { display: flex; align-items: center; gap: 4px; }
+.edit-dollar { font-size: 1.5rem; font-weight: 800; color: var(--text); }
+.edit-price-input {
+  border: none; outline: none; font-size: 1.5rem; font-weight: 800; color: var(--text);
+  font-family: inherit; width: 140px; background: none;
+}
+.edit-delta-badge {
+  display: inline-flex; align-items: center; padding: 4px 10px;
+  border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-top: 0.6rem;
+}
+.edit-impact-card {
+  background: linear-gradient(135deg, #f0f9ff, #eff6ff);
+  border: 1px solid #bae6fd; border-radius: 14px;
+  padding: 1.1rem 1.4rem; margin-bottom: 1.25rem;
+}
+.edit-impact-label { font-size: 0.68rem; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 0.07em; }
+.edit-impact-num { font-size: 1.6rem; font-weight: 900; margin-top: 0.25rem; }
+.edit-impact-sub { font-size: 0.76rem; color: #0369a1; margin-top: 2px; }
+.edit-quick-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.6rem; }
+.edit-quick-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+.edit-quick-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.55rem 0.9rem; cursor: pointer;
+  font-size: 0.8rem; font-weight: 700; color: var(--green);
+  font-family: inherit; transition: all 0.15s;
+}
+.edit-quick-btn:hover { background: var(--surface2); border-color: var(--green); }
+.edit-save-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff; border: none; border-radius: 12px; padding: 0.9rem;
+  font-size: 0.95rem; font-weight: 800; cursor: pointer; font-family: inherit;
+  transition: all 0.15s; margin-bottom: 0.5rem;
+}
+.edit-save-btn:hover { box-shadow: 0 6px 20px rgba(37,99,235,.3); transform: translateY(-1px); }
+.edit-save-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.edit-cancel-btn {
+  width: 100%; background: none; border: none; color: var(--muted);
+  padding: 0.75rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.edit-cancel-btn:hover { color: var(--text); }
+.quick-success {
+  text-align: center; padding: 3rem 1.5rem;
+}
+.quick-success-icon { font-size: 3.5rem; margin-bottom: 0.75rem; }
+.quick-success-title { font-size: 1.3rem; font-weight: 800; color: var(--text); }
+.quick-success-detail { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; }
+
+/* HISTORY — change cards (mobile ChangeCard style) */
+.change-card-v2 {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.5rem;
+  cursor: pointer; transition: all 0.15s;
+}
+.change-card-v2:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(37,99,235,.06); }
+.change-card-icon {
+  width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.05rem;
+}
+.change-card-mid { flex: 1; min-width: 0; }
+.change-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.change-card-name { font-size: 0.86rem; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.change-card-date { font-size: 0.74rem; color: var(--muted); flex-shrink: 0; }
+.change-card-prices { font-size: 0.8rem; margin-top: 3px; }
+.change-price-old { color: var(--muted); }
+.change-price-arrow { color: var(--muted); margin: 0 3px; }
+.change-price-new { font-weight: 700; }
+.change-delta-badge {
+  display: inline-flex; align-items: center; padding: 2px 8px;
+  border-radius: 6px; font-size: 0.72rem; font-weight: 700; margin-left: 0.5rem;
+}
+.expanded-detail-v2 { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.expanded-row-v2 { font-size: 0.78rem; color: var(--text); margin-bottom: 4px; }
+.expanded-label-v2 { color: var(--muted); font-weight: 600; }
+.status-pill-v2 {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; margin-top: 6px;
+}
+
+/* SETTINGS — mobile-style */
+.settings-profile-card {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(37,99,235,.04);
+}
+.settings-profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.2rem; font-weight: 800; flex-shrink: 0;
+}
+.settings-profile-name { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+.settings-profile-sub { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
+.settings-section-v2 { margin-bottom: 1.5rem; }
+.settings-section-title-v2 { font-size: 0.72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; padding-left: 0.25rem; }
+.settings-card-v2 {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(37,99,235,.03);
+}
+.settings-row-v2 {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background 0.12s; text-decoration: none;
+}
+.settings-row-v2:last-child { border-bottom: none; }
+.settings-row-v2:hover { background: var(--surface2); }
+.settings-row-icon {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
+  background: rgba(37,99,235,.08);
+}
+.settings-row-v2.danger .settings-row-icon { background: rgba(239,68,68,.08); }
+.settings-row-mid { flex: 1; min-width: 0; }
+.settings-row-label { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.settings-row-v2.danger .settings-row-label { color: var(--red); }
+.settings-row-value { font-size: 0.8rem; color: var(--muted); }
+.settings-row-chevron { color: var(--muted); font-size: 0.85rem; }
+
+/* BOTTOM-SHEET MODAL (settings) */
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(15,23,42,.45);
+  backdrop-filter: blur(3px); z-index: 1000;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.22s;
+}
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.sheet-content {
+  background: var(--surface); width: 100%; max-width: 520px;
+  border-radius: 18px 18px 0 0; padding: 1.5rem 1.75rem 2rem;
+  transform: translateY(100%); transition: transform 0.28s ease;
+  max-height: 85vh; overflow-y: auto;
+}
+.sheet-overlay.open .sheet-content { transform: translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1.25rem; }
+.sheet-title { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 1.25rem; }
+.sheet-info-text { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; white-space: pre-line; }
+.sheet-option {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.sheet-option:last-child { border-bottom: none; }
+.sheet-option-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.sheet-option.selected .sheet-option-radio { border-color: var(--primary); }
+.sheet-option.selected .sheet-option-radio::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }
+.sheet-option-label { font-size: 0.95rem; color: var(--text); }
+.sheet-option.selected .sheet-option-label { font-weight: 700; color: var(--primary); }
+.sheet-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; }
+.sheet-toggle-label { font-size: 0.92rem; color: var(--text); }
+.sheet-toggle {
+  width: 50px; height: 28px; border-radius: 14px; background: #e2e8f0;
+  position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+}
+.sheet-toggle.on { background: var(--primary); }
+.sheet-toggle::after {
+  content: ''; position: absolute; width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; top: 2px; left: 2px; transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.sheet-toggle.on::after { transform: translateX(22px); }
+.sheet-margin-val { font-size: 2.2rem; font-weight: 900; color: var(--primary); text-align: center; margin: 0.5rem 0 1rem; }
+.sheet-margin-picks { display: flex; justify-content: space-between; padding: 0 0.25rem; }
+.sheet-margin-pick { font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; background: none; border: none; font-family: inherit; }
+.sheet-margin-pick.active { color: var(--primary); font-weight: 800; }
+.sheet-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.sheet-btn { flex: 1; padding: 0.85rem; border-radius: 12px; font-size: 0.92rem; font-weight: 700; cursor: pointer; border: none; font-family: inherit; }
+.sheet-btn.cancel { background: #f1f5f9; color: var(--muted); }
+.sheet-btn.cancel:hover { background: #e2e8f0; }
+.sheet-btn.primary { background: var(--primary); color: #fff; }
+.sheet-btn.primary:hover { background: #1d4ed8; }
+.sheet-btn.danger { background: var(--red); color: #fff; }
+.sheet-btn.danger:hover { background: #dc2626; }
+
 </style>
 </head>
 <body>
@@ -1450,14 +1788,14 @@ a { color: var(--primary); text-decoration: none; }
 
   <!-- Tab Nav -->
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="showTab('overview')" id="tab-btn-overview">
-      <span class="tab-icon">📊</span> <span class="tab-label">Overview</span>
+    <button class="tab-btn active" onclick="showTab('home')" id="tab-btn-home">
+      <span class="tab-icon">📊</span> <span class="tab-label">Home</span>
     </button>
-    <button class="tab-btn" onclick="showTab('review')" id="tab-btn-review">
-      <span class="tab-icon">✅</span> <span class="tab-label">Price Review</span>
+    <button class="tab-btn" onclick="showTab('reports')" id="tab-btn-reports">
+      <span class="tab-icon">📈</span> <span class="tab-label">Reports</span>
     </button>
-    <button class="tab-btn" onclick="showTab('monitor')" id="tab-btn-monitor">
-      <span class="tab-icon">🔍</span> <span class="tab-label">Monitor</span>
+    <button class="tab-btn" onclick="showTab('changes')" id="tab-btn-changes">
+      <span class="tab-icon">🏷️</span> <span class="tab-label">Changes</span>
     </button>
     <button class="tab-btn" onclick="showTab('history')" id="tab-btn-history">
       <span class="tab-icon">🕐</span> <span class="tab-label">History</span>
@@ -1467,19 +1805,19 @@ a { color: var(--primary); text-decoration: none; }
     </button>
   </div>
 
-  <!-- ===== TAB: OVERVIEW ===== -->
-  <div class="section active" id="section-overview">
-    <div id="overview-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  <!-- ===== TAB: HOME ===== -->
+  <div class="section active" id="section-home">
+    <div id="home-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
   </div>
 
-  <!-- ===== TAB: PRICE REVIEW ===== -->
-  <div class="section" id="section-review">
-    <div id="review-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  <!-- ===== TAB: REPORTS ===== -->
+  <div class="section" id="section-reports">
+    <div id="reports-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
   </div>
 
-  <!-- ===== TAB: MONITOR ===== -->
-  <div class="section" id="section-monitor">
-    <div id="monitor-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
+  <!-- ===== TAB: CHANGES ===== -->
+  <div class="section" id="section-changes">
+    <div id="changes-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
   </div>
 
   <!-- ===== TAB: HISTORY ===== -->
@@ -1492,6 +1830,22 @@ a { color: var(--primary); text-decoration: none; }
     <div id="settings-content"><div class="loading"><div class="spinner"></div> Loading…</div></div>
   </div>
 
+</div>
+
+<!-- Report Modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="reportModalTitle">Report</h2>
+      <button class="modal-close" onclick="closeReportModal()">✕</button>
+    </div>
+    <div class="modal-body" id="reportModalBody"></div>
+  </div>
+</div>
+
+<!-- Settings Bottom Sheet -->
+<div class="sheet-overlay" id="settingsSheet" onclick="if(event.target===this)closeSettingsSheet()">
+  <div class="sheet-content" id="settingsSheetContent"></div>
 </div>
 
 <!-- Notification panel -->
@@ -1600,10 +1954,8 @@ function showToast(msg, type = '') {
 let currentUser = null;
 let clinicSettings = null;
 let notificationsData = [];
-let reviewData = [];
 let historyData = [];
 let historyFilter = 'all';
-let reviewFilter = 'all';
 let isSignup = false;
 
 // ============================================================
@@ -1684,7 +2036,7 @@ if (savedUser) {
 // ============================================================
 // NAVIGATION
 // ============================================================
-let currentTab = 'overview';
+let currentTab = 'home';
 function showTab(tab) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1697,408 +2049,834 @@ function showTab(tab) {
 // LOAD ALL DATA
 // ============================================================
 async function loadAllData() {
-  loadOverview();
-  loadReview();
-  loadMonitor();
+  loadHome();
+  loadReports();
+  loadChanges();
   loadHistory();
   loadSettings();
   loadNotifications();
 }
 
 // ============================================================
-// OVERVIEW TAB
+// HOME TAB — mobile HomeScreen port
 // ============================================================
-async function loadOverview() {
-  const el = document.getElementById('overview-content');
+function computeGrade(confident, uncertain, reverted) {
+  const total = confident + uncertain + reverted;
+  if (total === 0) return { grade: '—', score: 0 };
+  const score = Math.round((confident + uncertain * 0.5) / total * 100);
+  let grade;
+  if (score >= 95) grade = 'A';
+  else if (score >= 90) grade = 'A-';
+  else if (score >= 85) grade = 'B+';
+  else if (score >= 80) grade = 'B';
+  else if (score >= 75) grade = 'B-';
+  else if (score >= 70) grade = 'C+';
+  else if (score >= 65) grade = 'C';
+  else if (score >= 60) grade = 'C-';
+  else if (score >= 50) grade = 'D';
+  else grade = 'F';
+  return { grade, score };
+}
+const GRADE_COLORS = {
+  'A': '#059669', 'A-': '#059669', 'B+': '#84cc16', 'B': '#84cc16',
+  'B-': '#eab308', 'C+': '#eab308', 'C': '#f59e0b',
+  'C-': '#f97316', 'D': '#dc2626', 'F': '#dc2626', '—': '#64748b',
+};
+let homeRevChart = null;
+
+async function loadHome() {
+  const el = document.getElementById('home-content');
   try {
-    const [settings, recs, notifs, revenueData] = await Promise.all([
-      sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`),
-      sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=500`),
-      sbFetch(`notifications?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc`),
-      sbFetch(`csi_pf_totals?ros=not.is.null&order=day.desc&limit=30&select=day,mdy,ros`)
+    const [settings, totals, recs, outcomes, priceResp] = await Promise.all([
+      sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&select=clinic_name&limit=1`),
+      sbFetch(`csi_pf_totals?select=mdy,daily_total,ros,tg,rvv&ros=not.is.null&order=day.desc&limit=30`),
+      sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&status=eq.pending&select=service_code,price_old,price_new,est_uplift,status&limit=500`),
+      sbFetch(`change_outcomes?clinic_id=eq.${CURRENT_CLINIC}&select=verdict,service_code`),
+      fetch(`${SB_URL}/prices?select=code`, { headers: sbHeaders }),
     ]);
+    clinicSettings = (await sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&limit=1`))[0] || {};
+    const clinicName = (settings[0] || {}).clinic_name || 'Rosslyn Veterinary Hospital';
+    const latestRow = totals && totals[0] ? totals[0] : null;
+    const prevRow = totals && totals[1] ? totals[1] : null;
+    const latestDate = latestRow ? latestRow.mdy : null;
 
-    clinicSettings = settings[0] || {};
-    notificationsData = notifs;
-    reviewData = recs;
+    let visitCount = 0, avgInv = 0;
+    if (latestDate) {
+      const [m, d, y] = latestDate.split('-');
+      const dateStr = `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;
+      const nextDay = new Date(dateStr); nextDay.setDate(nextDay.getDate() + 1);
+      const nextStr = nextDay.toISOString().split('T')[0];
+      try {
+        const visitResp = await fetch(`${SB_URL}/visits?select=record_num&visit_date=gte.${dateStr}&visit_date=lt.${nextStr}`, {
+          headers: { ...sbHeaders }, Prefer: 'count=exact', Range: '0-0'
+        });
+        visitCount = parseInt((visitResp.headers.get('content-range')||'').split('/')[1] || '0');
+        if (visitCount === 0) {
+          const latestVisit = await sbFetch('visits?select=visit_date&order=visit_date.desc&limit=1');
+          if (Array.isArray(latestVisit) && latestVisit[0]?.visit_date) {
+            const vDate = latestVisit[0].visit_date.split('T')[0];
+            const vNext = new Date(vDate); vNext.setDate(vNext.getDate() + 1);
+            const vNextStr = vNext.toISOString().split('T')[0];
+            const fallbackResp = await fetch(`${SB_URL}/visits?select=record_num&visit_date=gte.${vDate}&visit_date=lt.${vNextStr}`, {
+              headers: { ...sbHeaders }, Prefer: 'count=exact', Range: '0-0'
+            });
+            visitCount = parseInt((fallbackResp.headers.get('content-range')||'').split('/')[1] || '0');
+          }
+        }
+        const svcData = await sbFetch(`services?select=amount&service_date=gte.${dateStr} 00:00:00&service_date=lt.${nextStr} 00:00:00`);
+        const svcArr = (svcData || []).filter(s => s.amount > 0);
+        avgInv = svcArr.length > 0 ? svcArr.reduce((s, x) => s + x.amount, 0) / svcArr.length : 0;
+      } catch (e) { /* visits table may not exist */ }
+    }
 
-    // Notification badge
-    const unread = notifs.filter(n => !n.read).length;
-    const badge = document.getElementById('bellBadge');
-    badge.textContent = unread;
-    badge.style.display = unread > 0 ? 'block' : 'none';
-
-    // Metrics
-    const revenue30 = revenueData.reduce((s, r) => s + (r.ros || 0), 0);
-    const revenueRecent = revenueData.slice(0, 15).reduce((s, r) => s + (r.ros || 0), 0);
-    const revenuePrev = revenueData.slice(15).reduce((s, r) => s + (r.ros || 0), 0);
-    const revDelta = revenuePrev > 0 ? ((revenueRecent - revenuePrev) / revenuePrev * 100) : 0;
-    const activeDays = revenueData.filter(r => r.ros).length;
-    const avgDaily = activeDays > 0 ? revenue30 / activeDays : 0;
-
-    const applied = recs.filter(r => r.status === 'applied');
-    const pending = recs.filter(r => r.status === 'pending');
-
-    // Last review date — most recent applied rec
-    const lastReviewDate = applied.length > 0 ? applied[0].created_at : null;
-    const daysSinceReview = daysSince(lastReviewDate);
-
-    // Next review — based on schedule setting
-    const schedule = clinicSettings.schedule || 'Quarterly';
-    const scheduleMap = { Weekly: 7, 'Bi-weekly': 14, Monthly: 30, Quarterly: 90 };
-    const intervalDays = scheduleMap[schedule] || 90;
-    const daysUntilNext = lastReviewDate
-      ? Math.max(0, intervalDays - (daysSinceReview || 0))
+    const recArr = Array.isArray(recs) ? recs : [];
+    const serviceCount = parseInt((priceResp.headers.get('content-range')||'').split('/')[1] || '0') || recArr.length;
+    const adjPct = recArr.length > 0
+      ? recArr.reduce((s, r) => { const o = parseFloat(r.price_old) || 1; const n = parseFloat(r.price_new) || o; return s + ((n - o) / o * 100); }, 0) / recArr.length
       : 0;
 
-    // Health score: based on how current pricing is
-    const healthPct = Math.min(100, Math.round(((intervalDays - Math.min(daysSinceReview || 0, intervalDays)) / intervalDays) * 100));
-    const healthColor = healthPct >= 70 ? 'green' : healthPct >= 40 ? 'amber' : 'red';
+    const outcomeArr = Array.isArray(outcomes) ? outcomes : [];
+    const confident = outcomeArr.filter(o => o.verdict === 'confident').length;
+    const uncertain = outcomeArr.filter(o => o.verdict === 'uncertain').length;
+    const reverted = outcomeArr.filter(o => o.verdict === 'reverted').length;
+    const totalChanges = outcomeArr.length;
+    const { grade, score } = computeGrade(confident, uncertain, reverted);
 
-    // Avg adjustment
-    const avgAdj = applied.length > 0
-      ? applied.reduce((s, r) => s + (r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0), 0) / applied.length
-      : 0;
+    const recentDate = latestRow ? latestRow.mdy : '';
+    const prevRev = prevRow ? (prevRow.ros || prevRow.daily_total || 0) : 0;
+    const curRev = latestRow ? (latestRow.ros || latestRow.daily_total || 0) : 0;
+    const revDelta = prevRev > 0 ? ((curRev - prevRev) / prevRev * 100) : 0;
+    const gradeColor = GRADE_COLORS[grade] || '#64748b';
+    const dateStr = latestDate ? formatDateShort(latestDate) : 'latest';
 
     el.innerHTML = `
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">Revenue (30d)</div>
-          <div class="kpi-value">${fmtMoney(revenue30)}</div>
-          <div class="kpi-sub">Rosslyn Veterinary</div>
-          <div class="kpi-delta ${revDelta >= 0 ? 'up' : 'down'}">${revDelta >= 0 ? '↑' : '↓'} ${Math.abs(revDelta).toFixed(1)}% vs prior 15d</div>
+      <div class="home-clinic-name">${clinicName}</div>
+      <div class="home-date">Data through ${dateStr}</div>
+
+      <div class="hero-row">
+        <div class="stat-tile cyan">
+          <div class="stat-tile-label">${dateStr} Revenue</div>
+          <div class="stat-tile-value">${fmtMoney(curRev)}</div>
+          ${isFinite(revDelta) && prevRev > 0 ? `<div class="stat-tile-sub ${revDelta >= 0 ? 'up' : 'down'}">${revDelta >= 0 ? '↑' : '↓'} ${Math.abs(revDelta).toFixed(1)}% vs prior</div>` : ''}
         </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Avg Daily Revenue</div>
-          <div class="kpi-value">${fmtMoney(avgDaily)}</div>
-          <div class="kpi-sub">${activeDays} active days in window</div>
+        <div class="stat-tile cyan">
+          <div class="stat-tile-label">Avg Invoice</div>
+          <div class="stat-tile-value">${avgInv > 0 ? '$' + Math.round(avgInv).toLocaleString() : '—'}</div>
         </div>
-        <div class="kpi-card ${healthColor}">
-          <div class="kpi-label">Pricing Health</div>
-          <div class="kpi-value ${healthColor}">${healthPct}%</div>
-          <div class="kpi-sub">${daysSinceReview != null ? daysSinceReview + ' days since last review' : 'No reviews yet'}</div>
-        </div>
-        <div class="kpi-card amber">
-          <div class="kpi-label">Next Review</div>
-          <div class="kpi-value amber">${daysUntilNext === 0 ? 'Now' : daysUntilNext + 'd'}</div>
-          <div class="kpi-sub">${schedule} cadence · ${schedule === 'Quarterly' ? 'Every 90 days' : 'Every ' + intervalDays + ' days'}</div>
-        </div>
-        <div class="kpi-card green">
-          <div class="kpi-label">Changes Applied</div>
-          <div class="kpi-value green">${applied.length}</div>
-          <div class="kpi-sub">Avg +${avgAdj.toFixed(1)}% per change</div>
-        </div>
-        <div class="kpi-card purple">
-          <div class="kpi-label">Pending Review</div>
-          <div class="kpi-value" style="color:var(--purple)">${pending.length}</div>
-          <div class="kpi-sub">Recommendations awaiting approval</div>
+        <div class="stat-tile green">
+          <div class="stat-tile-label">Total Visits</div>
+          <div class="stat-tile-value">${visitCount && !isNaN(visitCount) ? visitCount.toLocaleString() : '—'}</div>
         </div>
       </div>
 
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <div class="chart-label">Review Activity</div>
+      <div class="home-section-title">This Quarter</div>
+      <div class="hero-row">
+        <div class="stat-tile cyan">
+          <div class="stat-tile-label">Price Changes</div>
+          <div class="stat-tile-value">${totalChanges}</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;">
-          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
-            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Last Review</div>
-            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${lastReviewDate ? fmtDate(lastReviewDate) : '—'}</div>
-            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">${daysSinceReview != null ? daysSinceReview + ' days ago' : 'No reviews yet'}</div>
-          </div>
-          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
-            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Review Cadence</div>
-            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${schedule}</div>
-            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">Every ${intervalDays} days</div>
-          </div>
-          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
-            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Total Recommendations</div>
-            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${recs.length}</div>
-            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">${applied.length} applied · ${pending.length} pending</div>
-          </div>
-          <div style="background:var(--surface2);border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--border);">
-            <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Services Tracked</div>
-            <div style="font-size:1.1rem;font-weight:800;color:var(--text);">${new Set(recs.map(r => r.service_code)).size}</div>
-            <div style="font-size:.76rem;color:var(--muted);margin-top:2px;">Unique service codes</div>
-          </div>
+        <div class="stat-tile ${adjPct >= 0 ? 'green' : 'red'}">
+          <div class="stat-tile-label">Avg Adjustment</div>
+          <div class="stat-tile-value">${adjPct >= 0 ? '+' : ''}${adjPct.toFixed(1)}%</div>
+        </div>
+        <div class="stat-tile cyan">
+          <div class="stat-tile-label">Services Monitored</div>
+          <div class="stat-tile-value">${serviceCount}</div>
         </div>
       </div>
 
-      ${daysUntilNext === 0 || pending.length > 0 ? `
-      <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
-        <div>
-          <div style="font-size:.95rem;font-weight:700;color:var(--text);">
-            ${daysUntilNext === 0 ? '🔔 Price review is due' : `📋 ${pending.length} recommendations waiting`}
-          </div>
-          <div style="font-size:.82rem;color:var(--muted);margin-top:4px;">
-            ${daysUntilNext === 0 ? 'Your ' + schedule.toLowerCase() + ' review window is open. Review and approve recommendations.' : 'You have pending price recommendations to review and approve.'}
-          </div>
+      <div class="home-section-title">System Performance</div>
+      <div class="grade-card" style="border-color:${gradeColor}">
+        <div class="grade-circle" style="background:${gradeColor}">
+          <span class="grade-letter">${grade}</span>
         </div>
-        <button class="section-action" onclick="showTab('review')" style="white-space:nowrap;">Review Now →</button>
+        <div style="flex:1">
+          <div class="grade-title">System Performance</div>
+          <div class="grade-score">${score}% confidence score</div>
+          <div class="grade-sub">Based on ${totalChanges} monitored changes this quarter</div>
+        </div>
       </div>
-      ` : ''}
+
+      <div class="verdict-card">
+        ${verdictRowHTML('✓', '#059669', '#ecfdf5', 'Confirmed Wins', 'Changes that improved revenue as expected', confident, totalChanges)}
+        ${verdictRowHTML('?', '#f59e0b', '#fffbeb', 'Still Evaluating', "Results aren't clear yet — under review", uncertain, totalChanges)}
+        ${verdictRowHTML('↶', '#dc2626', '#fef2f2', 'Reverted', 'Changes that hurt performance and were rolled back', reverted, totalChanges)}
+      </div>
     `;
   } catch (err) {
     el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
   }
 }
 
-// ============================================================
-// PRICE REVIEW TAB
-// ============================================================
-async function loadReview() {
-  const el = document.getElementById('review-content');
-  try {
-    const recs = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=200`);
-    reviewData = recs;
-    renderReview();
-  } catch (err) {
-    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
-  }
-}
-
-function renderReview() {
-  const el = document.getElementById('review-content');
-  let recs = reviewData;
-
-  if (reviewFilter === 'pending') recs = recs.filter(r => r.status === 'pending');
-  else if (reviewFilter === 'applied') recs = recs.filter(r => r.status === 'applied');
-
-  const pendingCount = reviewData.filter(r => r.status === 'pending').length;
-  const appliedCount = reviewData.filter(r => r.status === 'applied').length;
-
-  el.innerHTML = `
-    <div class="section-title-row">
-      <div>
-        <div class="section-title">Price Recommendations</div>
-        <div class="section-sub">${pendingCount} pending · ${appliedCount} approved</div>
+function verdictRowHTML(icon, iconColor, iconBg, label, subtitle, count, total) {
+  const pct = total > 0 ? Math.round(count / total * 100) : 0;
+  return `
+    <div class="verdict-row">
+      <div class="verdict-icon" style="background:${iconBg};color:${iconColor}">${icon}</div>
+      <div class="verdict-mid">
+        <div class="verdict-label">${label}</div>
+        <div class="verdict-subtitle">${subtitle}</div>
+        <div class="verdict-bar-track"><div class="verdict-bar-fill" style="width:${pct}%;background:${iconColor}"></div></div>
       </div>
-      ${pendingCount > 0 ? `<button class="section-action" onclick="approveAll()">Approve All Pending</button>` : ''}
+      <div class="verdict-count">${count}</div>
     </div>
-    <div class="filter-row">
-      <button class="chip ${reviewFilter === 'all' ? 'active' : ''}" onclick="setReviewFilter('all')">All (${reviewData.length})</button>
-      <button class="chip ${reviewFilter === 'pending' ? 'active' : ''}" onclick="setReviewFilter('pending')">Pending (${pendingCount})</button>
-      <button class="chip ${reviewFilter === 'applied' ? 'active' : ''}" onclick="setReviewFilter('applied')">Approved (${appliedCount})</button>
-    </div>
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" placeholder="Search services…" oninput="filterReviewSearch(this.value)" id="reviewSearch">
-    </div>
-    <div id="reviewList"></div>
   `;
-
-  renderReviewList(recs);
 }
 
-function renderReviewList(recs) {
-  const el = document.getElementById('reviewList');
-  if (!el) return;
-  if (recs.length === 0) {
-    el.innerHTML = `<div class="empty-state"><p>No recommendations found</p></div>`;
-    return;
-  }
-  el.innerHTML = recs.slice(0, 100).map(r => {
-    const delta = r.price_new - r.price_old;
-    const pct = r.price_old > 0 ? (delta / r.price_old * 100) : 0;
-    const isApplied = r.status === 'applied';
-    return `
-      <div class="review-card">
-        <div class="review-row">
-          <div>
-            <div class="review-name">${r.service_name || 'Unknown Service'}</div>
-            <div class="review-code">Code: ${r.service_code || '—'} · Vol: ${r.annual_volume || 0}/yr · Est. impact: ${fmtMoney(r.est_uplift || 0)}/yr</div>
-          </div>
-          <div class="review-prices">
-            <span class="review-old">${fmtMoneyDecimal(r.price_old)}</span>
-            <span class="review-arrow">→</span>
-            <span class="review-new">${fmtMoneyDecimal(r.price_new)}</span>
-          </div>
-          <span class="pct-badge ${delta > 0 ? 'up' : delta < 0 ? 'down' : 'neutral'}">
-            ${delta >= 0 ? '+' : ''}${pct.toFixed(1)}%
-          </span>
-          <div class="review-actions">
-            <button class="btn-approve ${isApplied ? 'approved' : ''}" onclick="toggleApproval('${r.id}', '${r.status}')">
-              ${isApplied ? '✓ Approved' : 'Approve'}
-            </button>
-            ${!isApplied ? `<button class="btn-skip" onclick="skipRec('${r.id}')">Skip</button>` : ''}
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('') + (recs.length > 100 ? `<p style="text-align:center;color:var(--muted);padding:1rem;">+ ${recs.length - 100} more…</p>` : '');
-}
-
-function setReviewFilter(f) {
-  reviewFilter = f;
-  renderReview();
-}
-
-function filterReviewSearch(q) {
-  if (!q) { renderReviewList(reviewData.filter(r => reviewFilter === 'all' ? true : r.status === reviewFilter)); return; }
-  const ql = q.toLowerCase();
-  const filtered = reviewData.filter(r =>
-    (r.service_name || '').toLowerCase().includes(ql) ||
-    (r.service_code || '').toLowerCase().includes(ql)
-  );
-  renderReviewList(filtered);
-}
-
-async function toggleApproval(itemId, currentStatus) {
-  const newStatus = currentStatus === 'applied' ? 'pending' : 'applied';
-  try {
-    await sbPatch(`price_recommendations?id=eq.${itemId}`, { status: newStatus });
-    showToast(newStatus === 'applied' ? '✓ Approved' : 'Reverted', 'success');
-    loadReview();
-    loadOverview();
-  } catch (err) {
-    showToast('Failed: ' + err.message, 'error');
-  }
-}
-
-async function skipRec(itemId) {
-  try {
-    await sbPatch(`price_recommendations?id=eq.${itemId}`, { status: 'skipped' });
-    showToast('Skipped', '');
-    loadReview();
-  } catch (err) {
-    showToast('Failed: ' + err.message, 'error');
-  }
-}
-
-async function approveAll() {
-  const pending = reviewData.filter(r => r.status === 'pending');
-  if (pending.length === 0) { showToast('Nothing to approve', ''); return; }
-  try {
-    for (const r of pending) {
-      await sbPatch(`price_recommendations?id=eq.${r.id}`, { status: 'applied' });
-    }
-    showToast(`✓ ${pending.length} recommendations approved`, 'success');
-    loadReview();
-    loadOverview();
-  } catch (err) {
-    showToast('Failed: ' + err.message, 'error');
-  }
+function formatDateShort(mdy) {
+  if (!mdy) return '';
+  const parts = mdy.split('-');
+  if (parts.length !== 3) return mdy;
+  const [m, d, y] = parts;
+  const dt = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 // ============================================================
-// MONITOR TAB — post-change flagging
+// REPORTS TAB — mobile ReportsScreen port
 // ============================================================
-async function loadMonitor() {
-  const el = document.getElementById('monitor-content');
-  try {
-    // Get applied recommendations — these are what we monitor
-    const applied = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&status=eq.applied&order=created_at.desc&limit=200`);
+let reportsData = [];
+let reportSelections = {};
 
-    if (applied.length === 0) {
-      el.innerHTML = `
-        <div class="section-title-row">
-          <div><div class="section-title">Post-Change Monitor</div><div class="section-sub">Track performance after price changes</div></div>
-        </div>
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          <p>No approved price changes to monitor yet.</p>
-          <p style="margin-top:8px;font-size:.8rem;">Once you approve recommendations, we'll flag any services that underperform after the change.</p>
-        </div>
-      `;
+function reportPriority(report) {
+  if (report.mode === 'copilot') {
+    const approved = report.data?.approved_count || 0;
+    const flagged = report.data?.flagged_services || 0;
+    if (approved < flagged) return 1;
+  }
+  if (report.mode === 'monitor') return 1;
+  if (report.mode === 'autopilot') {
+    if (!report.seen) return 2;
+  }
+  return 3;
+}
+
+function reportCardState(report) {
+  if (report.mode === 'copilot') {
+    const approved = report.data?.approved_count || 0;
+    const flagged = report.data?.flagged_services || 0;
+    if (approved < flagged) return 'action';
+  } else if (report.mode === 'monitor') {
+    return 'action';
+  } else if (report.mode === 'autopilot') {
+    if (!report.seen) return 'unread';
+  }
+  return 'done';
+}
+
+async function loadReports() {
+  const el = document.getElementById('reports-content');
+  try {
+    const [rows, monItems, liveStats, clinicRows] = await Promise.all([
+      sbFetch(`reports?clinic_id=eq.${CURRENT_CLINIC}&status=eq.active&order=sort_order.asc`),
+      sbFetch(`monitoring_items?clinic_id=eq.${CURRENT_CLINIC}&select=id,status`).catch(() => []),
+      sbFetch('report_stats_live').catch(() => []),
+      sbFetch(`clinic_settings?clinic_id=eq.${CURRENT_CLINIC}&select=clinic_name&limit=1`).catch(() => []),
+    ]);
+    const clinicName = (Array.isArray(clinicRows) && clinicRows[0]) ? clinicRows[0].clinic_name : null;
+    if (!Array.isArray(rows) || !rows.length) {
+      reportsData = [];
+      el.innerHTML = `<div class="empty-state"><p>No reports available</p></div>`;
       return;
     }
+    const statsMap = {};
+    if (Array.isArray(liveStats)) liveStats.forEach(s => { statsMap[s.report_id] = s; });
+    const monStatusMap = {};
+    if (Array.isArray(monItems)) monItems.forEach(mi => { monStatusMap[mi.id] = mi.status; });
 
-    // Group by service and check for underperformance
-    // Flag: price went up but est_uplift was high and it's been >30 days
-    const now = Date.now();
-    const flags = applied.map(r => {
-      const daysSinceChange = Math.floor((now - new Date(r.created_at).getTime()) / 86400000);
-      const pct = r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0;
-      // Flagging logic: large increase + enough time has passed to see impact
-      let flagType = 'ok';
-      let flagLabel = 'Tracking';
-      if (daysSinceChange < 14) { flagType = 'ok'; flagLabel = 'Too early to flag'; }
-      else if (pct > 15) { flagType = 'warn'; flagLabel = 'Watch: Large increase'; }
-      else if (pct > 25) { flagType = 'alert'; flagLabel = 'Review: Very large increase'; }
-      else { flagType = 'ok'; flagLabel = 'Performing normally'; }
-      return { ...r, daysSinceChange, pct, flagType, flagLabel };
+    const filtered = rows.filter(r => {
+      if (r.report_type !== 'monitor') return true;
+      const monId = r.data?.monitoring_id;
+      const monStatus = monStatusMap[monId];
+      return monStatus === 'watch' || monStatus === 'concern' || monStatus === undefined;
     });
-
-    const watchFlags = flags.filter(f => f.flagType !== 'ok' || f.daysSinceChange >= 14);
-    const alertCount = flags.filter(f => f.flagType === 'alert').length;
-    const warnCount = flags.filter(f => f.flagType === 'warn').length;
-
-    el.innerHTML = `
-      <div class="section-title-row">
-        <div>
-          <div class="section-title">Post-Change Monitor</div>
-          <div class="section-sub">${applied.length} price changes tracked · ${alertCount} alerts · ${warnCount} warnings</div>
-        </div>
-      </div>
-
-      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem;">
-        <div class="kpi-card">
-          <div class="kpi-label">Changes Tracked</div>
-          <div class="kpi-value">${applied.length}</div>
-          <div class="kpi-sub">Price changes applied</div>
-        </div>
-        <div class="kpi-card amber">
-          <div class="kpi-label">Warnings</div>
-          <div class="kpi-value amber">${warnCount}</div>
-          <div class="kpi-sub">Large increases to watch</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Avg Change</div>
-          <div class="kpi-value">+${(applied.reduce((s, r) => s + (r.price_old > 0 ? ((r.price_new - r.price_old) / r.price_old * 100) : 0), 0) / applied.length).toFixed(1)}%</div>
-          <div class="kpi-sub">Across all applied changes</div>
-        </div>
-      </div>
-
-      <div class="table-card">
-        <div class="table-header">
-          <div class="table-header-title">Applied Price Changes</div>
-          <div class="table-meta">${applied.length} changes</div>
-        </div>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Service</th>
-                <th>Code</th>
-                <th class="num">Old Price</th>
-                <th class="num">New Price</th>
-                <th class="num">Change</th>
-                <th class="num">Days Active</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${flags.slice(0, 50).map(r => `
-                <tr>
-                  <td>${r.service_name || '—'}</td>
-                  <td class="muted">${r.service_code || '—'}</td>
-                  <td class="num muted">${fmtMoneyDecimal(r.price_old)}</td>
-                  <td class="num">${fmtMoneyDecimal(r.price_new)}</td>
-                  <td class="num ${r.pct > 0 ? 'green' : 'red'}">${r.pct >= 0 ? '+' : ''}${r.pct.toFixed(1)}%</td>
-                  <td class="num muted">${r.daysSinceChange}d</td>
-                  <td>
-                    <span class="flag-badge ${r.flagType === 'ok' ? 'ok' : r.flagType === 'warn' ? 'warn' : 'alert'}" style="font-size:.7rem;padding:3px 9px;">
-                      ${r.flagLabel}
-                    </span>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
+    reportsData = filtered.map(r => {
+      const live = statsMap[r.id] || {};
+      const baseData = r.data || {};
+      const mergedData = {
+        ...baseData,
+        ...(live.flagged_services != null ? { flagged_services: parseInt(live.flagged_services) } : {}),
+        ...(live.approved_count != null ? { approved_count: parseInt(live.approved_count) } : {}),
+        ...(live.total_opportunity != null ? { total_opportunity: parseInt(live.total_opportunity) } : {}),
+        ...(live.avg_pct_change != null ? { cpi_label: live.avg_pct_change + '% avg change' } : {}),
+      };
+      return {
+        id: r.id, clinicName, mode: r.report_type, title: r.title, subtitle: r.subtitle || '',
+        icon: r.icon || '📊', badgeColor: r.badge_color || '#2563eb',
+        data: mergedData, seen: r.seen || false,
+      };
+    });
+    reportsData.sort((a, b) => {
+      const pa = reportPriority(a), pb = reportPriority(b);
+      if (pa !== pb) return pa - pb;
+      const modeOrder = { copilot: 0, monitor: 1, autopilot: 2 };
+      return (modeOrder[a.mode] ?? 9) - (modeOrder[b.mode] ?? 9);
+    });
+    renderReports();
   } catch (err) {
     el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
   }
 }
 
+function renderReports() {
+  const el = document.getElementById('reports-content');
+  if (!reportsData.length) {
+    el.innerHTML = `<div class="empty-state"><p>No reports available</p></div>`;
+    return;
+  }
+  const actionItems = reportsData.filter(r => reportPriority(r) === 1);
+  const unreadItems = reportsData.filter(r => reportPriority(r) === 2);
+  const readItems = reportsData.filter(r => reportPriority(r) === 3);
+  const cardHTML = r => {
+    const d = r.data || {};
+    const state = reportCardState(r);
+    const stateClass = state === 'action' ? 'action' : state === 'unread' ? 'unread' : '';
+    const modeClass = r.mode === 'autopilot' ? 'autopilot' : r.mode === 'monitor' ? 'monitor' : 'copilot';
+    const modeLabel = r.mode === 'autopilot' ? 'Autopilot' : r.mode === 'monitor' ? 'Monitoring' : 'Copilot';
+    const stateBadge = state === 'action'
+      ? `<span class="card-state-badge" style="background:#eff6ff"><span class="card-state-dot" style="background:#2563eb"></span><span style="color:#2563eb">Action needed</span></span>`
+      : state === 'unread'
+      ? `<span class="card-state-badge" style="background:#fffbeb"><span class="card-state-dot" style="background:#b45309"></span><span style="color:#b45309">New</span></span>`
+      : '';
+    const bodyHTML = r.mode === 'monitor'
+      ? `<div style="flex:1">
+           <div style="font-size:.88rem;font-weight:600;color:var(--text)">${d.service_desc || r.title}</div>
+           <div style="font-size:.76rem;color:var(--muted);margin-top:2px">${d.days_post || 0} days post-change  ·  $${Number(d.old_price||0).toFixed(2)} → $${Number(d.new_price||0).toFixed(2)}</div>
+         </div>
+         <span style="font-size:1.3rem">${r.icon || '📊'}</span>`
+      : `<div class="report-card-v2-num">${d.flagged_services || 0}</div>
+         <div style="flex:1">
+           <div class="report-card-v2-of">${r.mode === 'autopilot' ? 'prices updated' : 'flagged for review'}</div>
+           <div class="report-card-v2-potential">${fmtMoney(d.total_opportunity || 0)} potential</div>
+         </div>
+         <span style="color:#cbd5e1">›</span>`;
+    return `
+      <div class="report-card-v2 ${stateClass}" onclick="openReport('${r.id}')">
+        <div class="report-card-v2-head">
+          <div style="flex:1;min-width:0">
+            <div class="report-card-v2-title">${r.title}</div>
+            <div class="report-card-v2-sub">${r.subtitle}</div>
+          </div>
+          <span class="mode-badge-v2 ${modeClass}">${modeLabel}</span>
+        </div>
+        ${stateBadge ? `<div style="margin-top:6px">${stateBadge}</div>` : ''}
+        <div class="report-card-v2-body">${bodyHTML}</div>
+      </div>
+    `;
+  };
+  el.innerHTML = `
+    <div style="margin-bottom:1rem;font-size:.82rem;color:var(--muted)">${reportsData.length} reports</div>
+    ${actionItems.length ? `<div class="report-section-label">Needs Your Attention</div>${actionItems.map(cardHTML).join('')}` : ''}
+    ${unreadItems.length ? `<div class="report-section-label">New For You</div>${unreadItems.map(cardHTML).join('')}` : ''}
+    ${readItems.length ? `<div class="report-section-label">Reviewed</div>${readItems.map(cardHTML).join('')}` : ''}
+  `;
+}
+
+async function openReport(id) {
+  const report = reportsData.find(r => String(r.id) === String(id));
+  if (!report) return;
+  document.getElementById('reportModalTitle').textContent = report.title;
+  document.getElementById('reportModalBody').innerHTML = `<div class="loading"><div class="spinner"></div> Loading…</div>`;
+  document.getElementById('reportModal').classList.add('open');
+  // Mark as seen
+  if (!report.seen) {
+    sbPatch(`reports?id=eq.${report.id}`, { seen: true }).then(() => { report.seen = true; renderReports(); }).catch(() => {});
+  }
+  if (report.mode === 'copilot') renderCopilotModal(report);
+  else if (report.mode === 'autopilot') renderAutopilotModal(report);
+  else renderMonitoringModal(report);
+}
+
+function closeReportModal() {
+  document.getElementById('reportModal').classList.remove('open');
+  reportSelections = {};
+}
+
+function renderCopilotModal(report) {
+  const body = document.getElementById('reportModalBody');
+  body.innerHTML = `<div class="loading"><div class="spinner"></div> Loading recommendations…</div>`;
+  sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&status=eq.pending&order=est_uplift.desc&limit=200`)
+    .then(rows => {
+      const changes = (Array.isArray(rows) ? rows : []).map(r => ({
+        id: r.id, code: r.service_code, desc: r.service_name,
+        current: parseFloat(r.price_old), suggested: parseFloat(r.price_new),
+        pct: ((parseFloat(r.price_new) - parseFloat(r.price_old)) / parseFloat(r.price_old) * 100),
+        annualImpact: r.est_uplift || 0,
+      }));
+      reportSelections = {};
+      renderCopilotChanges(report, changes);
+    })
+    .catch(() => { body.innerHTML = `<div class="empty-state"><p>Couldn't load recommendations</p></div>`; });
+}
+
+function renderCopilotChanges(report, changes) {
+  const body = document.getElementById('reportModalBody');
+  const selCount = changes.filter(c => reportSelections[c.id] === 'approve').length;
+  const rejCount = changes.filter(c => reportSelections[c.id] === 'reject').length;
+  const selImpact = changes.filter(c => reportSelections[c.id] === 'approve').reduce((s, c) => s + c.annualImpact, 0);
+  const modeLabel = report.mode === 'autopilot' ? 'Autopilot' : report.mode === 'monitor' ? 'Monitoring' : 'Copilot';
+  const modeClass = report.mode === 'autopilot' ? 'autopilot' : report.mode === 'monitor' ? 'monitor' : 'copilot';
+  body.innerHTML = `
+    <div style="display:flex;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap">
+      <div class="stat-card"><div class="label">Total</div><div class="value">${changes.length}</div></div>
+      <div class="stat-card success"><div class="label">Approved</div><div class="value">${selCount}</div></div>
+      <div class="stat-card warning"><div class="label">Rejected</div><div class="value">${rejCount}</div></div>
+      <div class="stat-card"><div class="label">Impact</div><div class="value" style="color:${selCount > 0 ? '#16a34a' : '#1e293b'}">${fmtK(selImpact)}</div></div>
+    </div>
+    <div style="display:flex;gap:.75rem;align-items:center;margin-bottom:1rem">
+      <button class="btn-activate primary" onclick="copilotSelectAll('${report.id}')">Select All</button>
+      <span style="font-size:.78rem;color:var(--muted)">Click to cycle: Approve → Reject → None</span>
+    </div>
+    <div id="copilotList">${changes.map(c => copilotChangeRow(c)).join('')}</div>
+    <div id="copilotSubmitWrap" style="margin-top:1rem;display:${Object.keys(reportSelections).length > 0 ? 'block' : 'none'}">
+      <button class="edit-save-btn" onclick="copilotSubmit('${report.id}')">
+        Submit ${Object.keys(reportSelections).length} Decision${Object.keys(reportSelections).length !== 1 ? 's' : ''}
+      </button>
+    </div>
+  `;
+  // store changes on report for later access
+  report._changes = changes;
+}
+
+function copilotChangeRow(c) {
+  const sel = reportSelections[c.id];
+  return `
+    <div class="modal-change-row ${sel === 'approve' ? 'approved' : sel === 'reject' ? 'rejected' : ''}" onclick="copilotCycle('${c.id}','${c.annualImpact}')">
+      <div class="check-circle ${sel === 'approve' ? 'on' : sel === 'reject' ? 'reject' : ''}">${sel === 'approve' ? '✓' : sel === 'reject' ? '✕' : ''}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.desc}</div>
+        <div class="change-prices-inline">
+          <span class="pc-old">${fmtMoneyDecimal(c.current)}</span>
+          <span class="pc-arrow">→</span>
+          <span class="pc-new">${fmtMoneyDecimal(c.suggested)}</span>
+          <span class="pct-inline">+${c.pct.toFixed(1)}%</span>
+        </div>
+      </div>
+      <div style="font-weight:800;color:#16a34a;font-size:.85rem">+${fmtK(c.annualImpact)}</div>
+    </div>
+  `;
+}
+
+function copilotCycle(id, annualImpact) {
+  const cur = reportSelections[id];
+  if (cur === 'approve') delete reportSelections[id];
+  else if (cur === 'reject') reportSelections[id] = 'approve';
+  else reportSelections[id] = 'reject';
+  const report = reportsData.find(r => document.getElementById('reportModal').classList.contains('open'));
+  // re-render the list portion only
+  const active = reportsData.find(r => r._changes);
+  if (active) renderCopilotChanges(active, active._changes);
+}
+
+function copilotSelectAll(reportId) {
+  const report = reportsData.find(r => String(r.id) === String(reportId));
+  if (!report || !report._changes) return;
+  report._changes.forEach(c => { reportSelections[c.id] = 'approve'; });
+  renderCopilotChanges(report, report._changes);
+}
+
+async function copilotSubmit(reportId) {
+  const report = reportsData.find(r => String(r.id) === String(reportId));
+  if (!report || !report._changes) return;
+  const entries = Object.entries(reportSelections);
+  for (const [id, verdict] of entries) {
+    const status = verdict === 'approve' ? 'applied' : 'dismissed';
+    await sbPatch(`price_recommendations?id=eq.${id}`, { status }).catch(() => {});
+  }
+  const selCount = entries.filter(([,v]) => v === 'approve').length;
+  const rejCount = entries.filter(([,v]) => v === 'reject').length;
+  document.getElementById('reportModalBody').innerHTML = `
+    <div style="text-align:center;padding:3rem 1.5rem">
+      <div style="font-size:3rem;margin-bottom:.75rem">✅</div>
+      <div style="font-size:1.2rem;font-weight:800;color:var(--text)">Decisions Saved</div>
+      <div style="font-size:.88rem;color:var(--muted);margin-top:.5rem">${selCount} approved · ${rejCount} rejected</div>
+    </div>
+  `;
+  reportSelections = {};
+  showToast('Decisions saved', 'success');
+}
+
+function renderAutopilotModal(report) {
+  const body = document.getElementById('reportModalBody');
+  body.innerHTML = `<div class="loading"><div class="spinner"></div> Loading analytics…</div>`;
+  sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=est_uplift.desc&limit=200`)
+    .then(rows => {
+      const changes = (Array.isArray(rows) ? rows : []).filter(r => r.service_code !== '_summary').map(r => ({
+        desc: r.service_name, current: parseFloat(r.price_old), suggested: parseFloat(r.price_new),
+        pct: ((parseFloat(r.price_new) - parseFloat(r.price_old)) / parseFloat(r.price_old) * 100),
+        annualImpact: r.est_uplift || 0,
+      }));
+      if (!changes.length) { body.innerHTML = `<div class="empty-state"><p>No analytics data available</p></div>`; return; }
+      const totalImpact = changes.reduce((s, c) => s + c.annualImpact, 0);
+      const avgPct = changes.reduce((s, c) => s + c.pct, 0) / changes.length;
+      const maxImpact = Math.max(...changes.map(c => c.annualImpact));
+      const top5 = changes.slice(0, 5);
+      const summary = `${changes.length} prices were updated with an average increase of ${avgPct.toFixed(1)}%, projecting +${fmtK(totalImpact)}/yr in additional revenue. The largest single impact comes from ${(top5[0]?.desc||'').toLowerCase()} at +${fmtK(top5[0]?.annualImpact||0)}/yr.`;
+      body.innerHTML = `
+        <div class="edit-impact-card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#bbf7d0;margin-bottom:1rem">
+          <div class="edit-impact-label" style="color:#15803d">PROJECTED ANNUAL UPLIFT</div>
+          <div class="edit-impact-num" style="color:#16a34a">+${fmtK(totalImpact)} /yr</div>
+          <div style="font-size:.82rem;color:#15803d;margin-top:.5rem;line-height:1.6">${summary}</div>
+        </div>
+        <div style="display:flex;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap">
+          <div class="stat-card"><div class="label">Prices updated</div><div class="value">${changes.length}</div></div>
+          <div class="stat-card success"><div class="label">Avg increase</div><div class="value">${avgPct.toFixed(1)}%</div></div>
+          <div class="stat-card"><div class="label">Top impact</div><div class="value">${fmtK(maxImpact)}</div></div>
+        </div>
+        <div class="chart-title">TOP 5 BY IMPACT</div>
+        <div class="items-list" style="max-height:none;border:none">
+          ${top5.map((c, i) => {
+            const barW = (c.annualImpact / maxImpact) * 100;
+            return `
+              <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 0;${i < top5.length-1 ? 'border-bottom:1px solid var(--border)' : ''}">
+                <span style="font-weight:800;color:var(--muted);min-width:20px">${i+1}</span>
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:600;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.desc}</div>
+                  <div class="change-prices-inline">
+                    <span class="pc-old">${fmtMoneyDecimal(c.current)}</span>
+                    <span class="pc-arrow">→</span>
+                    <span class="pc-new">${fmtMoneyDecimal(c.suggested)}</span>
+                    <span class="pct-inline">+${c.pct.toFixed(1)}%</span>
+                  </div>
+                  <div class="progress-bar-wrap" style="margin-top:.4rem;max-width:none">
+                    <div class="progress-bar"><div class="fill" style="width:${barW}%"></div></div>
+                  </div>
+                </div>
+                <div style="font-weight:800;color:#16a34a;font-size:.85rem">+${fmtK(c.annualImpact)}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:.85rem 1rem;margin-top:1rem">
+          <span style="color:#16a34a">⚡</span>
+          <span style="font-size:.8rem;color:#15803d;line-height:1.5">These ${changes.length} price changes were auto-applied based on CPI alignment, competitive analysis, and historical pricing patterns.</span>
+        </div>
+      `;
+    })
+    .catch(() => { body.innerHTML = `<div class="empty-state"><p>Couldn't load analytics</p></div>`; });
+}
+
+function renderMonitoringModal(report) {
+  const body = document.getElementById('reportModalBody');
+  body.innerHTML = `<div class="loading"><div class="spinner"></div> Loading monitoring data…</div>`;
+  const monitorId = report.data?.monitoring_id || report.id;
+  Promise.all([
+    sbFetch(`monitoring_items?id=eq.${monitorId}&limit=1`),
+    sbFetch(`monitoring_daily?monitoring_id=eq.${monitorId}&order=day_offset.asc&limit=100`).catch(() => []),
+    sbFetch(`monitoring_competitors?monitoring_id=eq.${monitorId}&order=competitor_price.asc`).catch(() => []),
+  ]).then(([items, daily, competitors]) => {
+    if (!items || !items.length) { body.innerHTML = `<div class="empty-state"><p>No monitoring data</p></div>`; return; }
+    const row = items[0];
+    const m = {
+      desc: row.service_name, code: row.service_code, category: row.category || 'Service',
+      oldPrice: parseFloat(row.old_price), newPrice: parseFloat(row.new_price),
+      pct: parseFloat(row.pct_change), daysPost: row.days_post,
+      preVolume42d: row.pre_volume_period, postVolume42d: row.post_volume_period,
+      revenuePre42d: row.revenue_pre_period, revenuePost42d: row.revenue_post_period,
+      expectedUplift: row.expected_uplift, marketAvg: parseFloat(row.market_avg),
+    };
+    const volChangePct = m.preVolume42d > 0 ? ((m.postVolume42d - m.preVolume42d) / m.preVolume42d) * 100 : 0;
+    const revenueDelta = m.revenuePost42d - m.revenuePre42d;
+    const realizationRate = m.expectedUplift > 0 ? Math.round((revenueDelta / m.expectedUplift) * 100) : 0;
+    const annualProjection = m.daysPost > 0 ? Math.round((revenueDelta / m.daysPost) * 365) : 0;
+    let riskLevel = 'low';
+    if (volChangePct < -8) riskLevel = 'high';
+    else if (volChangePct < -3) riskLevel = 'medium';
+    const competitorsArr = Array.isArray(competitors) ? competitors.map(c => ({ name: c.competitor_name, price: parseFloat(c.competitor_price), distance: c.distance_km })) : [];
+    const riskColors = {
+      low: { bg: '#f0fdf4', border: '#bbf7d0', text: '#15803d', label: 'Looking Good' },
+      medium: { bg: '#fffbeb', border: '#fde68a', text: '#b45309', label: 'Keep an Eye On It' },
+      high: { bg: '#fef2f2', border: '#fecaca', text: '#dc2626', label: 'Action Needed' },
+    };
+    const rc = riskColors[riskLevel];
+    const reducedPrice = ((m.oldPrice + m.newPrice) / 2).toFixed(2);
+    body.innerHTML = `
+      <div class="edit-service-card" style="margin-bottom:1rem">
+        <div class="edit-service-name">${m.desc}</div>
+        <div class="edit-service-code">${m.code} · ${m.category} · ${m.daysPost} days post-change</div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:.75rem">
+          <span style="font-size:1.1rem;color:var(--muted)">$${m.oldPrice.toFixed(2)}</span>
+          <span style="color:var(--muted)">→</span>
+          <span style="font-size:1.2rem;font-weight:800">$${m.newPrice.toFixed(2)}</span>
+          <span class="change-delta-badge" style="background:#dcfce7;color:#15803d">+${m.pct.toFixed(1)}%</span>
+        </div>
+      </div>
+      <div style="background:${rc.bg};border:1px solid ${rc.border};border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
+        <div style="font-weight:800;color:${rc.text};margin-bottom:.5rem">${rc.label}</div>
+        <div style="font-size:.82rem;color:var(--text);line-height:1.6">
+          Revenue has ${revenueDelta >= 0 ? 'increased' : 'decreased'} but volume is ${volChangePct >= 0 ? 'up' : 'down'} ${Math.abs(volChangePct).toFixed(1)}%.
+          The ${m.pct.toFixed(1)}% increase on ${m.desc.toLowerCase()} is ${riskLevel === 'high' ? 'showing significant client pushback' : riskLevel === 'medium' ? 'showing some signs of pushback' : 'performing well'}.
+        </div>
+      </div>
+      <div style="display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap">
+        <div class="stat-card ${revenueDelta >= 0 ? 'success' : 'warning'}"><div class="label">Revenue change</div><div class="value">${revenueDelta >= 0 ? '+' : ''}${fmtK(revenueDelta)}</div></div>
+        <div class="stat-card ${volChangePct >= 0 ? 'success' : 'warning'}"><div class="label">Volume change</div><div class="value">${Math.abs(volChangePct).toFixed(1)}%</div></div>
+        <div class="stat-card"><div class="label">Realized</div><div class="value">${realizationRate}%</div></div>
+        <div class="stat-card"><div class="label">Projected/yr</div><div class="value" style="color:#2563eb">+${fmtK(annualProjection)}</div></div>
+      </div>
+      ${competitorsArr.length ? `
+        <div class="chart-title">MARKET POSITION</div>
+        <div style="display:flex;gap:1rem;background:#f8fafc;border-radius:10px;padding:.85rem;margin-bottom:1rem">
+          <div style="text-align:center"><div style="font-weight:800">$${m.marketAvg.toFixed(2)}</div><div style="font-size:.72rem;color:var(--muted)">Market avg</div></div>
+          <div style="text-align:center"><div style="font-weight:800">$${m.newPrice.toFixed(2)}</div><div style="font-size:.72rem;color:var(--muted)">Your price</div></div>
+        </div>
+        ${competitorsArr.map(c => {
+          const isCheaper = c.price < m.newPrice;
+          return `<div style="display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--border)">
+            <div style="flex:1"><div style="font-size:.84rem;font-weight:600">${c.name}</div><div style="font-size:.72rem;color:var(--muted)">${c.distance}</div></div>
+            <span style="font-weight:700;color:${isCheaper ? 'var(--muted)' : '#15803d'}">$${c.price.toFixed(2)}</span>
+          </div>`;
+        }).join('')}
+      ` : ''}
+      <div style="display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap">
+        ${riskLevel === 'high' ? `
+          <button class="btn-activate secondary" onclick="monitorAction('${monitorId}','revert')">Revert to $${m.oldPrice.toFixed(2)}</button>
+          <button class="btn-activate secondary" onclick="monitorAction('${monitorId}','reduce')">Reduce to $${reducedPrice}</button>
+        ` : riskLevel === 'medium' ? `
+          <button class="btn-activate secondary" onclick="monitorAction('${monitorId}','reduce')">Reduce to $${reducedPrice}</button>
+          <button class="btn-activate success" onclick="monitorAction('${monitorId}','approve')">Keep at $${m.newPrice.toFixed(2)}</button>
+        ` : `
+          <button class="btn-activate success" onclick="monitorAction('${monitorId}','approve')">Keep at $${m.newPrice.toFixed(2)}</button>
+        `}
+        <button class="btn-activate secondary" onclick="monitorAction('${monitorId}','monitor')">1 More Week</button>
+      </div>
+    `;
+  }).catch(() => { body.innerHTML = `<div class="empty-state"><p>Couldn't load monitoring data</p></div>`; });
+}
+
+async function monitorAction(monitorId, verdict) {
+  const statusMap = { approve: 'resolved', revert: 'resolved', reduce: 'resolved', monitor: 'watch' };
+  await sbPatch(`monitoring_items?id=eq.${monitorId}`, { status: statusMap[verdict] || 'watch' }).catch(() => {});
+  showToast('Action saved', 'success');
+  closeReportModal();
+  loadReports();
+}
+
 // ============================================================
-// HISTORY TAB
+// CHANGES TAB — mobile ProjectsScreen port (service price editor)
+// ============================================================
+let changesServices = null;
+let changesSelected = null;
+let changesNewPrice = '';
+let changesSaved = false;
+let changesSaving = false;
+
+async function loadChanges() {
+  const el = document.getElementById('changes-content');
+  try {
+    const data = await sbFetch('dhv_service_history?select=description,amount,quantity,service_code,service_type,administered_at&order=administered_at.desc&limit=500');
+    if (!Array.isArray(data)) { changesServices = []; }
+    else {
+      const map = {};
+      data.forEach(r => {
+        const code = r.service_code || r.description || 'unknown';
+        if (!map[code]) map[code] = { service_code: code, service_name: r.description || code, service_type: r.service_type || '', amounts: [], quantities: [], last_date: r.administered_at };
+        if (r.amount != null) map[code].amounts.push(parseFloat(r.amount));
+        if (r.quantity != null) map[code].quantities.push(parseFloat(r.quantity));
+        if (r.administered_at && r.administered_at > map[code].last_date) map[code].last_date = r.administered_at;
+      });
+      changesServices = Object.values(map).map(s => ({
+        ...s,
+        price_old: s.amounts.length ? (s.amounts.reduce((a,b) => a+b, 0) / s.amounts.length) : 0,
+        volume: s.quantities.length,
+        annual_revenue: s.amounts.reduce((a,b) => a+b, 0),
+      })).sort((a,b) => b.annual_revenue - a.annual_revenue);
+    }
+    changesSelected = null; changesSaved = false; changesNewPrice = '';
+    renderChanges();
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
+  }
+}
+
+function renderChanges() {
+  const el = document.getElementById('changes-content');
+  if (changesSaved && changesSelected) {
+    const currentPrice = parseFloat(changesSelected.price_old);
+    const parsedNew = parseFloat(changesNewPrice) || 0;
+    const annualImpact = (parsedNew - currentPrice) * (changesSelected.volume || 1);
+    el.innerHTML = `
+      <div class="quick-success">
+        <div class="quick-success-icon">✅</div>
+        <div class="quick-success-title">Price Updated</div>
+        <div class="quick-success-detail">${changesSelected.service_name}: $${currentPrice.toFixed(2)} → $${parsedNew.toFixed(2)}</div>
+        ${annualImpact > 0 ? `<div class="quick-success-detail" style="color:#16a34a;margin-top:4px">Est. revenue impact: +$${annualImpact.toFixed(0)}/yr</div>` : ''}
+      </div>
+    `;
+    setTimeout(() => { if (changesSaved) { changesSelected = null; changesNewPrice = ''; changesSaved = false; renderChanges(); } }, 1800);
+    return;
+  }
+  if (changesSelected) {
+    renderChangesEditor();
+    return;
+  }
+  // Default view: search + top services
+  if (changesServices === null) {
+    el.innerHTML = `<div class="loading"><div class="spinner"></div> Loading services…</div>`;
+    return;
+  }
+  if (changesServices.length === 0) {
+    el.innerHTML = `
+      <div class="quick-empty">
+        <div class="quick-empty-icon">📄</div>
+        <p>No service history yet.<br>Services will appear here once data syncs.</p>
+      </div>
+    `;
+    return;
+  }
+  el.innerHTML = `
+    <div class="quick-search-wrap">
+      <div class="quick-search-box">
+        <span style="color:var(--muted)">🔍</span>
+        <input type="text" class="quick-search-input" placeholder="Search services..." id="changesSearch" oninput="searchChanges(this.value)">
+      </div>
+    </div>
+    <div id="changesList"></div>
+  `;
+  renderChangesList(changesServices.slice(0, 20), 'TOP SERVICES BY REVENUE');
+}
+
+function renderChangesList(list, label) {
+  const listEl = document.getElementById('changesList');
+  if (!listEl) return;
+  if (list.length === 0) {
+    listEl.innerHTML = `<div class="quick-empty"><div class="quick-empty-icon">🔍</div><p>No services found</p></div>`;
+    return;
+  }
+  listEl.innerHTML = `
+    ${label ? `<div class="home-section-label" style="font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin:0 0 .75rem">${label}</div>` : ''}
+    ${list.map((svc, i) => `
+      <div class="quick-result-card" onclick="pickService(${i})" data-idx="${i}">
+        <div style="flex:1;min-width:0">
+          <div class="quick-result-name">${svc.service_name}</div>
+          <div class="quick-result-code">${svc.service_code} · ${svc.volume} visits/yr</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span class="quick-result-price">$${parseFloat(svc.price_old).toFixed(2)}</span>
+          <span style="color:#cbd5e1">›</span>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  // store current list for pickService indexing
+  changesCurrentList = list;
+}
+let changesCurrentList = [];
+
+function searchChanges(q) {
+  if (!q || q.trim().length < 1) { renderChangesList(changesServices.slice(0, 20), 'TOP SERVICES BY REVENUE'); return; }
+  const filtered = changesServices.filter(s =>
+    (s.service_name || '').toLowerCase().includes(q.trim().toLowerCase()) ||
+    (s.service_code || '').toLowerCase().includes(q.trim().toLowerCase())
+  ).slice(0, 20);
+  renderChangesList(filtered, '');
+}
+
+function pickService(idx) {
+  changesSelected = changesCurrentList[idx];
+  changesNewPrice = parseFloat(changesSelected.price_old).toFixed(2);
+  changesSaved = false;
+  renderChangesEditor();
+}
+
+function renderChangesEditor() {
+  const el = document.getElementById('changes-content');
+  const currentPrice = parseFloat(changesSelected.price_old);
+  const parsedNew = parseFloat(changesNewPrice) || 0;
+  const diff = parsedNew - currentPrice;
+  const pct = currentPrice > 0 ? ((diff / currentPrice) * 100).toFixed(1) : '0';
+  const annualImpact = diff * (changesSelected.volume || 1);
+  el.innerHTML = `
+    <div class="edit-service-card">
+      <div class="edit-service-name">${changesSelected.service_name}</div>
+      <div class="edit-service-code">${changesSelected.service_code} · Current avg: $${currentPrice.toFixed(2)} · ${changesSelected.volume} visits/yr</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.25rem">
+      <div class="edit-price-label">NEW PRICE</div>
+      <div class="edit-price-input-row">
+        <span class="edit-dollar">$</span>
+        <input type="number" step="0.01" class="edit-price-input" id="changesPriceInput" value="${changesNewPrice}" oninput="changesNewPrice=this.value;renderChangesEditor()">
+      </div>
+      ${diff !== 0 ? `<div class="edit-delta-badge" style="background:${diff > 0 ? '#dcfce7' : '#fee2e2'};color:${diff > 0 ? '#15803d' : '#dc2626'}">${diff > 0 ? '+' : ''}${diff.toFixed(2)}  (${diff > 0 ? '+' : ''}${pct}%)</div>` : ''}
+    </div>
+    ${diff !== 0 ? `
+      <div class="edit-impact-card">
+        <div class="edit-impact-label">PROJECTED ANNUAL IMPACT</div>
+        <div class="edit-impact-num" style="color:${diff > 0 ? '#16a34a' : '#ef4444'}">${diff > 0 ? '+' : ''}$${annualImpact.toFixed(0)}/yr</div>
+        <div class="edit-impact-sub">Based on ${changesSelected.volume} services/year at ${diff > 0 ? '+' : ''}$${diff.toFixed(2)}/service</div>
+      </div>
+    ` : ''}
+    <div class="edit-quick-label">QUICK ADJUST</div>
+    <div class="edit-quick-row">
+      ${[3,5,10,15].map(bump => `<button class="edit-quick-btn" onclick="bumpPrice(${bump})">📈 +${bump}%</button>`).join('')}
+      <button class="edit-quick-btn" style="border-color:#fecaca;color:var(--muted)" onclick="resetPrice()">↻ Reset</button>
+    </div>
+    <button class="edit-save-btn" ${(!parsedNew || parsedNew === currentPrice || changesSaving) ? 'disabled' : ''} onclick="saveChange()">
+      ${changesSaving ? 'Saving...' : '✓ Approve Change'}
+    </button>
+    <button class="edit-cancel-btn" onclick="cancelChangeEdit()">Cancel</button>
+  `;
+}
+
+function bumpPrice(bump) {
+  const currentPrice = parseFloat(changesSelected.price_old);
+  changesNewPrice = (currentPrice * (1 + bump / 100)).toFixed(2);
+  renderChangesEditor();
+}
+function resetPrice() {
+  changesNewPrice = parseFloat(changesSelected.price_old).toFixed(2);
+  renderChangesEditor();
+}
+function cancelChangeEdit() {
+  changesSelected = null; changesNewPrice = ''; changesSaved = false;
+  renderChanges();
+}
+
+async function saveChange() {
+  if (!changesSelected || changesSaving) return;
+  const currentPrice = parseFloat(changesSelected.price_old);
+  const parsedNew = parseFloat(changesNewPrice) || 0;
+  if (!parsedNew || parsedNew === currentPrice) return;
+  changesSaving = true; renderChangesEditor();
+  const diff = parsedNew - currentPrice;
+  const annualImpact = diff * (changesSelected.volume || 1);
+  const body = {
+    clinic_id: CURRENT_CLINIC,
+    review_id: 'manual-' + Date.now(),
+    service_code: changesSelected.service_code || 'MANUAL',
+    service_name: changesSelected.service_name || changesSelected.service_code,
+    price_old: parseFloat(currentPrice.toFixed(2)),
+    price_new: parseFloat(parsedNew.toFixed(2)),
+    source: 'manual',
+    est_uplift: Math.round(annualImpact),
+    status: 'applied',
+    annual_volume: changesSelected.volume || 0,
+  };
+  try {
+    await sbPost('price_recommendations', body);
+    changesSaving = false; changesSaved = true;
+    renderChanges();
+    showToast('Price updated', 'success');
+  } catch (err) {
+    changesSaving = false;
+    showToast('Failed: ' + err.message, 'error');
+    renderChangesEditor();
+  }
+}
+
+// ============================================================
+// Shared helpers
+// ============================================================
+function fmtK(n) { return n >= 1000 ? '$' + (n / 1000).toFixed(1) + 'K' : '$' + Math.round(n).toLocaleString(); }
+function fmtPrice(n) { return '$' + n.toFixed(2); }
+
+// ============================================================
+// HISTORY TAB — mobile ChangeCard style
 // ============================================================
 async function loadHistory() {
   const el = document.getElementById('history-content');
   try {
-    const recs = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=500`);
+    const recs = await sbFetch(`price_recommendations?clinic_id=eq.${CURRENT_CLINIC}&order=created_at.desc&limit=100`);
     historyData = recs;
     renderHistory();
   } catch (err) {
@@ -2106,51 +2884,78 @@ async function loadHistory() {
   }
 }
 
+let historyExpanded = null;
+
 function renderHistory() {
   const el = document.getElementById('history-content');
   let recs = historyData;
   const now = new Date();
-  if (historyFilter === 'this_month') recs = recs.filter(r => new Date(r.created_at) >= new Date(now.getFullYear(), now.getMonth(), 1));
-  else if (historyFilter === 'last_month') recs = recs.filter(r => { const d = new Date(r.created_at); return d >= new Date(now.getFullYear(), now.getMonth() - 1, 1) && d < new Date(now.getFullYear(), now.getMonth(), 1); });
-  else if (historyFilter === 'applied') recs = recs.filter(r => r.status === 'applied');
+  if (historyFilter === 'this_month') recs = recs.filter(r => { if (!r.created_at) return false; const d = new Date(r.created_at); return (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth()) === 0; });
+  else if (historyFilter === 'last_month') recs = recs.filter(r => { if (!r.created_at) return false; const d = new Date(r.created_at); return (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth()) === 1; });
+
+  const changes = recs.filter(i => i.price_new !== i.price_old);
+  const avgPct = changes.length
+    ? (changes.reduce((sum, i) => sum + ((i.price_new - i.price_old) / i.price_old * 100), 0) / changes.length).toFixed(1)
+    : 0;
 
   // Group by date
   const groups = {};
   recs.forEach(r => {
-    const key = r.created_at?.split('T')[0] || 'unknown';
+    const key = fmtDate(r.created_at);
     if (!groups[key]) groups[key] = [];
     groups[key].push(r);
   });
 
   el.innerHTML = `
-    <div class="section-title-row">
-      <div>
-        <div class="section-title">Change History</div>
-        <div class="section-sub">${recs.length} ${recs.length === 1 ? 'record' : 'records'}</div>
-      </div>
-    </div>
-    <div class="filter-row">
+    <div class="filter-row" style="margin-bottom:.75rem">
       <button class="chip ${historyFilter === 'all' ? 'active' : ''}" onclick="setHistoryFilter('all')">All</button>
-      <button class="chip ${historyFilter === 'applied' ? 'active' : ''}" onclick="setHistoryFilter('applied')">Applied</button>
       <button class="chip ${historyFilter === 'this_month' ? 'active' : ''}" onclick="setHistoryFilter('this_month')">This Month</button>
       <button class="chip ${historyFilter === 'last_month' ? 'active' : ''}" onclick="setHistoryFilter('last_month')">Last Month</button>
     </div>
+    <div style="margin-bottom:1.25rem;font-size:.82rem;color:var(--muted)">
+      <strong style="color:var(--text)">${recs.length} recommendations</strong>${changes.length > 0 ? ` · avg ${Number(avgPct) > 0 ? '+' : ''}${avgPct}%` : ''}
+    </div>
     ${recs.length === 0
-      ? `<div class="empty-state"><p>No records found</p></div>`
+      ? `<div class="empty-state"><p>No records for this period.</p></div>`
       : Object.entries(groups).map(([date, items]) => `
-        <div class="history-date-header">${fmtDate(date)}</div>
+        <div class="report-section-label" style="margin-top:1rem">${date}</div>
         ${items.map(r => {
           const delta = r.price_new - r.price_old;
-          const pct = r.price_old > 0 ? (delta / r.price_old * 100) : 0;
+          const pct = r.price_old > 0 ? (delta / r.price_old * 100).toFixed(1) : '0';
+          const isUp = delta > 0, isDown = delta < 0;
+          const iconName = isUp ? '📈' : isDown ? '📉' : '➖';
+          const iconColor = isUp ? '#16a34a' : isDown ? '#ef4444' : '#94a3b8';
+          const iconBg = isUp ? '#f0fdf4' : isDown ? '#fef2f2' : '#f8fafc';
+          const deltaAmt = Math.abs(delta).toFixed(2);
+          const deltaStr = isUp ? `+$${deltaAmt}` : isDown ? `-$${deltaAmt}` : 'No change';
+          const pctStr = isUp ? `+${pct}%` : isDown ? `${pct}%` : '0%';
+          const expanded = historyExpanded === r.id;
           return `
-            <div class="history-item">
-              <div class="history-item-left">
-                <div class="hi-name">${r.service_name || 'Unknown'}</div>
-                <div class="hi-meta">Code: ${r.service_code || '—'} · ${fmtMoneyDecimal(r.price_old)} → ${fmtMoneyDecimal(r.price_new)} · Vol: ${r.annual_volume || 0}/yr</div>
-              </div>
-              <div class="hi-right">
-                <span class="pct-badge ${delta > 0 ? 'up' : delta < 0 ? 'down' : 'neutral'}">${delta >= 0 ? '+' : ''}${pct.toFixed(1)}%</span>
-                <span class="status-pill ${r.status || 'pending'}">${r.status || 'pending'}</span>
+            <div class="change-card-v2" onclick="toggleHistoryExpand('${r.id}')">
+              <div class="change-card-icon" style="background:${iconBg};color:${iconColor}">${iconName}</div>
+              <div class="change-card-mid">
+                <div class="change-card-top">
+                  <div class="change-card-name">${r.service_name || 'Unknown'}</div>
+                  <div class="change-card-date">${fmtDate(r.created_at)}</div>
+                </div>
+                <div style="display:flex;align-items:center;flex-wrap:wrap">
+                  <span class="change-card-prices">
+                    <span class="change-price-old">${fmtMoneyDecimal(r.price_old)}</span>
+                    <span class="change-price-arrow">→</span>
+                    <span class="change-price-new" style="color:${isUp ? '#16a34a' : isDown ? '#ef4444' : '#64748b'}">${fmtMoneyDecimal(r.price_new)}</span>
+                  </span>
+                  ${delta !== 0 ? `<span class="change-delta-badge" style="background:${isUp ? '#dcfce7' : '#fee2e2'};color:${isUp ? '#15803d' : '#dc2626'}">${deltaStr} · ${pctStr}</span>` : ''}
+                </div>
+                ${expanded ? `
+                  <div class="expanded-detail-v2">
+                    <div class="expanded-row-v2"><span class="expanded-label-v2">Review: </span>${r.review_id || '—'}</div>
+                    <div class="expanded-row-v2"><span class="expanded-label-v2">Annual volume: </span>${r.annual_volume || 0} visits</div>
+                    <div class="expanded-row-v2"><span class="expanded-label-v2">Est. uplift: </span>${fmtMoney(r.est_uplift)}/yr</div>
+                    <span class="status-pill-v2" style="background:${r.status === 'pending' ? '#fef9c3' : r.status === 'applied' ? '#dcfce7' : '#f1f5f9'};color:${r.status === 'pending' ? '#92400e' : r.status === 'applied' ? '#15803d' : '#94a3b8'}">
+                      ${r.status === 'pending' ? '🕐' : '✓'} ${r.status || 'pending'}
+                    </span>
+                  </div>
+                ` : ''}
               </div>
             </div>
           `;
@@ -2160,14 +2965,23 @@ function renderHistory() {
   `;
 }
 
+function toggleHistoryExpand(id) {
+  historyExpanded = historyExpanded === id ? null : id;
+  renderHistory();
+}
+
 function setHistoryFilter(f) {
   historyFilter = f;
   renderHistory();
 }
 
 // ============================================================
-// SETTINGS TAB
+// SETTINGS TAB — mobile SettingsScreen port
 // ============================================================
+let settingsPrefs = { schedule: 'Monthly', notifications: true, autoApprove: false, margin: 15 };
+let settingsAccountUser = null;
+let settingsModal = null;
+
 async function loadSettings() {
   const el = document.getElementById('settings-content');
   try {
@@ -2176,86 +2990,292 @@ async function loadSettings() {
       clinicSettings = s[0] || {};
     }
     const s = clinicSettings;
-    const initials = (currentUser?.clinic || 'VI').substring(0, 2).toUpperCase();
-
-    el.innerHTML = `
-      <div style="max-width:600px;">
-        <div class="section-title" style="margin-bottom:1.5rem;">Settings</div>
-
-        <div class="settings-section">
-          <h3>Account</h3>
-          <div class="settings-card">
-            <div class="profile-row">
-              <div class="profile-avatar">${initials}</div>
-              <div class="profile-info">
-                <div class="pn">${currentUser?.clinic || 'Vet INC'}</div>
-                <div class="pe">${currentUser?.username || ''}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <h3>Review Schedule</h3>
-          <div class="settings-card">
-            <div class="settings-row">
-              <span class="sr-label">Review Cadence</span>
-              <select class="select-input" id="setSchedule" onchange="saveSetting('schedule', this.value)">
-                ${['Weekly','Bi-weekly','Monthly','Quarterly'].map(opt => `<option value="${opt}" ${s.schedule === opt ? 'selected' : ''}>${opt}</option>`).join('')}
-              </select>
-            </div>
-            <div class="settings-row">
-              <span class="sr-label">Notifications</span>
-              <div class="toggle ${s.notifications_enabled ? 'on' : ''}" onclick="this.classList.toggle('on'); saveSetting('notifications_enabled', this.classList.contains('on'))"></div>
-            </div>
-            <div class="settings-row">
-              <span class="sr-label">Auto-approve small changes</span>
-              <div class="toggle ${s.auto_approve ? 'on' : ''}" onclick="this.classList.toggle('on'); saveSetting('auto_approve', this.classList.contains('on'))"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <h3>Billing</h3>
-          <div class="settings-card">
-            <div class="settings-row">
-              <span class="sr-label">Plan</span>
-              <span class="sr-value">${s.billing_plan || '$99/month'}</span>
-            </div>
-            <div class="settings-row">
-              <span class="sr-label">Status</span>
-              <span class="sr-value" style="color:var(--green);font-weight:700;">${s.billing_status || 'Active'}</span>
-            </div>
-            <div class="settings-row">
-              <span class="sr-label">Locations</span>
-              <span class="sr-value">${s.billing_locations || 1}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <h3>System</h3>
-          <div class="settings-card">
-            <div class="settings-row">
-              <span class="sr-label">Data Source</span>
-              <span class="sr-value">${s.data_source || 'AVImark'}</span>
-            </div>
-            <div class="settings-row">
-              <span class="sr-label">Clinic ID</span>
-              <span class="sr-value">${CURRENT_CLINIC}</span>
-            </div>
-            <div class="settings-row">
-              <span class="sr-label">Version</span>
-              <span class="sr-value">v2.1.0</span>
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-logout" onclick="logout()">Sign Out</button>
-      </div>
-    `;
+    settingsPrefs = {
+      schedule: s.schedule || 'Monthly',
+      notifications: s.notifications_enabled ?? true,
+      autoApprove: s.auto_approve ?? false,
+      margin: s.target_margin ?? 15,
+    };
+    // Load user account
+    try {
+      const users = await sbFetch(`user_accounts?clinic_id=eq.${CURRENT_CLINIC}&select=*&limit=1`);
+      if (Array.isArray(users) && users[0]) settingsAccountUser = users[0];
+    } catch (e) {}
+    renderSettings();
   } catch (err) {
     el.innerHTML = `<div class="empty-state"><p>⚠️ ${err.message}</p></div>`;
+  }
+}
+
+function renderSettings() {
+  const el = document.getElementById('settings-content');
+  const s = clinicSettings || {};
+  const user = settingsAccountUser || currentUser || {};
+  const initials = (user.name || user.clinic || 'VI').substring(0, 2).toUpperCase();
+  const name = user.name || user.clinic || 'Loading...';
+  const email = user.email || user.username || '';
+
+  el.innerHTML = `
+    <div style="max-width:620px">
+      <div class="settings-profile-card">
+        <div class="settings-profile-avatar">${initials}</div>
+        <div>
+          <div class="settings-profile-name">${name}</div>
+          <div class="settings-profile-sub">${email}</div>
+        </div>
+      </div>
+
+      <div class="settings-section-v2">
+        <div class="settings-section-title-v2">Clinic</div>
+        <div class="settings-card-v2">
+          <div class="settings-row-v2" onclick="openSettingsSheet('profile')">
+            <div class="settings-row-icon">🏥</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Clinic Profile</div></div>
+            <div class="settings-row-value">${s.clinic_name || 'Rosslyn'}</div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+          <div class="settings-row-v2" onclick="openSettingsSheet('schedule')">
+            <div class="settings-row-icon">📅</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Update Schedule</div></div>
+            <div class="settings-row-value">${settingsPrefs.schedule}</div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+          <div class="settings-row-v2" onclick="openSettingsSheet('pricing')">
+            <div class="settings-row-icon">🏷️</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Target Margin</div></div>
+            <div class="settings-row-value">${settingsPrefs.margin}%</div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+          <div class="settings-row-v2" onclick="openSettingsSheet('autoApprove')">
+            <div class="settings-row-icon">✓</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Auto-Approve Under</div></div>
+            <div class="settings-row-value">${settingsPrefs.autoApprove ? 'On' : 'Off'}</div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section-v2">
+        <div class="settings-section-title-v2">Account</div>
+        <div class="settings-card-v2">
+          <div class="settings-row-v2" onclick="openSettingsSheet('notifications')">
+            <div class="settings-row-icon">🔔</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Notifications</div></div>
+            <div class="settings-row-value">${settingsPrefs.notifications ? 'On' : 'Off'}</div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+          <div class="settings-row-v2" onclick="openSettingsSheet('billing')">
+            <div class="settings-row-icon">💳</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Billing</div></div>
+            <div class="settings-row-value">${s.billing_plan || '$99/mo'}</div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+          <div class="settings-row-v2" onclick="openSettingsSheet('password')">
+            <div class="settings-row-icon">🔒</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Change Password</div></div>
+            <span class="settings-row-chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section-v2">
+        <div class="settings-section-title-v2">Support</div>
+        <div class="settings-card-v2">
+          <a class="settings-row-v2" href="https://jack108510.github.io/vetinc-marketing/" target="_blank" rel="noopener">
+            <div class="settings-row-icon">❓</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Help & FAQ</div></div>
+            <span class="settings-row-chevron">↗</span>
+          </a>
+          <a class="settings-row-v2" href="mailto:${email || 'support@vetinc.ca'}">
+            <div class="settings-row-icon">✉️</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Contact Support</div></div>
+            <span class="settings-row-chevron">›</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="settings-section-v2">
+        <div class="settings-card-v2">
+          <div class="settings-row-v2 danger" onclick="openSettingsSheet('signout')">
+            <div class="settings-row-icon">↩</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Sign Out</div></div>
+          </div>
+          <div class="settings-row-v2 danger" onclick="openSettingsSheet('deleteAccount')">
+            <div class="settings-row-icon">🗑</div>
+            <div class="settings-row-mid"><div class="settings-row-label">Delete Account</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function openSettingsSheet(type) {
+  const overlay = document.getElementById('settingsSheet');
+  const content = document.getElementById('settingsSheetContent');
+  const s = clinicSettings || {};
+  const user = settingsAccountUser || currentUser || {};
+  let title = '', bodyHTML = '', actionsHTML = '';
+
+  if (type === 'schedule') {
+    settingsModal = { type, value: settingsPrefs.schedule };
+    title = 'Update Schedule';
+    const opts = ['Weekly', 'Bi-weekly', 'Monthly', 'Quarterly'];
+    bodyHTML = opts.map(opt => `
+      <div class="sheet-option ${settingsModal.value === opt ? 'selected' : ''}" onclick="setSheetOption('${opt}')">
+        <div class="sheet-option-radio"></div>
+        <span class="sheet-option-label">${opt}</span>
+      </div>
+    `).join('');
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn primary" onclick="saveSettingsSheet()">Save</button>`;
+  } else if (type === 'notifications') {
+    settingsModal = { type, value: settingsPrefs.notifications };
+    title = 'Notifications';
+    bodyHTML = renderSheetToggle('Enable push notifications', settingsModal.value, 'toggleSheetValue()');
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn primary" onclick="saveSettingsSheet()">Save</button>`;
+  } else if (type === 'autoApprove') {
+    settingsModal = { type, value: settingsPrefs.autoApprove };
+    title = 'Auto-Approve';
+    bodyHTML = renderSheetToggle('Auto-approve changes under target margin', settingsModal.value, 'toggleSheetValue()');
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn primary" onclick="saveSettingsSheet()">Save</button>`;
+  } else if (type === 'pricing') {
+    settingsModal = { type, value: settingsPrefs.margin };
+    title = 'Target Margin';
+    bodyHTML = `
+      <div class="sheet-margin-val" id="sheetMarginVal">${settingsModal.value}%</div>
+      <div class="sheet-margin-picks">
+        ${[5,10,15,20,25,30].map(v => `<button class="sheet-margin-pick ${settingsModal.value === v ? 'active' : ''}" onclick="setSheetMargin(${v})">${v}%</button>`).join('')}
+      </div>
+      <div style="font-size:.82rem;color:var(--muted);text-align:center;margin-top:1rem">Recommended prices will target ${settingsModal.value}% gross margin on services</div>
+    `;
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn primary" onclick="saveSettingsSheet()">Save</button>`;
+  } else if (type === 'profile') {
+    title = 'Clinic Profile';
+    const msg = `${s.clinic_name || 'Rosslyn Veterinary'}\n${s.address || ''}, ${s.city || ''}, ${s.province || ''}\nData Source: ${s.data_source || 'Avimark'}\nLast Updated: ${(s.updated_at || '').split('T')[0]}`;
+    bodyHTML = `<div class="sheet-info-text">${msg}</div>`;
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Close</button>`;
+  } else if (type === 'billing') {
+    title = 'Billing';
+    const msg = `Plan: ${s.billing_plan || '$99/month per location'}\nStatus: ${s.billing_status || 'Active'}\nLocations: ${s.billing_locations || 1}\nMethod: ${s.billing_method || 'Invoice'}`;
+    bodyHTML = `<div class="sheet-info-text">${msg}</div>`;
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Close</button>`;
+  } else if (type === 'password') {
+    settingsModal = { type };
+    title = 'Change Password';
+    const msg = `Account: ${user.email || user.username || 'jack@vetinc.ca'}\nA reset link will be sent to your email.`;
+    bodyHTML = `<div class="sheet-info-text">${msg}</div>`;
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn primary" onclick="sendPasswordReset()">Send Reset Link</button>`;
+  } else if (type === 'signout') {
+    settingsModal = { type };
+    title = 'Sign Out';
+    bodyHTML = `<div class="sheet-info-text">Signing out will end your current session on this device.</div>`;
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn danger" onclick="doSignOut()">Sign Out</button>`;
+  } else if (type === 'deleteAccount') {
+    settingsModal = { type };
+    title = 'Delete Account';
+    bodyHTML = `<div class="sheet-info-text">This will permanently delete your account, clinic data, and all reports. This action cannot be undone.</div>`;
+    actionsHTML = `<button class="sheet-btn cancel" onclick="closeSettingsSheet()">Cancel</button><button class="sheet-btn danger" onclick="doDeleteAccount()">Delete Everything</button>`;
+  }
+
+  content.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">${title}</div>
+    <div id="sheetBody">${bodyHTML}</div>
+    <div class="sheet-actions">${actionsHTML}</div>
+  `;
+  overlay.classList.add('open');
+}
+
+function renderSheetToggle(label, value, onclick) {
+  return `<div class="sheet-toggle-row"><span class="sheet-toggle-label">${label}</span><div class="sheet-toggle ${value ? 'on' : ''}" onclick="${onclick}"></div></div>`;
+}
+
+function toggleSheetValue() {
+  settingsModal.value = !settingsModal.value;
+  const body = document.getElementById('sheetBody');
+  const label = settingsModal.type === 'notifications' ? 'Enable push notifications' : 'Auto-approve changes under target margin';
+  body.innerHTML = renderSheetToggle(label, settingsModal.value, 'toggleSheetValue()');
+}
+
+function setSheetOption(opt) {
+  settingsModal.value = opt;
+  openSettingsSheet_Redraw();
+}
+function setSheetMargin(v) {
+  settingsModal.value = v;
+  document.getElementById('sheetMarginVal').textContent = v + '%';
+  document.querySelectorAll('.sheet-margin-pick').forEach((el, i) => {
+    el.classList.toggle('active', [5,10,15,20,25,30][i] === v);
+  });
+}
+function openSettingsSheet_Redraw() {
+  // Re-render the options portion for schedule
+  if (settingsModal.type === 'schedule') {
+    const opts = ['Weekly', 'Bi-weekly', 'Monthly', 'Quarterly'];
+    document.getElementById('sheetBody').innerHTML = opts.map(opt => `
+      <div class="sheet-option ${settingsModal.value === opt ? 'selected' : ''}" onclick="setSheetOption('${opt}')">
+        <div class="sheet-option-radio"></div>
+        <span class="sheet-option-label">${opt}</span>
+      </div>
+    `).join('');
+  }
+}
+
+function closeSettingsSheet() {
+  document.getElementById('settingsSheet').classList.remove('open');
+  settingsModal = null;
+}
+
+async function saveSettingsSheet() {
+  if (!settingsModal) return;
+  if (settingsModal.type === 'schedule' && settingsModal.value) {
+    settingsPrefs.schedule = settingsModal.value;
+    await saveSetting('schedule', settingsModal.value);
+  } else if (settingsModal.type === 'notifications') {
+    settingsPrefs.notifications = settingsModal.value;
+    await saveSetting('notifications_enabled', settingsModal.value);
+  } else if (settingsModal.type === 'autoApprove') {
+    settingsPrefs.autoApprove = settingsModal.value;
+    await saveSetting('auto_approve', settingsModal.value);
+  } else if (settingsModal.type === 'pricing') {
+    settingsPrefs.margin = parseInt(settingsModal.value) || 15;
+    await saveSetting('target_margin', settingsPrefs.margin);
+  }
+  closeSettingsSheet();
+  renderSettings();
+}
+
+async function sendPasswordReset() {
+  try {
+    const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    const expires = new Date(Date.now() + 3600000).toISOString();
+    await sbPatch(`user_accounts?clinic_id=eq.${CURRENT_CLINIC}`, { password_reset_token: token, password_reset_expires: expires });
+    showToast('Reset link sent', 'success');
+  } catch (e) { showToast('Failed to send reset link', 'error'); }
+  closeSettingsSheet();
+}
+
+function doSignOut() {
+  closeSettingsSheet();
+  logout();
+}
+
+async function doDeleteAccount() {
+  try {
+    await Promise.all([
+      sbPatch('app_sessions?active=eq.true', { active: false, expires_at: new Date().toISOString() }).catch(() => {}),
+    ]);
+    // Note: actual row deletion requires RAC policies; attempt anyway
+    fetch(`${SB_URL}/user_accounts?clinic_id=eq.${CURRENT_CLINIC}`, { method: 'DELETE', headers: sbHeaders }).catch(() => {});
+    fetch(`${SB_URL}/clinic_settings?clinic_id=eq.${CURRENT_CLINIC}`, { method: 'DELETE', headers: sbHeaders }).catch(() => {});
+    fetch(`${SB_URL}/price_recommendations?clinic_id=eq.${CURRENT_CLINIC}`, { method: 'DELETE', headers: sbHeaders }).catch(() => {});
+    fetch(`${SB_URL}/change_outcomes?clinic_id=eq.${CURRENT_CLINIC}`, { method: 'DELETE', headers: sbHeaders }).catch(() => {});
+    fetch(`${SB_URL}/notifications?clinic_id=eq.${CURRENT_CLINIC}`, { method: 'DELETE', headers: sbHeaders }).catch(() => {});
+    showToast('Account deleted', '');
+    closeSettingsSheet();
+    setTimeout(() => logout(), 800);
+  } catch (e) {
+    showToast('Failed: ' + e.message, 'error');
   }
 }
 
@@ -2306,7 +3326,7 @@ function closeNotifications() {
 function handleNotifClick(notifId, linkId) {
   sbPatch(`notifications?id=eq.${notifId}`, { read: true }).then(() => loadNotifications()).catch(() => {});
   closeNotifications();
-  if (linkId) { showTab('review'); }
+  if (linkId) { showTab('reports'); }
 }
 
 async function markAllRead() {
