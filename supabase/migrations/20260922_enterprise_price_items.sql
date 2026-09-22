@@ -54,6 +54,7 @@ DECLARE v public.enterprise_changes%ROWTYPE;v_role text;v_next text; BEGIN
   v_next:='draft';INSERT INTO public.enterprise_approvals(org_id,change_id,actor_id,decision,note) VALUES(v.org_id,p_change,auth.uid(),'returned',left(coalesce(p_note,''),1000));
  ELSIF p_action='start' AND v.status='approved' AND v_role IN ('admin','operations') THEN v_next:='rollout';
  ELSIF p_action='confirm' AND v.status='rollout' AND v_role IN ('admin','operations') THEN
+  IF EXISTS (SELECT 1 FROM public.enterprise_tasks WHERE change_id=p_change AND status='open') THEN RAISE EXCEPTION 'Resolve open work before confirmation'; END IF;
   IF NOT EXISTS (SELECT 1 FROM public.enterprise_locations WHERE change_id=p_change) OR
      EXISTS (SELECT 1 FROM public.enterprise_locations WHERE change_id=p_change AND state<>'confirmed') THEN RAISE EXCEPTION 'Confirm every included location first'; END IF;
   v_next:='confirmed';
