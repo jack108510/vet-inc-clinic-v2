@@ -10,9 +10,9 @@ It is not primarily an analysis dashboard, a price-recommendation engine, or a r
 
 Commercial pricing authority remains with the customer. Vet INC must not be framed as autonomously selecting, approving, or changing prices.
 
-## Primary home screen: Team Price Operations
+## Primary home screen: enterprise change portfolio
 
-This is an enterprise workspace for teams, not a single-user rollout checklist. The default screen makes a company-wide pricing change easy to coordinate across central pricing, finance, regional operations, local clinic leaders, and implementation owners.
+This is an enterprise workspace for teams, not a single-user rollout checklist or one change shown as a dashboard. The entry point is a portfolio of company-wide pricing changes with scope, accountable team, stage, open work, and target date. Selecting a change opens its coordinated team workspace: overview, assigned work, approvals, location progress, and record. Central pricing, finance, regional operations, local clinic leaders, and implementation owners share that context. Technical implementation detail is available within the relevant change/location, not on the portfolio landing screen. The review prototype is illustrative and does not record approvals, assignments, or pricing changes.
 
 The default screen answers team questions:
 
