@@ -1,5 +1,7 @@
 # Vet INC Group Control Plane
 
+> **Implementation note:** The live workspace now persists enterprise changes in authenticated `enterprise_*` tables in the existing Supabase project. See [ENTERPRISE-WORKSPACE.md](ENTERPRISE-WORKSPACE.md) for what is implemented and what remains out of scope. The rest of this document is a product vision, not a claim that every feature is built.
+
 ## Product definition
 
 For veterinary chains, Vet INC is a **controlled price-change implementation console**.
@@ -12,7 +14,7 @@ Commercial pricing authority remains with the customer. Vet INC must not be fram
 
 ## Primary home screen: enterprise change portfolio
 
-This is an enterprise workspace for teams, not a single-user rollout checklist or one change shown as a dashboard. The entry point is a portfolio of company-wide pricing changes with scope, accountable team, stage, open work, and target date. Selecting a change opens its coordinated team workspace: overview, assigned work, approvals, location progress, and record. Central pricing, finance, regional operations, local clinic leaders, and implementation owners share that context. Technical implementation detail is available within the relevant change/location, not on the portfolio landing screen. The review prototype is illustrative and does not record approvals, assignments, or pricing changes.
+This is an enterprise workspace for teams, not a single-user rollout checklist or one change shown as a dashboard. The entry point is a portfolio of company-wide pricing changes with scope, accountable team, stage, open work, and target date. Selecting a change opens its coordinated team workspace: overview, assigned work, approvals, location progress, and record. Central pricing, finance, regional operations, local clinic leaders, and implementation owners share that context. Technical implementation detail is available within the relevant change/location, not on the portfolio landing screen. The deployed first pass is backed by real authenticated records and records proposals, tasks, approvals, scope, manual confirmations, and activity. Future functionality in this brief remains aspirational.
 
 The default screen answers team questions:
 
