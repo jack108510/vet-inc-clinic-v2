@@ -10,14 +10,29 @@ It is not primarily an analysis dashboard, a price-recommendation engine, or a r
 
 Commercial pricing authority remains with the customer. Vet INC must not be framed as autonomously selecting, approving, or changing prices.
 
-## Primary home screen: Implementation Command Center
+## Primary home screen: Team Price Operations
 
-The default screen answers operational questions:
+This is an enterprise workspace for teams, not a single-user rollout checklist. The default screen makes a company-wide pricing change easy to coordinate across central pricing, finance, regional operations, local clinic leaders, and implementation owners.
 
-1. What change sets are scheduled, in progress, blocked, or complete?
-2. Which clinics are ready to implement?
-3. Which mappings, exceptions, or approvals are blocking rollout?
-4. What was confirmed live, when, by whom, and through which system path?
+The default screen answers team questions:
+
+1. Which company-wide pricing changes are active, pending sign-off, blocked, or complete?
+2. What work is assigned to each team or person before the change can move forward?
+3. Which clinics, services, local variations, or missing inputs need a decision?
+4. Who has approved the current version, and what remains before the organization can proceed?
+5. What was confirmed, when, and by whom?
+
+## Team model
+
+A change set has explicit people and responsibilities:
+
+- **Pricing owner** — creates and maintains the proposed company-wide change.
+- **Finance / executive approver** — signs off on the authorized version.
+- **Regional operations owner** — coordinates location readiness and exceptions.
+- **Location lead** — provides or confirms local information when required.
+- **Implementation owner** — documents the approved implementation step and confirmation.
+
+The interface should show assigned work, due dates, sign-offs, comments, and a shared activity record beside the change—not hide collaboration behind technical implementation states.
 
 ### Primary navigation
 
