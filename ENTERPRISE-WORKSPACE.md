@@ -10,6 +10,12 @@
 - A pricing/admin member creates changes and price lines. Prices and location scope lock at submission. Open work prevents sign-off. An admin/finance approver must be **different from the change owner**. Admin/operations can coordinate rollout and record a manual location confirmation. A change cannot be marked confirmed until every included location is manually confirmed.
 - The portfolio and detail tabs read live records and show honest empty states. There are **no seeded organizations, sample pricing changes, example locations, or synthetic counts**.
 
+## Central pricing dashboard update
+
+The client UI is organized around Overview, Price changes, Schedule, Implementation, and Activity. A price change keeps the new amounts decided by the client, selected clinics, effective time, approval, and verification together. The interface is organized around carrying out client decisions; current clinic prices remain manually entered until catalog connections exist.
+
+`supabase/migrations/20260923_enterprise_rollout_schedule.sql` adds `scheduled_for` and the role-checked `enterprise_schedule_change` RPC. Apply this migration before publishing the updated `group-control.html` and `enterprise-app.js`. Scheduling saves a planned future time and displays it in the user's local time zone. It does **not** run a background job or change clinic prices. The manual rollout button becomes available at the planned time. A connected, verified practice-system write path is a separate future capability.
+
 ## Important boundaries
 
 - This is a **live coordination/approval backend**, not an automatic practice-management-system pricing connector. Adding a proposal does **not** modify clinic prices. A location confirmation records a human assertion that implementation was done and checked; it is not proof from a PMS. Current location scope is manually entered and is not tied to `std_clinics` records.
