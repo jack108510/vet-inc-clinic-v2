@@ -12,7 +12,7 @@
 
 ## Central pricing dashboard update
 
-The client UI is organized around Overview, Price plans, Price list, Rollouts, and Activity. A plan keeps proposed service prices, selected clinics, approval, and rollout progress together. The Price list shows only values entered in plans; it is not a connected catalog of current clinic prices.
+The client UI is organized around Overview, Price changes, Schedule, Implementation, and Activity. A price change keeps the new amounts decided by the client, selected clinics, effective time, approval, and verification together. The interface is organized around carrying out client decisions; current clinic prices remain manually entered until catalog connections exist.
 
 `supabase/migrations/20260923_enterprise_rollout_schedule.sql` adds `scheduled_for` and the role-checked `enterprise_schedule_change` RPC. Apply this migration before publishing the updated `group-control.html` and `enterprise-app.js`. Scheduling saves a planned future time and displays it in the user's local time zone. It does **not** run a background job or change clinic prices. The manual rollout button becomes available at the planned time. A connected, verified practice-system write path is a separate future capability.
 
